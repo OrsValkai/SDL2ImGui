@@ -19,6 +19,9 @@
     <ClCompile Include="..\src\Main.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\PearsonHash.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\WrapperHelpers.hpp">
@@ -43,6 +46,9 @@
       <Filter>inlcude</Filter>
     </ClInclude>
     <ClInclude Include="..\include\TileEntry.hpp">
+      <Filter>inlcude</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\PearsonHash.hpp">
       <Filter>inlcude</Filter>
     </ClInclude>
   </ItemGroup>

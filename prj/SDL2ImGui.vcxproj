@@ -22,6 +22,7 @@
     <ClCompile Include="..\src\AtlassedSpriteBase.cpp" />
     <ClCompile Include="..\src\AtlassedSpriteU.cpp" />
     <ClCompile Include="..\src\Main.cpp" />
+    <ClCompile Include="..\src\PearsonHash.cpp" />
     <ClCompile Include="..\src\PlayerSprite.cpp" />
     <ClCompile Include="..\src\PlayGround.cpp" />
     <ClCompile Include="..\src\SpriteAnimator.cpp" />
@@ -29,6 +30,7 @@
   <ItemGroup>
     <ClInclude Include="..\include\AtlassedSpriteBase.hpp" />
     <ClInclude Include="..\include\AtlassedSpriteU.hpp" />
+    <ClInclude Include="..\include\PearsonHash.hpp" />
     <ClInclude Include="..\include\PlayerSprite.hpp" />
     <ClInclude Include="..\include\PlayGround.hpp" />
     <ClInclude Include="..\include\SDL_Wrapper.hpp" />
