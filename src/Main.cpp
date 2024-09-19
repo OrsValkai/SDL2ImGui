@@ -56,8 +56,8 @@ int main(int argc, char* argv[]) {
 
             SDL_SetRenderDrawColor(pRenderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
             SDL_RenderClear(pRenderer);
-            aSprite1.DrawAnimated(210, 210, AnimId::IdleFront, deltaTime);
-            aSprite2.DrawAnimated(100, 100, AnimId::WalkLeft, deltaTime);
+            aSprite1.DrawAnimated(TileEntry::Width/2, 64 - TileEntry::Height/4, AnimId::IdleFront, deltaTime);
+            aSprite2.DrawAnimated(128 + TileEntry::Width / 2, 128 - TileEntry::Height / 4, AnimId::WalkLeft, deltaTime);
             pPlayGround->Draw(deltaTime);
             SDL_RenderPresent(pRenderer);
 
