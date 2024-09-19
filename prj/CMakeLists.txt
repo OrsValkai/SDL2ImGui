@@ -9,7 +9,9 @@ find_package(SDL2 REQUIRED)
 find_package(sdl2_image REQUIRED)
 
 include_directories(
-        ${PROJECT_SOURCE_DIR}/include
+    ${PROJECT_SOURCE_DIR}/dep/SDL2_image/include
+    ${PROJECT_SOURCE_DIR}/dep/SDL2/include
+    ${PROJECT_SOURCE_DIR}/include
 )
 
 file(GLOB ALL_SRCS
@@ -21,7 +23,7 @@ file(GLOB ALL_SRCS
 # Add source to this project's executable.
 add_executable (${PROJECT_NAME} ${ALL_SRCS})
 
-target_link_libraries(${PROJECT_NAME} SDL2::SDL2 SDL2::SDL2main)
+target_link_libraries(${PROJECT_NAME} SDL2::SDL2 SDL2::SDL2main SDL2_image::SDL2_image)
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 20)
