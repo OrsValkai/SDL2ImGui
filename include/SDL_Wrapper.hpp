@@ -1,3 +1,5 @@
+// Copyright(c) 2024 Valkai-Németh Béla-Örs
+
 #ifndef SDL_WRAPPER_H
 #define SDL_WRAPPER_H
 

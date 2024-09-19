@@ -1,3 +1,5 @@
+// Copyright(c) 2024 Valkai-Németh Béla-Örs
+
 #ifndef SPRITE_ANIMATOR_H
 #define SPRITE_ANIMATOR_H
 

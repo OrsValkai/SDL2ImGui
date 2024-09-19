@@ -1,3 +1,5 @@
+// Copyright(c) 2024 Valkai-Németh Béla-Örs
+
 #ifndef TILE_ENTRY_H
 #define TILE_ENTRY_H
 

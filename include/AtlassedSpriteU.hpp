@@ -1,3 +1,5 @@
+// Copyright(c) 2024 Valkai-Németh Béla-Örs
+
 #ifndef ATLASSED_SPRITE_UNIFORM_H
 #define ATLASSED_SPRITE_UNIFORM_H
 

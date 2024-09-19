@@ -1,3 +1,5 @@
+// Copyright(c) 2024 Valkai-Németh Béla-Örs
+
 #ifndef WRAPPER_HELPERS_H
 #define WRAPPER_HELPERS_H
 

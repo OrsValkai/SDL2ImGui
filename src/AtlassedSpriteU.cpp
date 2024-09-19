@@ -1,3 +1,5 @@
+// Copyright(c) 2024 Valkai-Németh Béla-Örs
+
 #include "AtlassedSpriteU.hpp"
 #include "AtlassedSpriteBase.inl"
 

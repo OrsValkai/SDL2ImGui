@@ -1,5 +1,6 @@
-#include "SpriteAnimator.hpp"
+// Copyright(c) 2024 Valkai-Németh Béla-Örs
 
+#include "SpriteAnimator.hpp"
 
 template <typename T>
 SpriteAnimator<T>::SpriteAnimator(const int targetFPS) : m_targetFPS(targetFPS) {

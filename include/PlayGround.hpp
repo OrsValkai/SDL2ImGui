@@ -1,3 +1,5 @@
+// Copyright(c) 2024 Valkai-Németh Béla-Örs
+
 #ifndef PLAY_GROUND_H
 #define PLAY_GROUND_H
 
