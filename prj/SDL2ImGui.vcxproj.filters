@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\src\AtlassedSpriteBase.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\AtlassedSpriteU.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\PearsonHash.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\PlayerSprite.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\PlayGround.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\SpriteAnimator.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Main.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\include\WrapperHelpers.hpp">
+      <Filter>inlcude</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\AtlassedSpriteBase.hpp">
+      <Filter>inlcude</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\AtlassedSpriteU.hpp">
+      <Filter>inlcude</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\PearsonHash.hpp">
+      <Filter>inlcude</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\PlayerSprite.hpp">
+      <Filter>inlcude</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\PlayGround.hpp">
+      <Filter>inlcude</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\SDL_Wrapper.hpp">
+      <Filter>inlcude</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\SpriteAnimator.hpp">
+      <Filter>inlcude</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\TileEntry.hpp">
+      <Filter>inlcude</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\include\AtlassedSpriteBase.inl">
+      <Filter>inlcude</Filter>
+    </None>
+    <None Include="..\include\TileEntry.inl">
+      <Filter>inlcude</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="inlcude">
+      <UniqueIdentifier>{906f6c31-67da-4fb3-95c4-a6fb604387ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{51cf7f72-debb-45a7-b59b-1e5455fa3168}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
