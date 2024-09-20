@@ -7,8 +7,8 @@ AtlassedSpriteU::AtlassedSpriteU(SDL_Renderer* pRenderer, const char* pFilePath,
 : AtlassedSpriteBase(pRenderer, pFilePath, nrSprites), m_width(static_cast<int>(width)), m_height(static_cast<int>(height)) {
 
 	if (ReadTextureExtents(m_nrRows, m_nrColumns)) {
-		m_nrRows /= m_width;
-		m_nrColumns /= m_height;
+		m_nrRows = std::max(1, m_nrRows/m_width);
+		m_nrColumns = m_nrColumns/m_height;
 	}
 }
 
@@ -16,17 +16,22 @@ bool AtlassedSpriteU::Draw(int posX, int posY, unsigned spriteId) {
 	if (!IsValidSpriteId(spriteId))
 		return false;
 
-	SDL_Rect srcRect;
-	srcRect.x = m_width * (spriteId % m_nrRows);
-	srcRect.y = m_height * (spriteId / m_nrRows);
-	srcRect.w = m_width;
-	srcRect.h = m_height;
+	SDL_Rect dstRect = {
+		posX,
+		posY,
+		m_width,
+		m_height
+	};
 
-	SDL_Rect dstRect;
-	dstRect.x = posX;
-	dstRect.y = posY;
-	dstRect.w = srcRect.w;
-	dstRect.h = srcRect.h;
+	if (0 == m_nrColumns)
+		return DrawInternal(nullptr, &dstRect);
 
-	return DrawInternal(srcRect, dstRect);
+	SDL_Rect srcRect = {
+		m_width * (static_cast<int>(spriteId) % m_nrRows),
+		m_height * (static_cast<int>(spriteId) / m_nrRows),
+		m_width,
+		m_height
+	};
+	
+	return DrawInternal(&srcRect, &dstRect);
 }

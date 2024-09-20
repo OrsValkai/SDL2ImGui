@@ -4,7 +4,7 @@
 #include "TileEntry.inl"
 
 PlayGround::PlayGround(unsigned int screenHeight, unsigned int screenWidth, SDL_Renderer* pRenderer, const char* pFilePathToTileAtlas)
-	: m_tileSprite(pRenderer, pFilePathToTileAtlas, 64, 128, 2) {
+	: m_tileSprite(pRenderer, pFilePathToTileAtlas, 64, 90, 2) {
 	m_height = screenHeight / TileEntry::Height;
 	m_width = screenWidth / TileEntry::Width;
 
@@ -13,7 +13,7 @@ PlayGround::PlayGround(unsigned int screenHeight, unsigned int screenWidth, SDL_
 
 void PlayGround::Init() {
 	signed short posOffsetX = 0;
-	signed short posOffsetY = -TileEntry::Height / 4;
+	signed short posOffsetY = 0;
 
 	if (0 == m_height % 2)
 		m_height--;

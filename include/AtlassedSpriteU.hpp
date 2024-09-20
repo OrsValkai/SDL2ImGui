@@ -7,8 +7,8 @@
 
 class AtlassedSpriteU : public AtlassedSpriteBase {
 private:
-	int m_nrRows;
-	int m_nrColumns;
+	int m_nrRows = 1;
+	int m_nrColumns = 0;
 	int m_width;
 	int m_height;
 

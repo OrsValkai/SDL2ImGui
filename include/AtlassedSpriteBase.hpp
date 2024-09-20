@@ -19,7 +19,7 @@ public:
 
 protected:
 	bool ReadTextureExtents(int& w, int& h) const;
-	bool DrawInternal(const SDL_Rect& src, const SDL_Rect& dest);
+	bool DrawInternal(const SDL_Rect* pSrc, const SDL_Rect* pDest);
 };
 
 #endif // ATLASSED_SPRITE_BASE_H
