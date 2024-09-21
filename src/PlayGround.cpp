@@ -5,8 +5,8 @@
 
 PlayGround::PlayGround(unsigned int screenHeight, unsigned int screenWidth, SDL_Renderer* pRenderer, const char* pFilePathToTileAtlas)
 	: m_tileSprite(pRenderer, pFilePathToTileAtlas, 64, 90, 2) {
-	m_height = screenHeight / TileEntry::Height;
-	m_width = screenWidth / TileEntry::Width;
+	m_height = screenHeight / TileEntry::VisualHeight;
+	m_width = screenWidth / TileEntry::VisualWidth;
 
 	Init();
 }
@@ -20,7 +20,7 @@ void PlayGround::Init() {
 
 	if (0 == m_width % 2) {
 		m_width--;
-		posOffsetX += TileEntry::Width / 2;
+		posOffsetX += TileEntry::VisualWidth / 2;
 	}
 
 	m_tiles.resize(m_height * m_width);
@@ -36,8 +36,8 @@ void PlayGround::Init() {
 				//tile.SetFlag(TileEntry::Flags::DestroyableTile);
 			}
 
-			tile.posX = static_cast<signed short>(i * TileEntry::Width + posOffsetX);
-			tile.posY = static_cast<signed short>((j * TileEntry::Height) + posOffsetY);
+			tile.posX = static_cast<signed short>(i * TileEntry::VisualWidth + posOffsetX);
+			tile.posY = static_cast<signed short>((j * TileEntry::VisualHeight) + posOffsetY);
 		}
 	}
 }

@@ -6,19 +6,21 @@ PlayerSprite::PlayerSprite(SDL_Renderer* pRenderer, const char* pFilePath, unsig
 : SpriteAnimator(20) {
 	m_atlassedSprite = std::make_shared<AtlassedSpriteU>(pRenderer, pFilePath, width, height, nrSprites);
 
-	// Idle frames
-	AppendSpriteIds({0, 1, 2, 3, 16, 17, 18, 19, 32, 33, 34, 35, 48, 49, 50, 51, 64, 65, 66, 67});
-	AppendSpriteIdsAsOffsetFromPrevious(4);
-	AppendSpriteIdsAsOffsetFromPrevious(4);
-	AppendSpriteIdsAsOffsetFromPrevious(4);
+	SetSpriteIdPattern({ 0, 1, 2, 3, 16, 17, 18, 19, 32, 33, 34, 35, 48, 49, 50, 51, 64, 65, 66, 67 });
 
-	// Walk frames
-	AppendSpriteIdsAsOffsetFromPrevious(80-12);
-	AppendSpriteIdsAsOffsetFromPrevious(4);
-	AppendSpriteIdsAsOffsetFromPrevious(4);
-	AppendSpriteIdsAsOffsetFromPrevious(4);
+	// Idle anims
+	AddAnimOffset(0);
+	AddAnimOffset(4);
+	AddAnimOffset(8);
+	AddAnimOffset(12);
+
+	// Walk anims
+	AddAnimOffset(80);
+	AddAnimOffset(84);
+	AddAnimOffset(88);
+	AddAnimOffset(92);
 }
 
-bool PlayerSprite::DrawAnimated(int posX, int posY, AnimId animId, float deltaTime) {
+bool PlayerSprite::Draw(int posX, int posY, AnimId animId, float deltaTime) {
 	return m_atlassedSprite->Draw(posX, posY, ComputeSpriteId(static_cast<unsigned char>(animId), deltaTime));
 }

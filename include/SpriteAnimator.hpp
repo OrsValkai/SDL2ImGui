@@ -16,18 +16,19 @@
 template <typename T>
 class SpriteAnimator {
 private:
-	std::vector<std::vector<T>> m_SpriteIds;
+	std::vector<T> m_spriteIdPattern;
+	std::vector<T> m_animOffset;
 	float m_accTime = 0.f;
 	int m_targetFPS;
-	int m_lastAnimId = -1;
-	unsigned char m_curSpriteId = 0;
+	unsigned short m_curPatternId = 0;
+	unsigned short m_lastAnimId = 257;
 
 public:
 	explicit SpriteAnimator(const int targetFPS);
 
-	void AppendSpriteIds(std::vector<T>&& toAppend);
+	void SetSpriteIdPattern(std::vector<T>&& pattern);
 
-	bool AppendSpriteIdsAsOffsetFromPrevious(const unsigned char offset);
+	void AddAnimOffset(const T offset);
 
 	int ComputeSpriteId(unsigned char animId, float deltaTime);
 };

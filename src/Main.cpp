@@ -39,25 +39,25 @@ int main(int argc, char* argv[]) {
 
     {
         auto pPlayGround = std::make_unique<PlayGround>(h, w, pRenderer, "EnvAtlas.png");
-        auto Now(std::chrono::steady_clock::now());
-        auto Last(Now);
+        auto now(std::chrono::steady_clock::now());
+        auto last(now);
        
         PlayerSprite aSprite1(pRenderer, "Combined64.png", 64, 102, 160);
-        auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - Last);
+        auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - last);
 
         PlayerSprite aSprite2(aSprite1);
         std::cout << "Make texture took: " << duration.count() << "ms\n";
 
         while (true) {
-            Last = Now;
-            Now = std::chrono::steady_clock::now();
+            last = now;
+            now = std::chrono::steady_clock::now();
 
-            float deltaTime = std::chrono::duration<float, std::milli>(std::chrono::steady_clock::now() - Last).count();
+            float deltaTime = std::chrono::duration<float, std::milli>(std::chrono::steady_clock::now() - last).count();
 
             SDL_SetRenderDrawColor(pRenderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
             SDL_RenderClear(pRenderer);
-            aSprite1.DrawAnimated(TileEntry::Width/2, 64 - TileEntry::Height/4, AnimId::IdleFront, deltaTime);
-            aSprite2.DrawAnimated(128 + TileEntry::Width / 2, 128 - TileEntry::Height / 4, AnimId::WalkLeft, deltaTime);
+            aSprite1.Draw(TileEntry::VisualWidth/2, 64 - TileEntry::VisualHeight/4, AnimId::IdleFront, deltaTime);
+            aSprite2.Draw(128 + TileEntry::VisualWidth / 2, 128 - TileEntry::VisualHeight / 4, AnimId::WalkLeft, deltaTime);
             pPlayGround->Draw(deltaTime);
             SDL_RenderPresent(pRenderer);
 
