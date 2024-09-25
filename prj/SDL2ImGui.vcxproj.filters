@@ -51,6 +51,9 @@
     <ClInclude Include="..\include\PearsonHash.hpp">
       <Filter>inlcude</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\Vector2D.hpp">
+      <Filter>inlcude</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\include\AtlassedSpriteBase.inl">

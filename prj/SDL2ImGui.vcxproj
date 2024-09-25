@@ -36,6 +36,7 @@
     <ClInclude Include="..\include\SDL_Wrapper.hpp" />
     <ClInclude Include="..\include\SpriteAnimator.hpp" />
     <ClInclude Include="..\include\TileEntry.hpp" />
+    <ClInclude Include="..\include\Vector2D.hpp" />
     <ClInclude Include="..\include\WrapperHelpers.hpp" />
   </ItemGroup>
   <ItemGroup>

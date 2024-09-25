@@ -14,7 +14,7 @@ private:
 
 public:
 	AtlassedSpriteU(SDL_Renderer* pRenderer, const char* pFilePath, unsigned width, unsigned height, unsigned nrSprites);
-	bool Draw(int posX, int posY, unsigned spriteId) override;
+	bool Draw(float posX, float posY, unsigned spriteId, const double angle=0, const SDL_RendererFlip flip=SDL_RendererFlip::SDL_FLIP_NONE) override;
 	~AtlassedSpriteU() override = default;
 };
 

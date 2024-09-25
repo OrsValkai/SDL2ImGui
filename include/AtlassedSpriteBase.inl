@@ -9,8 +9,8 @@ bool inline AtlassedSpriteBase::IsValidSpriteId(unsigned spriteId) const {
 	return spriteId < m_nrSprites;
 }
 
-bool inline AtlassedSpriteBase::DrawInternal(const SDL_Rect* pSrc, const SDL_Rect* pDest) {
-	return (0 == SDL_RenderCopy(m_pRenderer, m_upTexture.get(), pSrc, pDest));
+bool inline AtlassedSpriteBase::DrawInternal(const SDL_Rect* pSrc, const SDL_FRect* pDest, const double angle, const SDL_RendererFlip flip) {
+	return (0 == SDL_RenderCopyExF(m_pRenderer, m_upTexture.get(), pSrc, pDest, angle, nullptr, flip));
 }
 
 #endif // ATLASSED_SPRITE_BASE_INL

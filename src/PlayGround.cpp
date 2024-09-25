@@ -3,31 +3,33 @@
 #include "PlayGround.hpp"
 #include "TileEntry.inl"
 
-PlayGround::PlayGround(unsigned int screenHeight, unsigned int screenWidth, SDL_Renderer* pRenderer, const char* pFilePathToTileAtlas)
+PlayGround::PlayGround(unsigned short screenHeight, unsigned short screenWidth, SDL_Renderer* pRenderer, const char* pFilePathToTileAtlas)
 	: m_tileSprite(pRenderer, pFilePathToTileAtlas, 64, 90, 2) {
-	m_height = screenHeight / TileEntry::VisualHeight;
-	m_width = screenWidth / TileEntry::VisualWidth;
+	//: m_tileSprite(pRenderer, "", 64, 56, 2) {
+	m_height = screenHeight / TileEntry::Height;
+	m_width = screenWidth / TileEntry::Width;
 
 	Init();
 }
 
 void PlayGround::Init() {
-	signed short posOffsetX = 0;
-	signed short posOffsetY = 0;
+	Vector2D<signed short> posOffset = { 0, 0 };
 
 	if (0 == m_height % 2)
 		m_height--;
 
 	if (0 == m_width % 2) {
 		m_width--;
-		posOffsetX += TileEntry::VisualWidth / 2;
+		posOffset.x += TileEntry::Width / 2;
 	}
 
-	m_tiles.resize(m_height * m_width);
+	m_tiles.resize(static_cast<size_t>(m_height) * m_width);
+	if (m_tiles.capacity() >= std::numeric_limits<unsigned short>::max())
+		throw std::overflow_error("This was designed to be below, if really needed change type from unsigned short!");
 
 	for (size_t i = 0; i < m_width; ++i) {
 		for (size_t j = 0; j < m_height; ++j) {
-			auto& tile = m_tiles[i * m_height + j];
+			auto& tile = m_tiles[j * m_width + i];
 
 			if ((0 != i % 2) && (0 != j % 2)) {
 				tile.SetFlag(TileEntry::Flags::OccupiedByTile);
@@ -36,8 +38,8 @@ void PlayGround::Init() {
 				//tile.SetFlag(TileEntry::Flags::DestroyableTile);
 			}
 
-			tile.posX = static_cast<signed short>(i * TileEntry::VisualWidth + posOffsetX);
-			tile.posY = static_cast<signed short>((j * TileEntry::VisualHeight) + posOffsetY);
+			tile.posX = static_cast<signed short>(i * TileEntry::Width + posOffset.x);
+			tile.posY = static_cast<signed short>((j * TileEntry::Height) + posOffset.y);
 		}
 	}
 }
@@ -48,4 +50,24 @@ void PlayGround::Draw(float) {
 			m_tileSprite.Draw(tile.posX, tile.posY, tile.HasFlagAny(TileEntry::Flags::Destroyable) ? 1 : 0);
 		}
 	}
+}
+
+unsigned short PlayGround::GetNrOfTiles() const {
+	return static_cast<unsigned short>(m_tiles.size());
+}
+
+const TileEntry& PlayGround::GetTileAt(unsigned short tileId) const {
+	return m_tiles[tileId];
+}
+
+const TileEntry& PlayGround::GetTileAt(Vector2D<unsigned short> tilePos) const
+{
+	auto tY = static_cast<size_t>(tilePos.x);
+	tY *= m_width;
+
+	return m_tiles[tY + tilePos.y];
+}
+
+unsigned short PlayGround::GetNeighborsForTileAt(std::array<unsigned short, 4>& neighborIds, unsigned short tileId) const {
+	return 0;
 }

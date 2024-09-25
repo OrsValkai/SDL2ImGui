@@ -25,10 +25,8 @@ public:
         FlagsShiftBomb = FlagsShiftCharacter + 4
     };
 
-    static constexpr unsigned char VisualHeight = 56;
-    static constexpr unsigned char VisualWidth = 64;
-    static constexpr unsigned char LogicalHeight = 64;
-    static constexpr unsigned char LogicalWidth = 64;
+    static constexpr unsigned char Height = 56;
+    static constexpr unsigned char Width = 64;
 
     unsigned int m_flags{0};
     signed short posX{0};

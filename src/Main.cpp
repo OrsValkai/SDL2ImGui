@@ -11,6 +11,7 @@ int main(int argc, char* argv[]) {
     SDL_Renderer* pRenderer = nullptr;
     SDL_Window* pWindow = nullptr;
 
+
     if (0 != SDL_Init(SDL_INIT_TIMER | SDL_INIT_VIDEO)) {
         return EXIT_FAILURE;
     }
@@ -42,6 +43,7 @@ int main(int argc, char* argv[]) {
         auto now(std::chrono::steady_clock::now());
         auto last(now);
        
+        //PlayerSprite aSprite1(pRenderer, "Combined64.png_", 64, 56, 160);
         PlayerSprite aSprite1(pRenderer, "Combined64.png", 64, 102, 160);
         auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - last);
 
@@ -56,9 +58,15 @@ int main(int argc, char* argv[]) {
 
             SDL_SetRenderDrawColor(pRenderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
             SDL_RenderClear(pRenderer);
-            aSprite1.Draw(TileEntry::VisualWidth/2, 64 - TileEntry::VisualHeight/4, AnimId::IdleFront, deltaTime);
-            aSprite2.Draw(128 + TileEntry::VisualWidth / 2, 128 - TileEntry::VisualHeight / 4, AnimId::WalkLeft, deltaTime);
+
+            auto& tileEntry1 = pPlayGround->GetTileAt(0);
+            aSprite1.Draw(tileEntry1.posX, tileEntry1.posY, AnimId::IdleFront, deltaTime);
+
+            auto& tileEntry2 = pPlayGround->GetTileAt(pPlayGround->GetNrOfTiles()-1);
+            aSprite2.Draw(tileEntry2.posX, tileEntry2.posY, AnimId::WalkLeft, deltaTime);
+            
             pPlayGround->Draw(deltaTime);
+            
             SDL_RenderPresent(pRenderer);
 
             if (SDL_PollEvent(&event) && event.type == SDL_QUIT)

@@ -13,13 +13,15 @@ private:
 
 public:
 	AtlassedSpriteBase(SDL_Renderer* pRenderer, const char* pFilePath, unsigned nrSprites);
-	virtual bool Draw(int posX, int posY, unsigned spriteId) = 0;
+	AtlassedSpriteBase(const AtlassedSpriteBase&) = delete;
+	AtlassedSpriteBase& operator=(const AtlassedSpriteBase&) = delete;
+	virtual bool Draw(float posX, float posY, unsigned spriteId, const double angle, const SDL_RendererFlip flip) = 0;
 	bool IsValidSpriteId(unsigned spriteId) const;
 	virtual ~AtlassedSpriteBase() = default;
 
 protected:
 	bool ReadTextureExtents(int& w, int& h) const;
-	bool DrawInternal(const SDL_Rect* pSrc, const SDL_Rect* pDest);
+	bool DrawInternal(const SDL_Rect* pSrc, const SDL_FRect* pDest, const double angle, const SDL_RendererFlip flip);
 };
 
 #endif // ATLASSED_SPRITE_BASE_H

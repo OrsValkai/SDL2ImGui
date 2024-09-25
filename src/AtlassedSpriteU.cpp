@@ -12,19 +12,19 @@ AtlassedSpriteU::AtlassedSpriteU(SDL_Renderer* pRenderer, const char* pFilePath,
 	}
 }
 
-bool AtlassedSpriteU::Draw(int posX, int posY, unsigned spriteId) {
+bool AtlassedSpriteU::Draw(float posX, float posY, unsigned spriteId, const double angle, const SDL_RendererFlip flip) {
 	if (!IsValidSpriteId(spriteId))
 		return false;
 
-	SDL_Rect dstRect = {
+	SDL_FRect dstRect = {
 		posX,
 		posY,
-		m_width,
-		m_height
+		static_cast<float>(m_width),
+		static_cast<float>(m_height)
 	};
 
 	if (0 == m_nrColumns)
-		return DrawInternal(nullptr, &dstRect);
+		return DrawInternal(nullptr, &dstRect, angle, flip);
 
 	SDL_Rect srcRect = {
 		m_width * (static_cast<int>(spriteId) % m_nrRows),
@@ -33,5 +33,5 @@ bool AtlassedSpriteU::Draw(int posX, int posY, unsigned spriteId) {
 		m_height
 	};
 	
-	return DrawInternal(&srcRect, &dstRect);
+	return DrawInternal(&srcRect, &dstRect, angle, flip);
 }
