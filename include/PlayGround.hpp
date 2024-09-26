@@ -20,8 +20,8 @@ public:
 	void Init();
 	void Draw(float deltaTime);
 	unsigned short GetNrOfTiles() const;
-	const TileEntry& GetTileAt(unsigned short tileId) const;
-	const TileEntry& GetTileAt(Vector2D<unsigned short> tilePos) const;
+	TileEntry& GetTileAt(unsigned short tileId);
+	TileEntry& GetTileAt(unsigned short tileX, unsigned short tileY);
 	unsigned short GetNeighborsForTileAt(std::array<unsigned short, 4>& neighborIds, unsigned short tileId) const;
 };
 

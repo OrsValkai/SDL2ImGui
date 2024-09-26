@@ -2,6 +2,7 @@
 
 #include "PlayGround.hpp"
 #include "TileEntry.inl"
+#include "IDrawable.hpp"
 
 PlayGround::PlayGround(unsigned short screenHeight, unsigned short screenWidth, SDL_Renderer* pRenderer, const char* pFilePathToTileAtlas)
 	: m_tileSprite(pRenderer, pFilePathToTileAtlas, 64, 90, 2) {
@@ -44,10 +45,15 @@ void PlayGround::Init() {
 	}
 }
 
-void PlayGround::Draw(float) {
-	for (const auto& tile : m_tiles) {
+void PlayGround::Draw(float deltaTime) {
+	for (auto& tile : m_tiles) {
 		if (tile.HasFlagAny(TileEntry::Flags::OccupiedByTile)) {
-			m_tileSprite.Draw(tile.posX, tile.posY, tile.HasFlagAny(TileEntry::Flags::Destroyable) ? 1 : 0);
+			m_tileSprite.Draw(tile.posX, tile.posY, tile.HasFlagAny(TileEntry::Flags::Destroyable));
+		}
+
+		while (tile.pDrawable) {
+			tile.pDrawable->Draw(tile.posX, tile.posY, deltaTime);
+			tile.pDrawable = tile.pDrawable->m_pNextDrawable;
 		}
 	}
 }
@@ -56,16 +62,16 @@ unsigned short PlayGround::GetNrOfTiles() const {
 	return static_cast<unsigned short>(m_tiles.size());
 }
 
-const TileEntry& PlayGround::GetTileAt(unsigned short tileId) const {
+TileEntry& PlayGround::GetTileAt(unsigned short tileId) {
 	return m_tiles[tileId];
 }
 
-const TileEntry& PlayGround::GetTileAt(Vector2D<unsigned short> tilePos) const
+TileEntry& PlayGround::GetTileAt(unsigned short tileX, unsigned short tileY)
 {
-	auto tY = static_cast<size_t>(tilePos.x);
+	auto tY = static_cast<size_t>(tileX);
 	tY *= m_width;
 
-	return m_tiles[tY + tilePos.y];
+	return m_tiles[tY + tileY];
 }
 
 unsigned short PlayGround::GetNeighborsForTileAt(std::array<unsigned short, 4>& neighborIds, unsigned short tileId) const {

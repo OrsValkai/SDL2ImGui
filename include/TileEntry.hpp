@@ -3,6 +3,8 @@
 #ifndef TILE_ENTRY_H
 #define TILE_ENTRY_H
 
+class IDrawable;
+
 struct TileEntry
 {
 public:
@@ -31,6 +33,7 @@ public:
     unsigned int m_flags{0};
     signed short posX{0};
     signed short posY{0};
+    IDrawable* pDrawable;
 
     unsigned int GetFlags() const;
     bool HasFlagAll(Flags flag) const;

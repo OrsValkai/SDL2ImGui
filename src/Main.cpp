@@ -3,8 +3,28 @@
 #include <iostream>
 #include <chrono>
 
-#include "PlayerSprite.hpp"
+#include "Player.hpp"
 #include "PlayGround.hpp"
+
+class Singleton {
+private:
+    size_t m_nrCalls = 0;
+
+    Singleton() = default;
+
+public:
+    void CallMe() {
+        m_nrCalls++;
+
+        std::cout << "Glad you called " << m_nrCalls << " times!" << std::endl;
+    }
+
+    static Singleton& GetInstance() {
+        static Singleton sInstance;
+
+        return sInstance;
+    }
+};
 
 int main(int argc, char* argv[]) {
     SDL_Event event;
@@ -44,10 +64,10 @@ int main(int argc, char* argv[]) {
         auto last(now);
        
         //PlayerSprite aSprite1(pRenderer, "Combined64.png_", 64, 56, 160);
-        PlayerSprite aSprite1(pRenderer, "Combined64.png", 64, 102, 160);
+        Player player1(pRenderer, "Combined64.png", 64, 102, 160);
         auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - last);
 
-        PlayerSprite aSprite2(aSprite1);
+        Player player2(player1);
         std::cout << "Make texture took: " << duration.count() << "ms\n";
 
         while (true) {
@@ -59,11 +79,11 @@ int main(int argc, char* argv[]) {
             SDL_SetRenderDrawColor(pRenderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
             SDL_RenderClear(pRenderer);
 
-            auto& tileEntry1 = pPlayGround->GetTileAt(0);
-            aSprite1.Draw(tileEntry1.posX, tileEntry1.posY, AnimId::IdleFront, deltaTime);
+            auto& tileEntry1 = pPlayGround->GetTileAt(2, 1);
+            tileEntry1.pDrawable = &player1;
 
-            auto& tileEntry2 = pPlayGround->GetTileAt(pPlayGround->GetNrOfTiles()-1);
-            aSprite2.Draw(tileEntry2.posX, tileEntry2.posY, AnimId::WalkLeft, deltaTime);
+            auto& tileEntry2 = pPlayGround->GetTileAt(4, 5);
+            tileEntry2.pDrawable = &player2;
             
             pPlayGround->Draw(deltaTime);
             

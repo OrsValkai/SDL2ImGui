@@ -22,6 +22,9 @@
     <ClCompile Include="..\src\PearsonHash.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\Player.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\WrapperHelpers.hpp">
@@ -52,6 +55,12 @@
       <Filter>inlcude</Filter>
     </ClInclude>
     <ClInclude Include="..\include\Vector2D.hpp">
+      <Filter>inlcude</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IDrawable.hpp">
+      <Filter>inlcude</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Player.hpp">
       <Filter>inlcude</Filter>
     </ClInclude>
   </ItemGroup>
