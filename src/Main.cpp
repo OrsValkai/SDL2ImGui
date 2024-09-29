@@ -1,10 +1,10 @@
 // Copyright(c) 2024 Valkai-Németh Béla-Örs
 
 #include <iostream>
-#include <chrono>
 
 #include "Player.hpp"
 #include "PlayGround.hpp"
+#include "TimerHR.hpp"
 
 class Singleton {
 private:
@@ -60,29 +60,28 @@ int main(int argc, char* argv[]) {
 
     {
         auto pPlayGround = std::make_unique<PlayGround>(h, w, pRenderer, "EnvAtlas.png");
-        auto now(std::chrono::steady_clock::now());
-        auto last(now);
+        TimerHR timerHR;
        
         //PlayerSprite aSprite1(pRenderer, "Combined64.png_", 64, 56, 160);
         Player player1(pRenderer, "Combined64.png", 64, 102, 160);
-        auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - last);
-
+        
+        //timerHR.Start();
         Player player2(player1);
-        std::cout << "Make texture took: " << duration.count() << "ms\n";
+        //std::cout << "Make texture took: " << timerHR.MarkUS() << "us\n";
 
+        timerHR.Start(); // start to clear time spent before
         while (true) {
-            last = now;
-            now = std::chrono::steady_clock::now();
-
-            float deltaTime = std::chrono::duration<float, std::milli>(std::chrono::steady_clock::now() - last).count();
+            float deltaTime = timerHR.StartMS(); // read time spent in loop and restart
 
             SDL_SetRenderDrawColor(pRenderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
             SDL_RenderClear(pRenderer);
 
             auto& tileEntry1 = pPlayGround->GetTileAt(2, 1);
+            tileEntry1.m_flags = 0;
             tileEntry1.pDrawable = &player1;
 
             auto& tileEntry2 = pPlayGround->GetTileAt(4, 5);
+            tileEntry2.m_flags = 0;
             tileEntry2.pDrawable = &player2;
             
             pPlayGround->Draw(deltaTime);

@@ -36,7 +36,7 @@ void PlayGround::Init() {
 				tile.SetFlag(TileEntry::Flags::OccupiedByTile);
 			}
 			else {
-				//tile.SetFlag(TileEntry::Flags::DestroyableTile);
+				tile.SetFlag(TileEntry::Flags::DestroyableTile);
 			}
 
 			tile.posX = static_cast<signed short>(i * TileEntry::Width + posOffset.x);
@@ -52,8 +52,11 @@ void PlayGround::Draw(float deltaTime) {
 		}
 
 		while (tile.pDrawable) {
-			tile.pDrawable->Draw(tile.posX, tile.posY, deltaTime);
-			tile.pDrawable = tile.pDrawable->m_pNextDrawable;
+			IDrawable* pCurrent = tile.pDrawable;
+
+			pCurrent->Draw(tile.posX, tile.posY, deltaTime);
+			tile.pDrawable = pCurrent->m_pNextDrawable;
+			pCurrent->m_pNextDrawable = nullptr;
 		}
 	}
 }

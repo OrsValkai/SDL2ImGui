@@ -27,6 +27,7 @@
     <ClCompile Include="..\src\PlayerSprite.cpp" />
     <ClCompile Include="..\src\PlayGround.cpp" />
     <ClCompile Include="..\src\SpriteAnimator.cpp" />
+    <ClCompile Include="..\src\TimerHR.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\AtlassedSpriteBase.hpp" />
@@ -39,6 +40,7 @@
     <ClInclude Include="..\include\SDL_Wrapper.hpp" />
     <ClInclude Include="..\include\SpriteAnimator.hpp" />
     <ClInclude Include="..\include\TileEntry.hpp" />
+    <ClInclude Include="..\include\TimerHR.hpp" />
     <ClInclude Include="..\include\Vector2D.hpp" />
     <ClInclude Include="..\include\WrapperHelpers.hpp" />
   </ItemGroup>
