@@ -33,7 +33,7 @@ public:
     unsigned int m_flags{0};
     signed short posX{0};
     signed short posY{0};
-    IDrawable* pDrawable;
+    IDrawable* pDrawable{nullptr};
 
     unsigned int GetFlags() const;
     bool HasFlagAll(Flags flag) const;

@@ -8,7 +8,7 @@
 
 class Singleton {
 private:
-    size_t m_nrCalls = 0;
+    size_t m_nrCalls{0};
 
     Singleton() = default;
 
@@ -43,7 +43,7 @@ int main(int argc, char* argv[]) {
         return EXIT_FAILURE;
     }
 
-    if (0 != SDL_CreateWindowAndRenderer(1024, 768, /*SDL_WINDOW_BORDERLESS | */SDL_WINDOW_ALLOW_HIGHDPI, &pWindow, &pRenderer)) {
+    if (0 != SDL_CreateWindowAndRenderer(1024, 768, /*SDL_WINDOW_FULLSCREEN | SDL_WINDOW_BORDERLESS |*/ SDL_WINDOW_ALLOW_HIGHDPI, &pWindow, &pRenderer)) {
         SDL_Quit();
         IMG_Quit();
         
@@ -62,7 +62,7 @@ int main(int argc, char* argv[]) {
         auto pPlayGround = std::make_unique<PlayGround>(h, w, pRenderer, "EnvAtlas.png");
         TimerHR timerHR;
        
-        //PlayerSprite aSprite1(pRenderer, "Combined64.png_", 64, 56, 160);
+        //Player player1(pRenderer, "Combined64.png_", 64, 56, 160);
         Player player1(pRenderer, "Combined64.png", 64, 102, 160);
         
         //timerHR.Start();

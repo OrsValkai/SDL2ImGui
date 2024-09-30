@@ -12,8 +12,8 @@ class PlayGround
 {
 	std::vector<TileEntry> m_tiles;
 	AtlassedSpriteU m_tileSprite;
-	unsigned short m_height = 0;
-	unsigned short m_width = 0;
+	unsigned short m_height{0};
+	unsigned short m_width{0};
 
 public:
 	PlayGround(unsigned short screenHeight, unsigned short screenWidth, SDL_Renderer* pRenderer, const char* pFilePathToTileAtlas);

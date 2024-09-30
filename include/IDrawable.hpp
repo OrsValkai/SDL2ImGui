@@ -4,7 +4,7 @@
 class IDrawable
 {
 public:
-	IDrawable* m_pNextDrawable=nullptr;
+	IDrawable* m_pNextDrawable{nullptr};
 
 	virtual bool Draw(float posX, float posY, float deltaTime) = 0;
 
