@@ -3,12 +3,15 @@
 #ifndef VECTOR_2D_H
 #define VECTOR_2D_H
 
+#include <stdexcept>
+#include <cmath>
+
 template <typename T>
 class Vector2D {
 public:
     T x;
     T y;
-    static constexpr std::size_t size() {
+    static constexpr size_t size() {
         return 2;
     }
 
@@ -20,7 +23,7 @@ public:
     constexpr Vector2D& operator=(const Vector2D& other) noexcept = default;
     constexpr Vector2D& operator=(Vector2D&& other) noexcept = default;
 
-    constexpr const T& operator[](const std::size_t i) const {
+    constexpr const T& operator[](const size_t i) const {
         switch (i) {
         case 0: return x;
         case 1: return y;
@@ -28,7 +31,7 @@ public:
         }
     }
 
-    constexpr T& operator[](const std::size_t i) {
+    constexpr T& operator[](const size_t i) {
         switch (i) {
         case 0: return x;
         case 1: return y;

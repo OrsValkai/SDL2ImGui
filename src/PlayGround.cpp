@@ -69,6 +69,13 @@ TileEntry& PlayGround::GetTileAt(unsigned short tileId) {
 	return m_tiles[tileId];
 }
 
+unsigned short PlayGround::GetTileId(unsigned short tileX, unsigned short tileY) const {
+	auto tY = static_cast<size_t>(tileX);
+	tY *= m_width;
+
+	return static_cast<unsigned short>(tY + tileY);
+}
+
 TileEntry& PlayGround::GetTileAt(unsigned short tileX, unsigned short tileY)
 {
 	auto tY = static_cast<size_t>(tileX);

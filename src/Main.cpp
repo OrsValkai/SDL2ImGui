@@ -5,6 +5,7 @@
 #include "Player.hpp"
 #include "PlayGround.hpp"
 #include "TimerHR.hpp"
+#include "PlayerControl.hpp"
 
 class Singleton {
 private:
@@ -36,8 +37,7 @@ int main(int argc, char* argv[]) {
         return EXIT_FAILURE;
     }
 
-    int imgFlags = IMG_INIT_JPG | IMG_INIT_PNG;
-    if (imgFlags != IMG_Init(imgFlags)) {
+    if (int imgFlags = IMG_INIT_JPG | IMG_INIT_PNG; imgFlags != IMG_Init(imgFlags)) {
         SDL_Quit();
 
         return EXIT_FAILURE;
@@ -60,6 +60,7 @@ int main(int argc, char* argv[]) {
 
     {
         auto pPlayGround = std::make_unique<PlayGround>(h, w, pRenderer, "EnvAtlas.png");
+        auto pPlayerCtrl = std::make_shared<PlayerControl>(*pPlayGround, pPlayGround->GetTileId(2, 1));
         TimerHR timerHR;
        
         //Player player1(pRenderer, "Combined64.png_", 64, 56, 160);
@@ -69,27 +70,30 @@ int main(int argc, char* argv[]) {
         Player player2(player1);
         //std::cout << "Make texture took: " << timerHR.MarkUS() << "us\n";
 
+        player1.AddControl(pPlayerCtrl);
+        player2.AddControl(std::make_shared<PlayerControl>(*pPlayGround, pPlayGround->GetTileId(4, 5)));
+        
+        bool shouldExit = false;
         timerHR.Start(); // start to clear time spent before
-        while (true) {
+        while (false == shouldExit) {
             float deltaTime = timerHR.StartMS(); // read time spent in loop and restart
 
             SDL_SetRenderDrawColor(pRenderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
             SDL_RenderClear(pRenderer);
 
-            auto& tileEntry1 = pPlayGround->GetTileAt(2, 1);
-            tileEntry1.m_flags = 0;
-            tileEntry1.pDrawable = &player1;
-
-            auto& tileEntry2 = pPlayGround->GetTileAt(4, 5);
-            tileEntry2.m_flags = 0;
-            tileEntry2.pDrawable = &player2;
+            player1.Update(deltaTime);
+            player2.Update(deltaTime);
             
             pPlayGround->Draw(deltaTime);
             
             SDL_RenderPresent(pRenderer);
 
-            if (SDL_PollEvent(&event) && event.type == SDL_QUIT)
-                break;
+            while (SDL_PollEvent(&event)) {
+                if (SDL_QUIT == event.type)
+                    shouldExit = true;
+                else
+                    pPlayerCtrl->OnEvent(&event);
+            }
         }
     }
 

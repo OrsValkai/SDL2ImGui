@@ -5,6 +5,25 @@ Player::Player(SDL_Renderer* pRenderer, const char* pFilePath, unsigned width, u
 
 }
 
+std::shared_ptr<BaseControl> Player::AddControl(std::shared_ptr<BaseControl> upCtrl) {
+	m_pCtrl = upCtrl;
+
+	return m_pCtrl;
+}
+
+void Player::Update(float deltaTime) {
+	if (!m_pCtrl)
+		return;
+
+	m_pCtrl->Update(deltaTime, this);
+}
+
 bool Player::Draw(float posX, float posY, float deltaTime) {
+	if (m_pCtrl) {
+		const auto& pos = m_pCtrl->GetPos();
+		posX = pos.x;
+		posY = pos.y;
+	}
+
 	return m_sprite.Draw(posX, posY, AnimId::IdleLeft, deltaTime);
 }
