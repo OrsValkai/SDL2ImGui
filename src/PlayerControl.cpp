@@ -6,6 +6,12 @@
 PlayerControl::PlayerControl(PlayGround& playGround, unsigned short startTileId) : BaseControl(playGround, startTileId) {
 }
 
+void PlayerControl::Update(float deltaTime, IDrawable* pDrawable) {
+    BaseControl::Update(deltaTime, pDrawable);
+
+    MoveBy(10.f * m_xVelocity, 10.f * m_yVelocity);
+}
+
 void PlayerControl::OnEvent(const SDL_Event* pEvent) {
     switch (pEvent->type) {
         // Look for a keypress
@@ -26,8 +32,8 @@ void PlayerControl::OnEvent(const SDL_Event* pEvent) {
                     break;
                 default:
                     break;
-                }
-                break;
+            }
+            break;
             // We must also use the SDL_KEYUP events to zero the x
             // and y velocity variables. But we must also be      
             // careful not to zero the velocities when we shouldn't

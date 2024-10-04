@@ -11,6 +11,7 @@ class PlayerControl : public BaseControl
 {
 public:
 	explicit PlayerControl(PlayGround& playGround, unsigned short startTileId);
+	void Update(float deltaTime, IDrawable* pDrawable) final;
 	void OnEvent(const SDL_Event*);
 
 private:

@@ -42,6 +42,7 @@
     <ClInclude Include="..\include\PlayerSprite.hpp" />
     <ClInclude Include="..\include\PlayGround.hpp" />
     <ClInclude Include="..\include\SDL_Wrapper.hpp" />
+    <ClInclude Include="..\include\Singleton.hpp" />
     <ClInclude Include="..\include\SpriteAnimator.hpp" />
     <ClInclude Include="..\include\TileEntry.hpp" />
     <ClInclude Include="..\include\TimerHR.hpp" />

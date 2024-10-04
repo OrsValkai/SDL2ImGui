@@ -6,8 +6,8 @@ class IDrawable
 public:
 	IDrawable* m_pNextDrawable{nullptr};
 
+	IDrawable& operator=(const IDrawable&) = delete;
 	virtual bool Draw(float posX, float posY, float deltaTime) = 0;
-
 	virtual ~IDrawable() = default;
 };
 

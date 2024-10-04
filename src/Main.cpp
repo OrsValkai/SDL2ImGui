@@ -7,31 +7,9 @@
 #include "TimerHR.hpp"
 #include "PlayerControl.hpp"
 
-class Singleton {
-private:
-    size_t m_nrCalls{0};
-
-    Singleton() = default;
-
-public:
-    void CallMe() {
-        m_nrCalls++;
-
-        std::cout << "Glad you called " << m_nrCalls << " times!" << std::endl;
-    }
-
-    static Singleton& GetInstance() {
-        static Singleton sInstance;
-
-        return sInstance;
-    }
-};
-
 int main(int argc, char* argv[]) {
-    SDL_Event event;
     SDL_Renderer* pRenderer = nullptr;
     SDL_Window* pWindow = nullptr;
-
 
     if (0 != SDL_Init(SDL_INIT_TIMER | SDL_INIT_VIDEO)) {
         return EXIT_FAILURE;
@@ -77,16 +55,7 @@ int main(int argc, char* argv[]) {
         timerHR.Start(); // start to clear time spent before
         while (false == shouldExit) {
             float deltaTime = timerHR.StartMS(); // read time spent in loop and restart
-
-            SDL_SetRenderDrawColor(pRenderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
-            SDL_RenderClear(pRenderer);
-
-            player1.Update(deltaTime);
-            player2.Update(deltaTime);
-            
-            pPlayGround->Draw(deltaTime);
-            
-            SDL_RenderPresent(pRenderer);
+            SDL_Event event;
 
             while (SDL_PollEvent(&event)) {
                 if (SDL_QUIT == event.type)
@@ -94,6 +63,18 @@ int main(int argc, char* argv[]) {
                 else
                     pPlayerCtrl->OnEvent(&event);
             }
+
+            player1.Update(deltaTime);
+            player2.Update(deltaTime);
+
+            SDL_SetRenderDrawColor(pRenderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
+            SDL_RenderClear(pRenderer);
+            
+            pPlayGround->Draw(deltaTime);
+            
+            SDL_RenderPresent(pRenderer);
+
+            
         }
     }
 

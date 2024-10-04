@@ -14,6 +14,11 @@ const Vector2D<float>& BaseControl::GetPos() const {
 	return m_pos;
 }
 
+void BaseControl::MoveBy(float x, float y) {
+	m_pos.x += x;
+	m_pos.y += y;
+}
+
 void BaseControl::Update(float deltaTime, IDrawable* pDrawable) {
 	auto& tileEntry = m_playGround.GetTileAt(m_currentTileId);
 	tileEntry.m_flags = 0;
