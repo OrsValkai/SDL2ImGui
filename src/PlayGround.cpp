@@ -3,6 +3,7 @@
 #include "PlayGround.hpp"
 #include "TileEntry.inl"
 #include "IDrawable.hpp"
+#include <array>
 
 PlayGround::PlayGround(unsigned short screenHeight, unsigned short screenWidth, SDL_Renderer* pRenderer, const char* pFilePathToTileAtlas)
 	: m_tileSprite(pRenderer, pFilePathToTileAtlas, 64, 90, 2) {
@@ -16,8 +17,13 @@ PlayGround::PlayGround(unsigned short screenHeight, unsigned short screenWidth, 
 void PlayGround::Init() {
 	Vector2D<signed short> posOffset = { 0, 0 };
 
-	if (0 == m_height % 2)
-		m_height--;
+	if (0 == m_height % 2) {
+		m_height-=3;
+		posOffset.y += TileEntry::Height + TileEntry::Height / 2;
+	} else {
+		m_height-=2;
+		posOffset.y += TileEntry::Height;
+	}
 
 	if (0 == m_width % 2) {
 		m_width--;
@@ -70,20 +76,58 @@ TileEntry& PlayGround::GetTileAt(unsigned short tileId) {
 }
 
 unsigned short PlayGround::GetTileId(unsigned short tileX, unsigned short tileY) const {
-	auto tY = static_cast<size_t>(tileX);
+	if (tileX >= m_width || tileY >= m_height)
+		return static_cast<unsigned short>(m_tiles.size());
+	
+	auto tY = static_cast<size_t>(tileY);
 	tY *= m_width;
 
-	return static_cast<unsigned short>(tY + tileY);
+	return static_cast<unsigned short>(tY + tileX);
 }
 
 TileEntry& PlayGround::GetTileAt(unsigned short tileX, unsigned short tileY)
 {
-	auto tY = static_cast<size_t>(tileX);
-	tY *= m_width;
-
-	return m_tiles[tY + tileY];
+	return m_tiles[GetTileId(tileX, tileY)];
 }
 
-unsigned short PlayGround::GetNeighborsForTileAt(std::array<unsigned short, 4>& neighborIds, unsigned short tileId) const {
+unsigned short PlayGround::GetNeighborIdForTileAt(const Vector2D<signed short>& direction, unsigned short tileId) const {
+	unsigned short tileX = tileId % m_width;
+	unsigned short tileY = tileId / m_width;
+
+	tileX += direction.x;
+	tileY += direction.y;
+
+	return GetTileId(tileX, tileY);
+}
+
+unsigned short PlayGround::GetNeighborIdsForTileAt(std::array<unsigned short, 4>& neighborIds, unsigned short tileId) const {
+	Vector2D<signed short> dir{1, 0};
+	unsigned short count = 0;
+
+
+	// To the right
+	neighborIds[count] = GetNeighborIdForTileAt(dir, tileId);
+	if (neighborIds[count] < m_tiles.size())
+		count++;
+
+	// To the left
+	dir.x = -1;
+	neighborIds[count] = GetNeighborIdForTileAt(dir, tileId);
+	if (neighborIds[count] < m_tiles.size())
+		count++;
+
+	// Below
+	dir.x = 0;
+	dir.y = 1;
+	neighborIds[count] = GetNeighborIdForTileAt(dir, tileId);
+	if (neighborIds[count] < m_tiles.size())
+		count++;
+
+	// Above
+	dir.y = -1;
+	neighborIds[count] = GetNeighborIdForTileAt(dir, tileId);
+	if (neighborIds[count] < m_tiles.size())
+		count++;
+
 	return 0;
 }

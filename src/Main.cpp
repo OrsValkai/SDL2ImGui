@@ -21,7 +21,7 @@ int main(int argc, char* argv[]) {
         return EXIT_FAILURE;
     }
 
-    if (0 != SDL_CreateWindowAndRenderer(1024, 768, /*SDL_WINDOW_FULLSCREEN | SDL_WINDOW_BORDERLESS |*/ SDL_WINDOW_ALLOW_HIGHDPI, &pWindow, &pRenderer)) {
+    if (0 != SDL_CreateWindowAndRenderer(1920, 1080, /*SDL_WINDOW_FULLSCREEN | SDL_WINDOW_BORDERLESS |*/ SDL_WINDOW_ALLOW_HIGHDPI, &pWindow, &pRenderer)) {
         SDL_Quit();
         IMG_Quit();
         
@@ -38,7 +38,7 @@ int main(int argc, char* argv[]) {
 
     {
         auto pPlayGround = std::make_unique<PlayGround>(h, w, pRenderer, "EnvAtlas.png");
-        auto pPlayerCtrl = std::make_shared<PlayerControl>(*pPlayGround, pPlayGround->GetTileId(2, 1));
+        auto pPlayerCtrl = std::make_shared<PlayerControl>(*pPlayGround, pPlayGround->GetTileId(1, 2));
         TimerHR timerHR;
        
         //Player player1(pRenderer, "Combined64.png_", 64, 56, 160);
@@ -49,7 +49,7 @@ int main(int argc, char* argv[]) {
         //std::cout << "Make texture took: " << timerHR.MarkUS() << "us\n";
 
         player1.AddControl(pPlayerCtrl);
-        player2.AddControl(std::make_shared<PlayerControl>(*pPlayGround, pPlayGround->GetTileId(4, 5)));
+        player2.AddControl(std::make_shared<PlayerControl>(*pPlayGround, pPlayGround->GetTileId(5, 4)));
         
         bool shouldExit = false;
         timerHR.Start(); // start to clear time spent before
@@ -73,8 +73,6 @@ int main(int argc, char* argv[]) {
             pPlayGround->Draw(deltaTime);
             
             SDL_RenderPresent(pRenderer);
-
-            
         }
     }
 

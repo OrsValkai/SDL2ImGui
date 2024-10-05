@@ -15,8 +15,8 @@ public:
 	void OnEvent(const SDL_Event*);
 
 private:
-	int m_xVelocity {0};
-	int m_yVelocity {0};
+	Vector2D<signed short> m_velocity{0, 0};
+	unsigned short m_targetTileId{ 0 };
 };
 
 #endif // PLAYER_CONTROL_H

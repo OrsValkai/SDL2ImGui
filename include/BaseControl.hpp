@@ -18,12 +18,11 @@ public:
 protected:
 	PlayGround& m_playGround;
 
-	void MoveBy(float x, float y);
+	void Move(const Vector2D<signed short>& dir, float deltaTime);
 
 private:
-	Vector2D<float> m_pos{0.f,0.f};
-	unsigned short m_currentTileId {0};
-	unsigned short m_targetTileId {0};
+	Vector2D<float> m_pos{0.f, 0.f};
+	unsigned short m_currentTileId{0};
 };
 
 #endif // BASE_CONTROL_H
