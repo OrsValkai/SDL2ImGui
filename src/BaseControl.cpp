@@ -2,6 +2,8 @@
 
 #include "BaseControl.hpp"
 
+#include <array>
+
 BaseControl::BaseControl(PlayGround& playGround, unsigned short startTileId) : m_playGround(playGround) {
 	if (startTileId < playGround.GetNrOfTiles())
 	{
@@ -24,7 +26,6 @@ void BaseControl::Move(const Vector2D<signed short>& dir, float deltaTime) {
 		return;
 
 	auto nId = m_playGround.GetNeighborIdForTileAt(dir, m_currentTileId);
-
 	if (nId < m_playGround.GetNrOfTiles()) {
 		
 

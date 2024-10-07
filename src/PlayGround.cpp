@@ -101,33 +101,14 @@ unsigned short PlayGround::GetNeighborIdForTileAt(const Vector2D<signed short>& 
 }
 
 unsigned short PlayGround::GetNeighborIdsForTileAt(std::array<unsigned short, 4>& neighborIds, unsigned short tileId) const {
-	Vector2D<signed short> dir{1, 0};
+	std::array < Vector2D<signed short>, 4> dirs{{{1, 0}, {-1, 0}, {0, 1}, {0, -1}}};
 	unsigned short count = 0;
 
+	for (const auto& dir : dirs) {
+		neighborIds[count] = GetNeighborIdForTileAt(dir, tileId);
+		if (neighborIds[count] < m_tiles.size())
+			count++;
+	}
 
-	// To the right
-	neighborIds[count] = GetNeighborIdForTileAt(dir, tileId);
-	if (neighborIds[count] < m_tiles.size())
-		count++;
-
-	// To the left
-	dir.x = -1;
-	neighborIds[count] = GetNeighborIdForTileAt(dir, tileId);
-	if (neighborIds[count] < m_tiles.size())
-		count++;
-
-	// Below
-	dir.x = 0;
-	dir.y = 1;
-	neighborIds[count] = GetNeighborIdForTileAt(dir, tileId);
-	if (neighborIds[count] < m_tiles.size())
-		count++;
-
-	// Above
-	dir.y = -1;
-	neighborIds[count] = GetNeighborIdForTileAt(dir, tileId);
-	if (neighborIds[count] < m_tiles.size())
-		count++;
-
-	return 0;
+	return count;
 }
