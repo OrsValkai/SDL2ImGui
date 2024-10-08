@@ -9,8 +9,8 @@
 template <typename T>
 class Vector2D {
 public:
-    T x;
-    T y;
+    T x{};
+    T y{};
     static constexpr size_t size() {
         return 2;
     }

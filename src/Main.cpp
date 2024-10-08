@@ -7,7 +7,13 @@
 #include "TimerHR.hpp"
 #include "PlayerControl.hpp"
 
-int main(int argc, char* argv[]) {
+#include <vector>
+#include <array>
+#include <algorithm>
+
+
+
+int main(int /*argc*/, char* /*argv*/[]) {
     SDL_Renderer* pRenderer = nullptr;
     SDL_Window* pWindow = nullptr;
 
@@ -37,7 +43,7 @@ int main(int argc, char* argv[]) {
     SDL_RenderSetVSync(pRenderer, 1);
 
     {
-        auto pPlayGround = std::make_unique<PlayGround>(h, w, pRenderer, "EnvAtlas.png");
+        auto pPlayGround = std::make_unique<PlayGround>(static_cast<unsigned short>(h), static_cast<unsigned short>(w), pRenderer, "EnvAtlas.png");
         auto pPlayerCtrl = std::make_shared<PlayerControl>(*pPlayGround, pPlayGround->GetTileId(1, 2));
         TimerHR timerHR;
        

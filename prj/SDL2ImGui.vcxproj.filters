@@ -81,15 +81,9 @@
     <ClInclude Include="..\include\BaseControl.hpp">
       <Filter>inlcude</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\Singleton.hpp">
-      <Filter>inlcude</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\include\AtlassedSpriteBase.inl">
-      <Filter>inlcude</Filter>
-    </None>
-    <None Include="..\include\TileEntry.inl">
       <Filter>inlcude</Filter>
     </None>
   </ItemGroup>

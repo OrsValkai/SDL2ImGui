@@ -21,7 +21,7 @@ const Vector2D<float>& BaseControl::GetPos() const {
 	return m_pos;
 }
 
-void BaseControl::Move(const Vector2D<signed short>& dir, float deltaTime) {
+void BaseControl::Move(const Vector2D<signed short>& dir, float /*deltaTime*/) {
 	if (0 == dir.x && 0 == dir.y)
 		return;
 
@@ -41,7 +41,7 @@ void BaseControl::Move(const Vector2D<signed short>& dir, float deltaTime) {
 	}
 }
 
-void BaseControl::Update(float deltaTime, IDrawable* pDrawable) {
+void BaseControl::Update(float /*deltaTime*/, IDrawable* pDrawable) {
 	auto& tileEntry = m_playGround.GetTileAt(m_currentTileId);
 	tileEntry.pDrawable = pDrawable;
 }

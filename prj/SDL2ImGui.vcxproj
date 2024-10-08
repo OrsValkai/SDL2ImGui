@@ -42,7 +42,6 @@
     <ClInclude Include="..\include\PlayerSprite.hpp" />
     <ClInclude Include="..\include\PlayGround.hpp" />
     <ClInclude Include="..\include\SDL_Wrapper.hpp" />
-    <ClInclude Include="..\include\Singleton.hpp" />
     <ClInclude Include="..\include\SpriteAnimator.hpp" />
     <ClInclude Include="..\include\TileEntry.hpp" />
     <ClInclude Include="..\include\TimerHR.hpp" />
@@ -51,7 +50,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\include\AtlassedSpriteBase.inl" />
-    <None Include="..\include\TileEntry.inl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
@@ -135,7 +133,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>

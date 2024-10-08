@@ -45,5 +45,47 @@ public:
     void SetFlag(Flags flag);
 };
 
+// Implementation
+
+inline unsigned int TileEntry::GetFlags() const
+{
+    return m_flags;
+}
+
+inline bool TileEntry::HasFlagAll(Flags flag) const
+{
+    return static_cast<unsigned int>(flag) == (m_flags & static_cast<unsigned int>(flag));
+}
+
+inline bool TileEntry::HasFlagAny(Flags flag) const
+{
+    return 0 != (m_flags & static_cast<unsigned int>(flag));
+}
+
+inline bool TileEntry::HasFlagAny(unsigned int flag) const
+{
+    return 0 != (m_flags & flag);
+}
+
+inline void TileEntry::ClearFlag(unsigned int flag)
+{
+    m_flags &= ~flag;
+}
+
+inline void TileEntry::ClearFlag(Flags flag)
+{
+    m_flags &= ~static_cast<unsigned int>(flag);
+}
+
+inline void TileEntry::SetFlag(unsigned int flag)
+{
+    m_flags |= flag;
+}
+
+inline void TileEntry::SetFlag(Flags flag)
+{
+    m_flags |= (unsigned int)flag;
+}
+
 #endif // TILE_ENTRY_H
 
