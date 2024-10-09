@@ -17,7 +17,7 @@ public:
 	Player(SDL_Renderer* pRenderer, const char* pFilePath, unsigned width, unsigned height, unsigned nrSprites);
 	std::shared_ptr<BaseControl> AddControl(std::shared_ptr<BaseControl> spCtrl);
 	void Update(float deltaTime);
-	bool Draw(float posX, float posY, float deltaTime) final;
+	bool Draw(int posX, int posY, float deltaTime) final;
 };
 
 #endif // PLAYER_H

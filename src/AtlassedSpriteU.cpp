@@ -12,15 +12,15 @@ AtlassedSpriteU::AtlassedSpriteU(SDL_Renderer* pRenderer, const char* pFilePath,
 	}
 }
 
-bool AtlassedSpriteU::Draw(float posX, float posY, unsigned spriteId, const double angle, const SDL_RendererFlip flip) {
+bool AtlassedSpriteU::Draw(int posX, int posY, unsigned spriteId, const double angle, const SDL_RendererFlip flip) {
 	if (!IsValidSpriteId(spriteId))
 		return false;
 
-	SDL_FRect dstRect = {
+	SDL_Rect dstRect = {
 		posX,
 		posY,
-		static_cast<float>(m_width),
-		static_cast<float>(m_height)
+		m_width,
+		m_height
 	};
 
 	if (0 == m_nrColumns)

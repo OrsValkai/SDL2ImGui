@@ -18,7 +18,7 @@ void Player::Update(float deltaTime) {
 	m_pCtrl->Update(deltaTime, this);
 }
 
-bool Player::Draw(float posX, float posY, float deltaTime) {
+bool Player::Draw(int posX, int posY, float deltaTime) {
 	if (m_pCtrl) {
 		const auto& pos = m_pCtrl->GetPos();
 		posX = pos.x;

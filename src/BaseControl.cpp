@@ -17,7 +17,7 @@ BaseControl::BaseControl(PlayGround& playGround, unsigned short startTileId) : m
 	}
 }
 
-const Vector2D<float>& BaseControl::GetPos() const {
+const Vector2D<int>& BaseControl::GetPos() const {
 	return m_pos;
 }
 
