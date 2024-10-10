@@ -93,18 +93,35 @@ unsigned short PlayGround::GetNeighborIdForTileAt(const Vector2D<signed short>& 
 	unsigned short tileX = tileId % m_width;
 	unsigned short tileY = tileId / m_width;
 
+	return GetNeighborIdForTileAt(direction, tileX, tileY);
+}
+
+unsigned short PlayGround::GetNeighborIdsForTileAt(std::array<unsigned short, 4>& neighborIds, unsigned short tileId) const {
+	std::array<Vector2D<signed short>, 4> dirs{{{1, 0}, {-1, 0}, {0, 1}, {0, -1}}};
+	unsigned short count = 0;
+
+	for (const auto& dir : dirs) {
+		neighborIds[count] = GetNeighborIdForTileAt(dir, tileId);
+		if (neighborIds[count] < m_tiles.size())
+			count++;
+	}
+
+	return count;
+}
+
+unsigned short PlayGround::GetNeighborIdForTileAt(const Vector2D<signed short>& direction, unsigned short tileX, unsigned short tileY) const {
 	tileX += direction.x;
 	tileY += direction.y;
 
 	return GetTileId(tileX, tileY);
 }
 
-unsigned short PlayGround::GetNeighborIdsForTileAt(std::array<unsigned short, 4>& neighborIds, unsigned short tileId) const {
-	std::array < Vector2D<signed short>, 4> dirs{{{1, 0}, {-1, 0}, {0, 1}, {0, -1}}};
+unsigned short PlayGround::GetNeighborIdsForTileAt(std::array<unsigned short, 4>& neighborIds, unsigned short tileX, unsigned short tileY) const {
+	std::array<Vector2D<signed short>, 4> dirs{ {{1, 0}, {-1, 0}, {0, 1}, {0, -1}} };
 	unsigned short count = 0;
 
 	for (const auto& dir : dirs) {
-		neighborIds[count] = GetNeighborIdForTileAt(dir, tileId);
+		neighborIds[count] = GetNeighborIdForTileAt(dir, tileX, tileY);
 		if (neighborIds[count] < m_tiles.size())
 			count++;
 	}

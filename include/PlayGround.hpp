@@ -25,6 +25,8 @@ public:
 	TileEntry& GetTileAt(unsigned short tileX, unsigned short tileY);
 	unsigned short GetNeighborIdForTileAt(const Vector2D<signed short>& direction, unsigned short tileId) const;
 	unsigned short GetNeighborIdsForTileAt(std::array<unsigned short, 4>& neighborIds, unsigned short tileId) const;
+	unsigned short GetNeighborIdForTileAt(const Vector2D<signed short>& direction, unsigned short tileX, unsigned short tileY) const;
+	unsigned short GetNeighborIdsForTileAt(std::array<unsigned short, 4>& neighborIds, unsigned short tileX, unsigned short tileY) const;
 };
 
 #endif // PLAY_GROUND_H
