@@ -21,8 +21,9 @@ void Player::Update(float deltaTime) {
 bool Player::Draw(int posX, int posY, float deltaTime) {
 	if (m_pCtrl) {
 		const auto& pos = m_pCtrl->GetPos();
-		posX = pos.x;
-		posY = pos.y;
+		
+		posX = std::lroundf(pos.x);
+		posY = std::lroundf(pos.y);
 	}
 
 	return m_sprite.Draw(posX, posY, AnimId::IdleLeft, deltaTime);

@@ -4,6 +4,7 @@
 #define PLAYER_CONTROL_H
 
 #include "BaseControl.hpp"
+#include <array>
 
 union SDL_Event;
 
@@ -16,6 +17,7 @@ public:
 
 private:
 	Vector2D<signed short> m_velocity{0, 0};
+	std::array<int, 5> m_keys{0};
 	unsigned short m_targetTileId{ 0 };
 };
 
