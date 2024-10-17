@@ -146,6 +146,10 @@
       <AdditionalLibraryDirectories>..\dep\SDL2\lib\x64;..\dep\SDL2_image\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>$(CoreLibraryDependencies);%(AdditionalDependencies);SDL2.lib;SDL2main.lib;SDL2_image.lib</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>copy /Y "$(SolutionDir)..\dep\SDL2\lib\$(PlatformName)\SDL2.dll" "$(TargetDir)SDL2.dll"
+copy /Y "$(SolutionDir)..\dep\SDL2_image\lib\$(PlatformName)\SDL2_image.dll" "$(TargetDir)SDL2_image.dll"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -166,6 +170,10 @@
       <AdditionalLibraryDirectories>..\dep\SDL2\lib\x64;..\dep\SDL2_image\lib\x64;</AdditionalLibraryDirectories>
       <AdditionalDependencies>$(CoreLibraryDependencies);%(AdditionalDependencies);SDL2.lib;SDL2main.lib;SDL2_image.lib</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>copy /Y "$(SolutionDir)..\dep\SDL2\lib\$(PlatformName)\SDL2.dll" "$(TargetDir)SDL2.dll"
+copy /Y "$(SolutionDir)..\dep\SDL2_image\lib\$(PlatformName)\SDL2_image.dll" "$(TargetDir)SDL2_image.dll"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
