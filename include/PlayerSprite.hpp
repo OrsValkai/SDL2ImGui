@@ -26,7 +26,7 @@ private:
 public:
 	PlayerSprite(SDL_Renderer* pRenderer, const char* pFilePath, unsigned width, unsigned height, unsigned nrSprites);
 	
-	bool Draw(int posX, int posY, AnimId animId, float deltaTime, const double angle=0, const SDL_RendererFlip flip=SDL_RendererFlip::SDL_FLIP_NONE);
+	bool Draw(int posX, int posY, AnimId animId, float deltaTime, const double angle=0);
 };
 
 #endif // PLAYER_SPRITE_H

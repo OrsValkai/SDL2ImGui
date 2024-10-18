@@ -21,6 +21,10 @@ const Vector2D<float>& BaseControl::GetPos() const {
 	return m_pos;
 }
 
+const Vector2D<signed short>& BaseControl::GetMoveDir() const {
+	return m_moveDir;
+}
+
 void BaseControl::Move(const Vector2D<signed short>& dir, float /*deltaTime*/) {
 	if (0 == dir.x && 0 == dir.y) {
 		m_potentialTargetTileId = std::numeric_limits<unsigned short>::max();
@@ -41,17 +45,20 @@ void BaseControl::Move(const Vector2D<signed short>& dir, float /*deltaTime*/) {
 	}
 }
 
-static inline bool BaseControl_StepTowards(float& valToStep, const float diff, const float step, float target) {
+static inline bool BaseControl_StepTowards(float& valToStep, signed short& moveDir, const float diff, const float step, float target) {
 	if (std::abs(diff) > step) {
 		if (diff >= 0.f) {
 			valToStep += step;
+			moveDir = 1;
 		}
 		else {
 			valToStep -= step;
+			moveDir = -1;
 		}
 	}
 	else {
 		valToStep = target;
+		moveDir = 0;
 		return true;
 	}
 
@@ -80,8 +87,8 @@ void BaseControl::Update(float deltaTime, IDrawable* pDrawable) {
 	float diffX = targetX - m_pos.x;
 	float diffY = targetY - m_pos.y;
 
-	if (float stepAmount = deltaTime * 0.1f; BaseControl_StepTowards(m_pos.x, diffX, stepAmount, targetX)
-		&& BaseControl_StepTowards(m_pos.y, diffY, stepAmount, targetY)) {
+	if (float stepAmount = deltaTime * 0.1f; BaseControl_StepTowards(m_pos.x, m_moveDir.x, diffX, stepAmount, targetX)
+		&& BaseControl_StepTowards(m_pos.y, m_moveDir.y, diffY, stepAmount, targetY)) {
 
 		m_currentTileId = m_targetTileId;
 	}

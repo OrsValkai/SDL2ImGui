@@ -12,6 +12,7 @@ class Player : public IDrawable
 private:
 	PlayerSprite m_sprite;
 	std::shared_ptr<BaseControl> m_pCtrl;
+	AnimId m_animId = AnimId::IdleBack;
 
 public:
 	Player(SDL_Renderer* pRenderer, const char* pFilePath, unsigned width, unsigned height, unsigned nrSprites);

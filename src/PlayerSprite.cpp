@@ -21,6 +21,7 @@ PlayerSprite::PlayerSprite(SDL_Renderer* pRenderer, const char* pFilePath, unsig
 	AddAnimOffset(92);
 }
 
-bool PlayerSprite::Draw(int posX, int posY, AnimId animId, float deltaTime, const double angle, const SDL_RendererFlip flip) {
-	return m_atlassedSprite->Draw(posX, posY, ComputeSpriteId(static_cast<unsigned char>(animId), deltaTime), angle, flip);
+bool PlayerSprite::Draw(int posX, int posY, AnimId animId, float deltaTime, const double angle) {
+
+	return m_atlassedSprite->Draw(posX, posY, ComputeSpriteId(static_cast<unsigned char>(animId), deltaTime), angle, SDL_FLIP_NONE);
 }
