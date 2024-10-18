@@ -58,7 +58,6 @@ static inline bool BaseControl_StepTowards(float& valToStep, signed short& moveD
 	}
 	else {
 		valToStep = target;
-		moveDir = 0;
 		return true;
 	}
 
@@ -73,6 +72,9 @@ void BaseControl::Update(float deltaTime, IDrawable* pDrawable) {
 	if (m_potentialTargetTileId < m_playGround.GetNrOfTiles() && m_targetTileId == m_currentTileId) {
 		m_targetTileId = m_potentialTargetTileId;
 		m_potentialTargetTileId = std::numeric_limits<unsigned short>::max();
+
+		m_moveDir.x = 0;
+		m_moveDir.y = 0;
 	}
 
 	if (m_targetTileId != m_currentTileId) {
@@ -82,6 +84,9 @@ void BaseControl::Update(float deltaTime, IDrawable* pDrawable) {
 
 		targetX = targetTileEntry.posX;
 		targetY = targetTileEntry.posY;
+	} else {
+		m_moveDir.x = 0;
+		m_moveDir.y = 0;
 	}
 	
 	float diffX = targetX - m_pos.x;
