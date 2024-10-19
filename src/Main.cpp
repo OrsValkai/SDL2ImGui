@@ -2,46 +2,23 @@
 
 #include <iostream>
 
+#include "Window.hpp"
 #include "Player.hpp"
 #include "PlayGround.hpp"
 #include "TimerHR.hpp"
 #include "PlayerControl.hpp"
 
-#include <vector>
-#include <array>
-#include <algorithm>
-
-
-
 int main(int /*argc*/, char* /*argv*/[]) {
-    SDL_Renderer* pRenderer = nullptr;
-    SDL_Window* pWindow = nullptr;
+    Window window;
+    int w{ 1920 };
+    int h{ 1080 };
 
-    if (0 != SDL_Init(SDL_INIT_TIMER | SDL_INIT_VIDEO)) {
+    if (false == window.Init(w, h, /*SDL_WINDOW_FULLSCREEN | SDL_WINDOW_BORDERLESS |*/ SDL_WINDOW_ALLOW_HIGHDPI, IMG_INIT_JPG | IMG_INIT_PNG)) {
         return EXIT_FAILURE;
     }
 
-    if (int imgFlags = IMG_INIT_JPG | IMG_INIT_PNG; imgFlags != IMG_Init(imgFlags)) {
-        SDL_Quit();
-
-        return EXIT_FAILURE;
-    }
-
-    if (0 != SDL_CreateWindowAndRenderer(1920, 1080, /*SDL_WINDOW_FULLSCREEN | SDL_WINDOW_BORDERLESS |*/ SDL_WINDOW_ALLOW_HIGHDPI, &pWindow, &pRenderer)) {
-        SDL_Quit();
-        IMG_Quit();
-        
-        return EXIT_FAILURE;
-    }
-
-    // For finding out DPI compare these 2
-    int w{ 0 };
-    int h{ 0 };
-    SDL_GetWindowSize(pWindow, &w, &h);
-    SDL_GetRendererOutputSize(pRenderer, &w, &h);
-
-    SDL_RenderSetVSync(pRenderer, 1);
-
+    SDL_Renderer* pRenderer = window.GetRenderer();
+    
     {
         auto pPlayGround = std::make_unique<PlayGround>(static_cast<unsigned short>(h), static_cast<unsigned short>(w), pRenderer, "EnvAtlas.png");
         auto pPlayerCtrl = std::make_shared<PlayerControl>(*pPlayGround, pPlayGround->GetTileId(1, 2));
@@ -82,9 +59,5 @@ int main(int /*argc*/, char* /*argv*/[]) {
         }
     }
 
-    IMG_Quit();
-    SDL_DestroyRenderer(pRenderer);
-    SDL_DestroyWindow(pWindow);
-    SDL_Quit();
     return EXIT_SUCCESS;
 }

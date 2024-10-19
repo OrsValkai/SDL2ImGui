@@ -35,8 +35,7 @@ bool Player::Draw(int posX, int posY, float deltaTime) {
 		} else if (dir.y < 0) {
 			m_animId = AnimId::WalkBack;
 		} else if (m_animId >= AnimId::WalkBack) {
-			unsigned char tmp = (unsigned char) m_animId;
-
+			auto tmp = (unsigned char) m_animId;
 			tmp -= (unsigned char)AnimId::WalkBack;
 			m_animId = (AnimId)tmp;
 		}

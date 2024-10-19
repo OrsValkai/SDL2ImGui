@@ -34,6 +34,9 @@
     <ClCompile Include="..\src\BaseControl.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\Window.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\WrapperHelpers.hpp">
@@ -79,6 +82,9 @@
       <Filter>inlcude</Filter>
     </ClInclude>
     <ClInclude Include="..\include\BaseControl.hpp">
+      <Filter>inlcude</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Window.hpp">
       <Filter>inlcude</Filter>
     </ClInclude>
   </ItemGroup>
