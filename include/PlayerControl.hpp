@@ -12,11 +12,11 @@ class PlayerControl : public BaseControl
 {
 public:
 	explicit PlayerControl(PlayGround& playGround, unsigned short startTileId);
-	void Update(float deltaTime, IDrawable* pDrawable) final;
+	void Update(float deltaTime, vo::IDrawable* pDrawable) final;
 	void OnEvent(const SDL_Event*);
 
 private:
-	Vector2D<signed short> m_velocity{0, 0};
+	vo::Vector2D<signed short> m_velocity{0, 0};
 	std::array<int, 5> m_keys{0};
 	unsigned short m_targetTileId{ 0 };
 };

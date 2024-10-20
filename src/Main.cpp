@@ -9,7 +9,7 @@
 #include "PlayerControl.hpp"
 
 int main(int /*argc*/, char* /*argv*/[]) {
-    Window window;
+    vo::Window window;
     int w{ 1920 };
     int h{ 1080 };
 
@@ -20,9 +20,9 @@ int main(int /*argc*/, char* /*argv*/[]) {
     SDL_Renderer* pRenderer = window.GetRenderer();
     
     {
-        auto pPlayGround = std::make_unique<PlayGround>(static_cast<unsigned short>(h), static_cast<unsigned short>(w), pRenderer, "EnvAtlas.png");
+        auto pPlayGround = std::make_unique<PlayGround>(static_cast<unsigned short>(w), static_cast<unsigned short>(h), pRenderer, "EnvAtlas.png");
         auto pPlayerCtrl = std::make_shared<PlayerControl>(*pPlayGround, pPlayGround->GetTileId(1, 2));
-        TimerHR timerHR;
+        vo::TimerHR timerHR;
        
         //Player player1(pRenderer, "Combined64.png_", 64, 56, 160);
         Player player1(pRenderer, "Combined64.png", 64, 102, 160);

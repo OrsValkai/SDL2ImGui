@@ -4,7 +4,7 @@
 
 PlayerSprite::PlayerSprite(SDL_Renderer* pRenderer, const char* pFilePath, unsigned width, unsigned height, unsigned nrSprites)
 : SpriteAnimator(20) {
-	m_atlassedSprite = std::make_shared<AtlassedSpriteU>(pRenderer, pFilePath, width, height, nrSprites);
+	m_atlassedSprite = std::make_shared<vo::AtlassedSpriteU>(pRenderer, pFilePath, width, height, nrSprites);
 
 	SetSpriteIdPattern({ 0, 1, 2, 3, 16, 17, 18, 19, 32, 33, 34, 35, 48, 49, 50, 51, 64, 65, 66, 67 });
 

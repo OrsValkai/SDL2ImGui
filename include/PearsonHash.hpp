@@ -1,9 +1,13 @@
-#ifndef PEARSON_HASH_H
-#define PEARSON_HASH_H
+#ifndef VO_PEARSON_HASH_H
+#define VO_PEARSON_HASH_H
 
-class Pearson {
-	static unsigned char Hash(const char*);
-};
+namespace vo {
 
-#endif // PEARSON_HASH_H
+	class Pearson {
+		static unsigned char Hash(const char*);
+	};
+
+}
+
+#endif // VO_PEARSON_HASH_H
 

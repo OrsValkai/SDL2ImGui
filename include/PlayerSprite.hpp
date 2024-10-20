@@ -19,9 +19,9 @@ enum class AnimId : unsigned char
 	AnimIdsCount
 };
 
-class PlayerSprite : public SpriteAnimator<unsigned char> {
+class PlayerSprite : public vo::SpriteAnimator<unsigned char> {
 private:
-	std::shared_ptr<AtlassedSpriteU> m_atlassedSprite;
+	std::shared_ptr<vo::AtlassedSpriteU> m_atlassedSprite;
 
 public:
 	PlayerSprite(SDL_Renderer* pRenderer, const char* pFilePath, unsigned width, unsigned height, unsigned nrSprites);

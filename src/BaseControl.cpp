@@ -17,15 +17,15 @@ BaseControl::BaseControl(PlayGround& playGround, unsigned short startTileId) : m
 	}
 }
 
-const Vector2D<float>& BaseControl::GetPos() const {
+const vo::Vector2D<float>& BaseControl::GetPos() const {
 	return m_pos;
 }
 
-const Vector2D<signed short>& BaseControl::GetMoveDir() const {
+const vo::Vector2D<signed short>& BaseControl::GetMoveDir() const {
 	return m_moveDir;
 }
 
-void BaseControl::Move(const Vector2D<signed short>& dir, float /*deltaTime*/) {
+void BaseControl::Move(const vo::Vector2D<signed short>& dir, float /*deltaTime*/) {
 	if (0 == dir.x && 0 == dir.y) {
 		m_potentialTargetTileId = std::numeric_limits<unsigned short>::max();
 		return;
@@ -64,7 +64,7 @@ static inline bool BaseControl_StepTowards(float& valToStep, signed short& moveD
 	return false;
 }
 
-void BaseControl::Update(float deltaTime, IDrawable* pDrawable) {
+void BaseControl::Update(float deltaTime, vo::IDrawable* pDrawable) {
 	const auto& curTileEntry = m_playGround.GetTileAt(m_currentTileId);
 	float targetX = curTileEntry.posX;
 	float targetY = curTileEntry.posY;

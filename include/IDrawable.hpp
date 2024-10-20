@@ -1,15 +1,19 @@
-#ifndef IDRAWABLE_H
-#define IDRAWABLE_H
+#ifndef VO_IDRAWABLE_H
+#define VO_IDRAWABLE_H
 
-class IDrawable
-{
-public:
-	IDrawable* m_pNextDrawable{nullptr};
+namespace vo {
 
-	IDrawable& operator=(const IDrawable&) = delete;
-	virtual bool Draw(int posX, int posY, float deltaTime) = 0;
-	virtual ~IDrawable() = default;
-};
+	class IDrawable
+	{
+	public:
+		IDrawable* m_pNextDrawable{ nullptr };
 
-#endif // IDRAWABLE_H
+		IDrawable& operator=(const IDrawable&) = delete;
+		virtual bool Draw(int posX, int posY, float deltaTime) = 0;
+		virtual ~IDrawable() = default;
+	};
+
+}
+
+#endif // VO_IDRAWABLE_H
 

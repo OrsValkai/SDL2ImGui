@@ -5,22 +5,26 @@
 
 #include <chrono>
 
-class TimerHR
-{
-public:
-    TimerHR();
-    void Start();
-    float StartMS();
-    void Mark();
-    long long MarkUS();
-    float MarkMS();
-    long long US() const;
-    float MS() const;
+namespace vo {
 
-private:
-    std::chrono::high_resolution_clock::time_point m_start;
-    std::chrono::high_resolution_clock::time_point m_mark;
-};
+    class TimerHR
+    {
+    public:
+        TimerHR();
+        void Start();
+        float StartMS();
+        void Mark();
+        long long MarkUS();
+        float MarkMS();
+        long long US() const;
+        float MS() const;
+
+    private:
+        std::chrono::high_resolution_clock::time_point m_start;
+        std::chrono::high_resolution_clock::time_point m_mark;
+    };
+
+}
 
 #endif // VO_TIMER_HR_H
 

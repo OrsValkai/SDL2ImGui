@@ -7,7 +7,7 @@ PlayerControl::PlayerControl(PlayGround& playGround, unsigned short startTileId)
     : BaseControl(playGround, startTileId), m_keys({SDLK_LEFT, SDLK_RIGHT, SDLK_UP, SDLK_DOWN, SDLK_LCTRL}) {
 }
 
-void PlayerControl::Update(float deltaTime, IDrawable* pDrawable) {
+void PlayerControl::Update(float deltaTime, vo::IDrawable* pDrawable) {
     Move(m_velocity, deltaTime);
 
     BaseControl::Update(deltaTime, pDrawable);

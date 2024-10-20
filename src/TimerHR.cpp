@@ -2,46 +2,50 @@
 
 #include "TimerHR.hpp"
 
-TimerHR::TimerHR() {
-    // Initialize so we always get a valid read
-    TimerHR::Start();
-    m_mark = m_start;
-}
+namespace vo {
 
-void TimerHR::Start() {
-    m_start = std::chrono::high_resolution_clock::now();
-}
+    TimerHR::TimerHR() {
+        // Initialize so we always get a valid read
+        TimerHR::Start();
+        m_mark = m_start;
+    }
 
-float TimerHR::StartMS() {
-    float retVal = MarkMS();
+    void TimerHR::Start() {
+        m_start = std::chrono::high_resolution_clock::now();
+    }
 
-    m_start = m_mark;
+    float TimerHR::StartMS() {
+        float retVal = MarkMS();
 
-    return retVal;
-}
+        m_start = m_mark;
 
-void TimerHR::Mark() {
-    m_mark = std::chrono::high_resolution_clock::now();
-}
+        return retVal;
+    }
 
-long long TimerHR::MarkUS() {
-    Mark();
+    void TimerHR::Mark() {
+        m_mark = std::chrono::high_resolution_clock::now();
+    }
 
-    return std::chrono::duration_cast<std::chrono::microseconds>(m_mark - m_start).count();
-}
+    long long TimerHR::MarkUS() {
+        Mark();
 
-float TimerHR::MarkMS() {
-    Mark();
+        return std::chrono::duration_cast<std::chrono::microseconds>(m_mark - m_start).count();
+    }
 
-    return std::chrono::duration<float, std::milli>(m_mark - m_start).count();
-}
+    float TimerHR::MarkMS() {
+        Mark();
 
-long long TimerHR::US() const
-{
-    return std::chrono::duration_cast<std::chrono::microseconds>(m_mark - m_start).count();
-}
+        return std::chrono::duration<float, std::milli>(m_mark - m_start).count();
+    }
 
-float TimerHR::MS() const
-{
-    return std::chrono::duration<float, std::milli>(m_mark - m_start).count();
+    long long TimerHR::US() const
+    {
+        return std::chrono::duration_cast<std::chrono::microseconds>(m_mark - m_start).count();
+    }
+
+    float TimerHR::MS() const
+    {
+        return std::chrono::duration<float, std::milli>(m_mark - m_start).count();
+    }
+
 }

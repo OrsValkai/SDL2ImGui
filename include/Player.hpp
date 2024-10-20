@@ -7,7 +7,7 @@
 #include "IDrawable.hpp"
 #include "BaseControl.hpp"
 
-class Player : public IDrawable
+class Player : public vo::IDrawable
 {
 private:
 	PlayerSprite m_sprite;

@@ -3,7 +3,7 @@
 #ifndef TILE_ENTRY_H
 #define TILE_ENTRY_H
 
-class IDrawable;
+#include "IDrawable.hpp"
 
 struct TileEntry
 {
@@ -33,7 +33,7 @@ public:
     unsigned int m_flags{0};
     signed short posX{0};
     signed short posY{0};
-    IDrawable* pDrawable{nullptr};
+    vo::IDrawable* pDrawable{nullptr};
 
     unsigned int GetFlags() const;
     bool HasFlagAll(Flags flag) const;

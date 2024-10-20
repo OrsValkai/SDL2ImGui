@@ -1,7 +1,7 @@
 // Copyright(c) 2024 Valkai-Németh Béla-Örs
 
-#ifndef SPRITE_ANIMATOR_H
-#define SPRITE_ANIMATOR_H
+#ifndef VO_SPRITE_ANIMATOR_H
+#define VO_SPRITE_ANIMATOR_H
 
 #include <vector>
 
@@ -13,25 +13,29 @@
 // class in the header. In c++11 and newer you can declare template implementations
 // as extern, so you debloat compile times.
 
-template <typename T>
-class SpriteAnimator {
-private:
-	std::vector<T> m_spriteIdPattern;
-	std::vector<T> m_animOffset;
-	float m_accTime = 0.f;
-	int m_targetFPS;
-	unsigned short m_curPatternId = 0;
-	unsigned short m_lastAnimId = 257;
+namespace vo {
 
-public:
-	explicit SpriteAnimator(const int targetFPS);
+	template <typename T>
+	class SpriteAnimator {
+	private:
+		std::vector<T> m_spriteIdPattern;
+		std::vector<T> m_animOffset;
+		float m_accTime = 0.f;
+		int m_targetFPS;
+		unsigned short m_curPatternId = 0;
+		unsigned short m_lastAnimId = 257;
 
-	void SetSpriteIdPattern(std::vector<T>&& pattern);
+	public:
+		explicit SpriteAnimator(const int targetFPS);
 
-	void AddAnimOffset(const T offset);
+		void SetSpriteIdPattern(std::vector<T>&& pattern);
 
-	int ComputeSpriteId(unsigned char animId, float deltaTime);
-};
+		void AddAnimOffset(const T offset);
 
-#endif // SPRITE_ANIMATOR_H
+		int ComputeSpriteId(unsigned char animId, float deltaTime);
+	};
+
+}
+
+#endif // VO_SPRITE_ANIMATOR_H
 
