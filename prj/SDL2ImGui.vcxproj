@@ -30,7 +30,7 @@
     <ClCompile Include="..\src\PlayGround.cpp" />
     <ClCompile Include="..\src\SpriteAnimator.cpp" />
     <ClCompile Include="..\src\TimerHR.cpp" />
-    <ClCompile Include="..\src\Window.cpp" />
+    <ClCompile Include="..\src\Application.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\AtlassedSpriteBase.hpp" />
@@ -47,7 +47,7 @@
     <ClInclude Include="..\include\TileEntry.hpp" />
     <ClInclude Include="..\include\TimerHR.hpp" />
     <ClInclude Include="..\include\Vector2D.hpp" />
-    <ClInclude Include="..\include\Window.hpp" />
+    <ClInclude Include="..\include\Application.hpp" />
     <ClInclude Include="..\include\WrapperHelpers.hpp" />
   </ItemGroup>
   <ItemGroup>

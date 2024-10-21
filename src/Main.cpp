@@ -2,62 +2,67 @@
 
 #include <iostream>
 
-#include "Window.hpp"
+#include "Application.hpp"
 #include "Player.hpp"
 #include "PlayGround.hpp"
 #include "TimerHR.hpp"
 #include "PlayerControl.hpp"
 
-static inline void GameLoop(SDL_Renderer* pRenderer, unsigned short windowW, unsigned short windowH) {
-    auto pPlayGround = std::make_unique<PlayGround>(windowW, windowH, pRenderer, "EnvAtlas.png");
-    auto pPlayerCtrl = std::make_shared<PlayerControl>(*pPlayGround, pPlayGround->GetTileId(1, 2));
-    vo::TimerHR timerHR;
+class GameApp : public vo::Application
+{
+public:
 
-    //Player player1(pRenderer, "Combined64.png_", 64, 56, 160);
-    Player player1(pRenderer, "Combined64.png", 64, 102, 160);
+    void MainLoop() const {
+        auto pRenderer = GetRenderer();
+        auto pPlayGround = std::make_unique<PlayGround>(GetWindowWidth(), GetWindowHeight(), pRenderer, "EnvAtlas.png");
+        auto pPlayerCtrl = std::make_shared<PlayerControl>(*pPlayGround, pPlayGround->GetTileId(1, 2));
+        vo::TimerHR timerHR;
 
-    //timerHR.Start();
-    Player player2(player1);
-    //std::cout << "Make texture took: " << timerHR.MarkUS() << "us\n";
+        //Player player1(pRenderer, "Combined64.png_", 64, 56, 160);
+        Player player1(pRenderer, "Combined64.png", 64, 102, 160);
 
-    player1.AddControl(pPlayerCtrl);
-    player2.AddControl(std::make_shared<PlayerControl>(*pPlayGround, pPlayGround->GetTileId(5, 4)));
+        //timerHR.Start();
+        Player player2(player1);
+        //std::cout << "Make texture took: " << timerHR.MarkUS() << "us\n";
 
-    bool shouldExit = false;
-    timerHR.Start(); // start to clear time spent before
-    while (false == shouldExit) {
-        float deltaTime = timerHR.StartMS(); // read time spent in loop and restart
-        SDL_Event event;
+        player1.AddControl(pPlayerCtrl);
+        player2.AddControl(std::make_shared<PlayerControl>(*pPlayGround, pPlayGround->GetTileId(5, 4)));
 
-        while (SDL_PollEvent(&event)) {
-            if (SDL_QUIT == event.type)
-                shouldExit = true;
-            else
-                pPlayerCtrl->OnEvent(&event);
+        bool shouldExit = false;
+        timerHR.Start(); // start to clear time spent before
+        while (false == shouldExit) {
+            float deltaTime = timerHR.StartMS(); // read time spent in loop and restart
+            SDL_Event event;
+
+            while (SDL_PollEvent(&event)) {
+                if (SDL_QUIT == event.type)
+                    shouldExit = true;
+                else
+                    pPlayerCtrl->OnEvent(&event);
+            }
+
+            player1.Update(deltaTime);
+            player2.Update(deltaTime);
+
+            SDL_SetRenderDrawColor(pRenderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
+            SDL_RenderClear(pRenderer);
+
+            pPlayGround->Draw(deltaTime);
+
+            SDL_RenderPresent(pRenderer);
         }
-
-        player1.Update(deltaTime);
-        player2.Update(deltaTime);
-
-        SDL_SetRenderDrawColor(pRenderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
-        SDL_RenderClear(pRenderer);
-
-        pPlayGround->Draw(deltaTime);
-
-        SDL_RenderPresent(pRenderer);
     }
-}
+};
 
 int main(int /*argc*/, char* /*argv*/[]) {
-    vo::Window window;
-    int w{ 1920 };
-    int h{ 1080 };
+    GameApp app;
 
-    if (false == window.Init(w, h, /*SDL_WINDOW_FULLSCREEN | SDL_WINDOW_BORDERLESS |*/ SDL_WINDOW_ALLOW_HIGHDPI, IMG_INIT_JPG | IMG_INIT_PNG)) {
+    if (false == app.Init(1920, 1080, /*SDL_WINDOW_FULLSCREEN | SDL_WINDOW_BORDERLESS |*/ SDL_WINDOW_ALLOW_HIGHDPI, IMG_INIT_JPG | IMG_INIT_PNG)) {
         return EXIT_FAILURE;
     }
 
-    GameLoop(window.GetRenderer(), static_cast<unsigned short>(w), static_cast<unsigned short>(h));
+    app.SetWindowName("SDL Game");
+    app.MainLoop();
 
     return EXIT_SUCCESS;
 }

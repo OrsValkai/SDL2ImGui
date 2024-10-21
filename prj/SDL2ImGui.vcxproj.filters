@@ -34,7 +34,7 @@
     <ClCompile Include="..\src\BaseControl.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\Window.cpp">
+    <ClCompile Include="..\src\Application.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
@@ -66,9 +66,6 @@
     <ClInclude Include="..\include\PearsonHash.hpp">
       <Filter>inlcude</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\Vector2D.hpp">
-      <Filter>inlcude</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\IDrawable.hpp">
       <Filter>inlcude</Filter>
     </ClInclude>
@@ -84,7 +81,10 @@
     <ClInclude Include="..\include\BaseControl.hpp">
       <Filter>inlcude</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\Window.hpp">
+    <ClInclude Include="..\include\Application.hpp">
+      <Filter>inlcude</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Vector2D.hpp">
       <Filter>inlcude</Filter>
     </ClInclude>
   </ItemGroup>

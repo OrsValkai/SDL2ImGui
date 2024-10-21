@@ -1,12 +1,11 @@
 // Copyright(c) 2024 Valkai-Németh Béla-Örs
 
-#include "Window.hpp"
+#include "Application.hpp"
 #include <SDL_image.h>
 
 namespace vo {
 
-    bool Window::Init(int width, int height, Uint32 flags, int imgFlags)
-    {
+    bool Application::Init(int width, int height, Uint32 flags, int imgFlags) {
         if (0 != SDL_Init(SDL_INIT_TIMER | SDL_INIT_VIDEO)) {
             return false;
         }
@@ -32,19 +31,19 @@ namespace vo {
         //SDL_GetWindowSize(m_pWindow, &w, &h);
         //SDL_GetRendererOutputSize(m_pRenderer, &w, &h);
 
-        SDL_RenderSetVSync(m_pRenderer, 1);
+        m_wWidth = static_cast<unsigned short>(width);
+        m_wHeight = static_cast<unsigned short>(height);
 
+        SDL_RenderSetVSync(m_pRenderer, 1);
 
         return true;
     }
 
-    SDL_Renderer* Window::GetRenderer()
-    {
-        return m_pRenderer;
+    void Application::SetWindowName(const char* pName) {
+        SDL_SetWindowTitle(m_pWindow, pName);
     }
 
-    Window::~Window()
-    {
+    Application::~Application() {
         if (nullptr == m_pWindow)
             return;
 
