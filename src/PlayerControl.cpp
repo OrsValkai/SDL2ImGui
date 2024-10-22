@@ -46,8 +46,8 @@ void PlayerControl::OnEvent(const SDL_Event* pEvent) {
             } else if (pEvent->key.keysym.sym == m_keys[2]) {
                 if (m_velocity.y < 0)
                     m_velocity.y = 0;
-            } else if (pEvent->key.keysym.sym == m_keys[3]) {
-                if (m_velocity.y > 0)
+            } else if (pEvent->key.keysym.sym == m_keys[3]
+                && m_velocity.y > 0) {
                     m_velocity.y = 0;
             }
             break;

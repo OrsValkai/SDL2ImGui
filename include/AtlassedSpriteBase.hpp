@@ -15,6 +15,7 @@ namespace vo {
 
 	public:
 		AtlassedSpriteBase(SDL_Renderer* pRenderer, const char* pFilePath, unsigned nrSprites);
+		AtlassedSpriteBase(SDL_Renderer* pRenderer, SDL_Surface& surface, unsigned nrSprites);
 		AtlassedSpriteBase(const AtlassedSpriteBase&) = delete;
 		AtlassedSpriteBase& operator=(const AtlassedSpriteBase&) = delete;
 		virtual bool Draw(int posX, int posY, unsigned spriteId, const double angle, const SDL_RendererFlip flip) = 0;

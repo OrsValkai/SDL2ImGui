@@ -14,6 +14,15 @@ namespace vo {
 		}
 	}
 
+	AtlassedSpriteU::AtlassedSpriteU(SDL_Renderer* pRenderer, SDL_Surface& surface, unsigned nrSprites)
+		: AtlassedSpriteBase(pRenderer, surface, nrSprites), m_width(surface.w), m_height(surface.h) {
+
+		if (ReadTextureExtents(m_nrRows, m_nrColumns)) {
+			m_nrRows = std::max(1, m_nrRows / m_width);
+			m_nrColumns = m_nrColumns / m_height;
+		}
+	}
+
 	bool AtlassedSpriteU::Draw(int posX, int posY, unsigned spriteId, const double angle, const SDL_RendererFlip flip) {
 		if (!IsValidSpriteId(spriteId))
 			return false;

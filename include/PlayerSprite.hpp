@@ -25,7 +25,8 @@ private:
 
 public:
 	PlayerSprite(SDL_Renderer* pRenderer, const char* pFilePath, unsigned width, unsigned height, unsigned nrSprites);
-	
+	PlayerSprite(SDL_Renderer* pRenderer, SDL_Surface& surface, unsigned nrSprites);
+
 	bool Draw(int posX, int posY, AnimId animId, float deltaTime, const double angle=0);
 };
 
