@@ -37,7 +37,9 @@ void BaseControl::Move(const vo::Vector2D<signed short>& dir, float /*deltaTime*
 		if (tileEntry.HasFlagAny(TileEntry::Flags::Destroyable) || !tileEntry.HasFlagAny(TileEntry::Flags::Occupied)) {
 			if (nId == m_currentTileId) {
 				m_potentialTargetTileId = std::numeric_limits<unsigned short>::max();
-				m_targetTileId = m_currentTileId;
+				m_currentTileId = m_targetTileId;
+				m_targetTileId = nId;
+				m_activeStepper = nullptr;
 			} else {
 				m_potentialTargetTileId = nId;
 			}
@@ -45,8 +47,9 @@ void BaseControl::Move(const vo::Vector2D<signed short>& dir, float /*deltaTime*
 	}
 }
 
-static inline bool BaseControl_StepTowards(float& valToStep, signed short& moveDir, const float diff, const float step, float target) {
-	if (std::abs(diff) > step) {
+float BaseControl::StepTowards(float& valToStep, signed short& moveDir, const float target, const float step) {
+	float diff = target - valToStep;
+	if (float aDiff = std::abs(diff); aDiff > step) {
 		if (diff >= 0.f) {
 			valToStep += step;
 			moveDir = 1;
@@ -58,23 +61,18 @@ static inline bool BaseControl_StepTowards(float& valToStep, signed short& moveD
 	}
 	else {
 		valToStep = target;
-		return true;
+		return step - aDiff;
 	}
 
-	return false;
+	return 0.f;
 }
 
-void BaseControl::Update(float deltaTime, vo::IDrawable* pDrawable) {
-	const auto& curTileEntry = m_playGround.GetTileAt(m_currentTileId);
-	float targetX = curTileEntry.posX;
-	float targetY = curTileEntry.posY;
+void BaseControl::UpdateInternal(float _step, vo::IDrawable* pDrawable) {
+	auto& curTileEntry = m_playGround.GetTileAt(m_currentTileId);
 
 	if (m_potentialTargetTileId < m_playGround.GetNrOfTiles() && m_targetTileId == m_currentTileId) {
 		m_targetTileId = m_potentialTargetTileId;
 		m_potentialTargetTileId = std::numeric_limits<unsigned short>::max();
-
-		m_moveDir.x = 0;
-		m_moveDir.y = 0;
 	}
 
 	if (m_targetTileId != m_currentTileId) {
@@ -82,22 +80,41 @@ void BaseControl::Update(float deltaTime, vo::IDrawable* pDrawable) {
 
 		targetTileEntry.m_flags = 0;
 
-		targetX = targetTileEntry.posX;
-		targetY = targetTileEntry.posY;
+		if (nullptr == m_activeStepper) {
+			float xDiff = std::abs(targetTileEntry.posX - m_pos.x);
+			float yDiff = std::abs(targetTileEntry.posY - m_pos.y);
+
+			if (xDiff > yDiff) {
+				float target = targetTileEntry.posX;
+				m_activeStepper = [this, target](const float step) {
+					return StepTowards(m_pos.x, m_moveDir.x, target, step);
+				};
+				m_moveDir.y = 0;
+			} else {
+				float target = targetTileEntry.posY;
+				m_activeStepper = [this, target](const float step) {
+					return StepTowards(m_pos.y, m_moveDir.y, target, step);
+				};
+				m_moveDir.x = 0;
+			}
+		}
+
+		float stepLeft = m_activeStepper(_step);
+		if (stepLeft > 0.0001f) {
+			m_currentTileId = m_targetTileId;
+			m_activeStepper = nullptr;
+
+			UpdateInternal(stepLeft, pDrawable);
+			return;
+		}
 	} else {
 		m_moveDir.x = 0;
 		m_moveDir.y = 0;
 	}
-	
-	float diffX = targetX - m_pos.x;
-	float diffY = targetY - m_pos.y;
 
-	if (float stepAmount = deltaTime * 0.1f; BaseControl_StepTowards(m_pos.x, m_moveDir.x, diffX, stepAmount, targetX)
-		&& BaseControl_StepTowards(m_pos.y, m_moveDir.y, diffY, stepAmount, targetY)) {
+	curTileEntry.pDrawable = pDrawable;
+}
 
-		m_currentTileId = m_targetTileId;
-	}
-
-	auto& tileEntry = m_playGround.GetTileAt(m_currentTileId);
-	tileEntry.pDrawable = pDrawable;
+void BaseControl::Update(float deltaTime, vo::IDrawable* pDrawable) {
+	UpdateInternal(0.1f * deltaTime, pDrawable);
 }
