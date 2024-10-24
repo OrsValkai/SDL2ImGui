@@ -25,6 +25,11 @@ const vo::Vector2D<signed short>& BaseControl::GetMoveDir() const {
 	return m_moveDir;
 }
 
+void BaseControl::SetMovementSpeed(const float speed)
+{
+	m_movementSpeed = speed;
+}
+
 void BaseControl::Move(const vo::Vector2D<signed short>& dir, float /*deltaTime*/) {
 	if (0 == dir.x && 0 == dir.y) {
 		m_potentialTargetTileId = std::numeric_limits<unsigned short>::max();
@@ -116,5 +121,5 @@ void BaseControl::UpdateInternal(float _step, vo::IDrawable* pDrawable) {
 }
 
 void BaseControl::Update(float deltaTime, vo::IDrawable* pDrawable) {
-	UpdateInternal(0.1f * deltaTime, pDrawable);
+	UpdateInternal(m_movementSpeed * deltaTime, pDrawable);
 }
