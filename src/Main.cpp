@@ -8,6 +8,9 @@
 #include "TimerHR.hpp"
 #include "PlayerControl.hpp"
 
+#include <fstream>
+#include <string>
+
 class GameApp : public vo::Application
 {
 public:
@@ -54,10 +57,67 @@ public:
     }
 };
 
+class AppSettings {
+public:
+    int wWidth = 0;
+    int wHeight = 0;
+    bool isFullScreen = false;
+    bool isBorderless = false;
+
+    explicit AppSettings(const char* iniFilePath) {
+        std::ifstream file(iniFilePath);
+
+        if (file.is_open()) {
+            std::string readStr = "Dummy string to preallocate";
+
+            while (!file.eof()) {
+                std::getline(file, readStr);
+
+                if ('[' == readStr[0])
+                    continue;
+
+                if (std::string::npos != readStr.find("width")) {
+                    wWidth = GetValue(readStr);
+                } else if (std::string::npos != readStr.find("height")) {
+                    wHeight = GetValue(readStr);
+                } else if (std::string::npos != readStr.find("fullscreen")) {
+                    isFullScreen = 0 != GetValue(readStr);
+                } else if (std::string::npos != readStr.find("borderless")) {
+                    isBorderless = 0 != GetValue(readStr);
+                }
+            }
+        }
+    }
+
+    Uint32 ToWindowFlags() const {
+        Uint32 flags = SDL_WINDOW_ALLOW_HIGHDPI;
+
+        if (isFullScreen)
+            flags |= SDL_WINDOW_FULLSCREEN;
+
+        if (isBorderless)
+            flags |= SDL_WINDOW_BORDERLESS;
+
+        return flags;
+    }
+
+private:
+    int GetValue(const std::string& str) const {
+        for (size_t i = str.size() - 1; i > 0; --i) {
+            if (!isdigit(str[i])) {
+                return atoi(str.substr(i+1, str.size()-i).c_str());
+            }
+        }
+
+        return 0;
+    }
+};
+
 int main(int /*argc*/, char* /*argv*/[]) {
+    AppSettings appSettings("App.ini");
     GameApp app;
 
-    if (false == app.Init(1920, 1080, /*SDL_WINDOW_FULLSCREEN | SDL_WINDOW_BORDERLESS |*/ SDL_WINDOW_ALLOW_HIGHDPI, IMG_INIT_JPG | IMG_INIT_PNG)) {
+    if (false == app.Init(appSettings.wWidth, appSettings.wHeight, appSettings.ToWindowFlags(), IMG_INIT_JPG | IMG_INIT_PNG)) {
         return EXIT_FAILURE;
     }
 
