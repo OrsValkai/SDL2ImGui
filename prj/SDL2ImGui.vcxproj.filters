@@ -37,6 +37,9 @@
     <ClCompile Include="..\src\Application.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\AppSettings.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\WrapperHelpers.hpp">
@@ -85,6 +88,9 @@
       <Filter>inlcude</Filter>
     </ClInclude>
     <ClInclude Include="..\include\Vector2D.hpp">
+      <Filter>inlcude</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\AppSettings.hpp">
       <Filter>inlcude</Filter>
     </ClInclude>
   </ItemGroup>

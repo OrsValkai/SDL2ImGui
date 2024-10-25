@@ -1,6 +1,8 @@
 #ifndef VO_APPLICATION_H
 #define VO_APPLICATION_H
 
+#include "AppSettings.hpp"
+
 #include <SDL.h>
 
 namespace vo {
@@ -21,7 +23,7 @@ namespace vo {
 		unsigned short GetWindowWidth() const;
 		unsigned short GetWindowHeight() const;
 
-		bool Init(int windowWidth, int windowHeight, Uint32 flags, int imgFlags);
+		bool Init(const vo::AppSettings& appSettings, int imgFlags);
 		void SetWindowName(const char* pName);
 		~Application();
 	};

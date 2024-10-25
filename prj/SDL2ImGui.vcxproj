@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\src\AppSettings.cpp" />
     <ClCompile Include="..\src\AtlassedSpriteBase.cpp" />
     <ClCompile Include="..\src\AtlassedSpriteU.cpp" />
     <ClCompile Include="..\src\BaseControl.cpp" />
@@ -33,6 +34,7 @@
     <ClCompile Include="..\src\Application.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\AppSettings.hpp" />
     <ClInclude Include="..\include\AtlassedSpriteBase.hpp" />
     <ClInclude Include="..\include\AtlassedSpriteU.hpp" />
     <ClInclude Include="..\include\BaseControl.hpp" />

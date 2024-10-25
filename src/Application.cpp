@@ -5,7 +5,7 @@
 
 namespace vo {
 
-    bool Application::Init(int width, int height, Uint32 flags, int imgFlags) {
+    bool Application::Init(const vo::AppSettings& appSettings, int imgFlags) {
         if (0 != SDL_Init(SDL_INIT_TIMER | SDL_INIT_VIDEO)) {
             return false;
         }
@@ -16,7 +16,7 @@ namespace vo {
             return false;
         }
 
-        if (0 != SDL_CreateWindowAndRenderer(width, height, flags, &m_pWindow, &m_pRenderer)) {
+        if (0 != SDL_CreateWindowAndRenderer(appSettings.wWidth, appSettings.wHeight, appSettings.ToWindowFlags(), &m_pWindow, &m_pRenderer)) {
             SDL_Quit();
             IMG_Quit();
 
@@ -31,8 +31,8 @@ namespace vo {
         //SDL_GetWindowSize(m_pWindow, &w, &h);
         //SDL_GetRendererOutputSize(m_pRenderer, &w, &h);
 
-        m_wWidth = static_cast<unsigned short>(width);
-        m_wHeight = static_cast<unsigned short>(height);
+        m_wWidth = static_cast<unsigned short>(appSettings.wWidth);
+        m_wHeight = static_cast<unsigned short>(appSettings.wHeight);
 
         SDL_RenderSetVSync(m_pRenderer, 1);
 
