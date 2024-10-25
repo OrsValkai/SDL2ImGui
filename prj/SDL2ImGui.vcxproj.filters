@@ -1,13 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="..\src\AtlassedSpriteBase.cpp">
+    <ClCompile Include="..\src\TextureAtlasBase.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\AtlassedSpriteU.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\PlayerSprite.cpp">
+    <ClCompile Include="..\src\TextureAtlasU.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\src\PlayGround.cpp">
@@ -45,13 +42,10 @@
     <ClInclude Include="..\include\WrapperHelpers.hpp">
       <Filter>inlcude</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\AtlassedSpriteBase.hpp">
+    <ClInclude Include="..\include\TextureAtlasBase.hpp">
       <Filter>inlcude</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\AtlassedSpriteU.hpp">
-      <Filter>inlcude</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\PlayerSprite.hpp">
+    <ClInclude Include="..\include\TextureAtlasU.hpp">
       <Filter>inlcude</Filter>
     </ClInclude>
     <ClInclude Include="..\include\PlayGround.hpp">
@@ -95,7 +89,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\include\AtlassedSpriteBase.inl">
+    <None Include="..\include\TextureAtlasBase.inl">
       <Filter>inlcude</Filter>
     </None>
   </ItemGroup>

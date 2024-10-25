@@ -5,13 +5,13 @@
 
 #include <vector>
 #include "TileEntry.hpp"
-#include "AtlassedSpriteU.hpp"
+#include "TextureAtlasU.hpp"
 #include "Vector2D.hpp"
 
 class PlayGround
 {
 	std::vector<TileEntry> m_tiles;
-	vo::AtlassedSpriteU m_tileSprite;
+	vo::TextureAtlasU m_tileSprite;
 	unsigned short m_height{0};
 	unsigned short m_width{0};
 

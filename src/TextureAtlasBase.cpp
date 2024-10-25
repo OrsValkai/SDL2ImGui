@@ -1,10 +1,10 @@
 // Copyright(c) 2024 Valkai-Németh Béla-Örs
 
-#include "AtlassedSpriteBase.hpp"
+#include "TextureAtlasBase.hpp"
 #include <SDL_pixels.h>
 
 namespace vo {
-	static inline void AtlassedSpriteBase_CreateDummyTexture(SDL_Renderer* pRenderer, SDL_TextureUniquePtr& upTexture) {
+	static inline void TextureAtlasBase_CreateDummyTexture(SDL_Renderer* pRenderer, SDL_TextureUniquePtr& upTexture) {
 		// Create a 1 pixel placeholder pink texture instead that will be streched to the size of the
 		// missing sprite texture
 		Uint32 pixel = 0xFFFF00FF;
@@ -15,29 +15,29 @@ namespace vo {
 		SDL_assert(false && "Failed to create texture!");
 	}
 
-	AtlassedSpriteBase::AtlassedSpriteBase(SDL_Renderer* pRenderer, const char* pFilePath, unsigned nrSprites)
-		: m_pRenderer(pRenderer), m_nrSprites(nrSprites) {
+	TextureAtlasBase::TextureAtlasBase(SDL_Renderer* pRenderer, const char* pFilePath, unsigned texCount)
+		: m_pRenderer(pRenderer), m_texCount(texCount) {
 		try {
 			m_upTexture = SDL_MakeTexturePtr(m_pRenderer, pFilePath);
 		}
 
 		catch (const std::system_error&) {
-			AtlassedSpriteBase_CreateDummyTexture(pRenderer, m_upTexture);
+			TextureAtlasBase_CreateDummyTexture(pRenderer, m_upTexture);
 		}
 	}
 
-	AtlassedSpriteBase::AtlassedSpriteBase(SDL_Renderer* pRenderer, SDL_Surface& surface, unsigned nrSprites)
-		: m_pRenderer(pRenderer), m_nrSprites(nrSprites) {
+	TextureAtlasBase::TextureAtlasBase(SDL_Renderer* pRenderer, SDL_Surface& surface, unsigned texCount)
+		: m_pRenderer(pRenderer), m_texCount(texCount) {
 		try {
 			m_upTexture = SDL_MakeTexturePtr(m_pRenderer, &surface);
 		}
 
 		catch (const std::system_error&) {
-			AtlassedSpriteBase_CreateDummyTexture(pRenderer, m_upTexture);
+			TextureAtlasBase_CreateDummyTexture(pRenderer, m_upTexture);
 		}
 	}
 
-	bool AtlassedSpriteBase::ReadTextureExtents(int& w, int& h) const {
+	bool TextureAtlasBase::ReadTextureExtents(int& w, int& h) const {
 		return (0 == SDL_QueryTexture(m_upTexture.get(), nullptr, nullptr, &w, &h));
 	}
 

@@ -20,14 +20,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\AppSettings.cpp" />
-    <ClCompile Include="..\src\AtlassedSpriteBase.cpp" />
-    <ClCompile Include="..\src\AtlassedSpriteU.cpp" />
+    <ClCompile Include="..\src\TextureAtlasBase.cpp" />
+    <ClCompile Include="..\src\TextureAtlasU.cpp" />
     <ClCompile Include="..\src\BaseControl.cpp" />
     <ClCompile Include="..\src\Main.cpp" />
     <ClCompile Include="..\src\PearsonHash.cpp" />
     <ClCompile Include="..\src\Player.cpp" />
     <ClCompile Include="..\src\PlayerControl.cpp" />
-    <ClCompile Include="..\src\PlayerSprite.cpp" />
     <ClCompile Include="..\src\PlayGround.cpp" />
     <ClCompile Include="..\src\SpriteAnimator.cpp" />
     <ClCompile Include="..\src\TimerHR.cpp" />
@@ -35,14 +34,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\AppSettings.hpp" />
-    <ClInclude Include="..\include\AtlassedSpriteBase.hpp" />
-    <ClInclude Include="..\include\AtlassedSpriteU.hpp" />
+    <ClInclude Include="..\include\TextureAtlasBase.hpp" />
+    <ClInclude Include="..\include\TextureAtlasU.hpp" />
     <ClInclude Include="..\include\BaseControl.hpp" />
     <ClInclude Include="..\include\IDrawable.hpp" />
     <ClInclude Include="..\include\PearsonHash.hpp" />
     <ClInclude Include="..\include\Player.hpp" />
     <ClInclude Include="..\include\PlayerControl.hpp" />
-    <ClInclude Include="..\include\PlayerSprite.hpp" />
     <ClInclude Include="..\include\PlayGround.hpp" />
     <ClInclude Include="..\include\SDL_Wrapper.hpp" />
     <ClInclude Include="..\include\SpriteAnimator.hpp" />
@@ -53,7 +51,7 @@
     <ClInclude Include="..\include\WrapperHelpers.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\include\AtlassedSpriteBase.inl" />
+    <None Include="..\include\TextureAtlasBase.inl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
