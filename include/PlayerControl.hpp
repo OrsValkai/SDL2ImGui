@@ -15,6 +15,8 @@ public:
 	void Update(float deltaTime, vo::IDrawable* pDrawable) final;
 	void OnEvent(const SDL_Event*);
 
+	void RemapKey(size_t id, SDL_KeyCode newKeyCode);
+
 private:
 	vo::Vector2D<signed short> m_velocity{0, 0};
 	std::array<int, 5> m_keys{0};

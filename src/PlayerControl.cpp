@@ -7,6 +7,8 @@ PlayerControl::PlayerControl(PlayGround& playGround, unsigned short startTileId)
     : BaseControl(playGround, startTileId), m_keys({SDLK_LEFT, SDLK_RIGHT, SDLK_UP, SDLK_DOWN, SDLK_LCTRL}) {
 }
 
+
+
 void PlayerControl::Update(float deltaTime, vo::IDrawable* pDrawable) {
     Move(m_velocity, deltaTime);
 
@@ -55,4 +57,8 @@ void PlayerControl::OnEvent(const SDL_Event* pEvent) {
         default:
             break;
     }
+}
+
+void PlayerControl::RemapKey(size_t id, SDL_KeyCode newKeyCode) {
+    m_keys[id] = newKeyCode;
 }

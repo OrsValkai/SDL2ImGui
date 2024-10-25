@@ -11,7 +11,7 @@
 class PlayGround
 {
 	std::vector<TileEntry> m_tiles;
-	vo::TextureAtlasU m_tileSprite;
+	vo::TextureAtlasU m_tileTextureAtlas;
 	unsigned short m_height{0};
 	unsigned short m_width{0};
 

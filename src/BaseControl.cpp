@@ -117,7 +117,12 @@ void BaseControl::UpdateInternal(float _step, vo::IDrawable* pDrawable) {
 		m_moveDir.y = 0;
 	}
 
-	curTileEntry.pDrawable = pDrawable;
+	if (nullptr == curTileEntry.pDrawable)
+		curTileEntry.pDrawable = pDrawable;
+	else {
+		pDrawable->m_pNextDrawable = curTileEntry.pDrawable;
+		curTileEntry.pDrawable = pDrawable;
+	}
 }
 
 void BaseControl::Update(float deltaTime, vo::IDrawable* pDrawable) {

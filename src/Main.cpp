@@ -15,7 +15,8 @@ public:
     void MainLoop() const {
         auto pRenderer = GetRenderer();
         auto pPlayGround = std::make_unique<PlayGround>(GetWindowWidth(), GetWindowHeight(), pRenderer, "EnvAtlas.png");
-        auto pPlayerCtrl = std::make_shared<PlayerControl>(*pPlayGround, pPlayGround->GetTileId(1, 2));
+        auto pPlayerCtrl1 = std::make_shared<PlayerControl>(*pPlayGround, pPlayGround->GetTileId(1, 2));
+        auto pPlayerCtrl2 = std::make_shared<PlayerControl>(*pPlayGround, pPlayGround->GetTileId(5, 4));
         vo::TimerHR timerHR;
 
         //Player player1(pRenderer, "Combined64.png_", 64, 56, 160);
@@ -25,8 +26,14 @@ public:
         Player player2(player1);
         //std::cout << "Make texture took: " << timerHR.MarkUS() << "us\n";
 
-        player1.AddControl(pPlayerCtrl);
-        player2.AddControl(std::make_shared<PlayerControl>(*pPlayGround, pPlayGround->GetTileId(5, 4)));
+        player1.AddControl(pPlayerCtrl1);
+        player2.AddControl(pPlayerCtrl2);
+
+        pPlayerCtrl2->RemapKey(0, SDLK_a);
+        pPlayerCtrl2->RemapKey(1, SDLK_d);
+        pPlayerCtrl2->RemapKey(2, SDLK_w);
+        pPlayerCtrl2->RemapKey(3, SDLK_s);
+        pPlayerCtrl2->RemapKey(4, SDLK_TAB);
 
         bool shouldExit = false;
         timerHR.Start(); // start to clear time spent before
@@ -37,8 +44,10 @@ public:
             while (SDL_PollEvent(&event)) {
                 if (SDL_QUIT == event.type)
                     shouldExit = true;
-                else
-                    pPlayerCtrl->OnEvent(&event);
+                else {
+                    pPlayerCtrl1->OnEvent(&event);
+                    pPlayerCtrl2->OnEvent(&event);
+                }
             }
 
             player1.Update(deltaTime);
