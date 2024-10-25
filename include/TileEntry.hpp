@@ -30,11 +30,6 @@ public:
     static constexpr unsigned char Height = 56;
     static constexpr unsigned char Width = 64;
 
-    unsigned int m_flags{0};
-    signed short posX{0};
-    signed short posY{0};
-    vo::IDrawable* pDrawable{nullptr};
-
     unsigned int GetFlags() const;
     bool HasFlagAll(Flags flag) const;
     bool HasFlagAny(Flags flag) const;
@@ -43,6 +38,11 @@ public:
     void ClearFlag(Flags flag);
     void SetFlag(unsigned int flag);
     void SetFlag(Flags flag);
+
+    unsigned int m_flags{ 0 };
+    signed short posX{ 0 };
+    signed short posY{ 0 };
+    vo::IDrawable* pDrawable{ nullptr };
 };
 
 // Implementation

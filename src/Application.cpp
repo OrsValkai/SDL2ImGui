@@ -16,7 +16,7 @@ namespace vo {
             return false;
         }
 
-        if (0 != SDL_CreateWindowAndRenderer(appSettings.wWidth, appSettings.wHeight, appSettings.ToWindowFlags(), &m_pWindow, &m_pRenderer)) {
+        if (0 != SDL_CreateWindowAndRenderer(appSettings.m_wWidth, appSettings.m_wHeight, appSettings.ToWindowFlags(), &m_pWindow, &m_pRenderer)) {
             SDL_Quit();
             IMG_Quit();
 
@@ -31,8 +31,8 @@ namespace vo {
         //SDL_GetWindowSize(m_pWindow, &w, &h);
         //SDL_GetRendererOutputSize(m_pRenderer, &w, &h);
 
-        m_wWidth = static_cast<unsigned short>(appSettings.wWidth);
-        m_wHeight = static_cast<unsigned short>(appSettings.wHeight);
+        m_wWidth = static_cast<unsigned short>(appSettings.m_wWidth);
+        m_wHeight = static_cast<unsigned short>(appSettings.m_wHeight);
 
         SDL_RenderSetVSync(m_pRenderer, 1);
 

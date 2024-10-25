@@ -9,12 +9,13 @@
 
 namespace vo {
 
-    class AppSettings {
+    class AppSettings
+    {
     public:
-        int wWidth = 0;
-        int wHeight = 0;
-        bool isFullScreen = false;
-        bool isBorderless = false;
+        int m_wWidth = 0;
+        int m_wHeight = 0;
+        bool m_isFullScreen = false;
+        bool m_isBorderless = false;
 
         explicit AppSettings(const char* iniFilePath);
         Uint32 ToWindowFlags() const;

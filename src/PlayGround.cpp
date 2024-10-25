@@ -13,6 +13,14 @@ PlayGround::PlayGround(unsigned short screenWidth, unsigned short screenHeight, 
 	Init();
 }
 
+PlayGround::PlayGround(unsigned short screenWidth, unsigned short screenHeight, SDL_Renderer* pRenderer, SDL_Surface& surface)
+	: m_tileTextureAtlas(pRenderer, surface, 2) {
+	m_height = screenHeight / TileEntry::Height;
+	m_width = screenWidth / TileEntry::Width;
+
+	Init();
+}
+
 void PlayGround::Init() {
 	vo::Vector2D<signed short> posOffset = { 0, 0 };
 

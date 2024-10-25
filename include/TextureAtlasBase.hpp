@@ -7,12 +7,8 @@
 
 namespace vo {
 
-	class TextureAtlasBase {
-	private:
-		SDL_TextureUniquePtr m_upTexture;
-		SDL_Renderer* m_pRenderer;
-		unsigned m_texCount;
-
+	class TextureAtlasBase
+	{
 	public:
 		TextureAtlasBase(SDL_Renderer* pRenderer, const char* pFilePath, unsigned m_texCount);
 		TextureAtlasBase(SDL_Renderer* pRenderer, SDL_Surface& surface, unsigned m_texCount);
@@ -25,6 +21,11 @@ namespace vo {
 	protected:
 		bool ReadTextureExtents(int& w, int& h) const;
 		bool DrawInternal(const SDL_Rect* pSrc, const SDL_Rect* pDest, const double angle, const SDL_RendererFlip flip);
+
+	private:
+		SDL_TextureUniquePtr m_upTexture;
+		SDL_Renderer* m_pRenderer;
+		unsigned m_texCount;
 	};
 
 }

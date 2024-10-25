@@ -17,16 +17,16 @@ namespace vo {
                     continue;
 
                 if (std::string::npos != readStr.find("width")) {
-                    wWidth = GetIntValue(readStr);
+                    m_wWidth = GetIntValue(readStr);
                 }
                 else if (std::string::npos != readStr.find("height")) {
-                    wHeight = GetIntValue(readStr);
+                    m_wHeight = GetIntValue(readStr);
                 }
                 else if (std::string::npos != readStr.find("fullscreen")) {
-                    isFullScreen = 0 != GetIntValue(readStr);
+                    m_isFullScreen = 0 != GetIntValue(readStr);
                 }
                 else if (std::string::npos != readStr.find("borderless")) {
-                    isBorderless = 0 != GetIntValue(readStr);
+                    m_isBorderless = 0 != GetIntValue(readStr);
                 }
             }
         }
@@ -35,10 +35,10 @@ namespace vo {
     Uint32 AppSettings::ToWindowFlags() const {
         Uint32 flags = SDL_WINDOW_ALLOW_HIGHDPI;
 
-        if (isFullScreen)
+        if (m_isFullScreen)
             flags |= SDL_WINDOW_FULLSCREEN;
 
-        if (isBorderless)
+        if (m_isBorderless)
             flags |= SDL_WINDOW_BORDERLESS;
 
         return flags;

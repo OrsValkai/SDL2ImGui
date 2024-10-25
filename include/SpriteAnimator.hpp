@@ -16,7 +16,14 @@
 namespace vo {
 
 	template <typename T>
-	class SpriteAnimator {
+	class SpriteAnimator
+	{
+	public:
+		explicit SpriteAnimator(const int targetFPS);
+		void SetSpriteIdPattern(std::vector<T>&& pattern);
+		void AddAnimOffset(const T offset);
+		int ComputeSpriteId(unsigned char animId, float deltaTime);
+
 	private:
 		std::vector<T> m_spriteIdPattern;
 		std::vector<T> m_animOffset;
@@ -24,15 +31,6 @@ namespace vo {
 		int m_targetFPS;
 		unsigned short m_curPatternId = 0;
 		unsigned short m_lastAnimId = 257;
-
-	public:
-		explicit SpriteAnimator(const int targetFPS);
-
-		void SetSpriteIdPattern(std::vector<T>&& pattern);
-
-		void AddAnimOffset(const T offset);
-
-		int ComputeSpriteId(unsigned char animId, float deltaTime);
 	};
 
 }
