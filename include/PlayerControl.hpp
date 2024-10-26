@@ -20,7 +20,6 @@ public:
 private:
 	vo::Vector2D<signed short> m_velocity{0, 0};
 	std::array<int, 5> m_keys{0};
-	unsigned short m_targetTileId{ 0 };
 };
 
 #endif // PLAYER_CONTROL_H
