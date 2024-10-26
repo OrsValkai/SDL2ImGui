@@ -22,6 +22,12 @@ void Player::SetControl(std::shared_ptr<BaseControl> upCtrl) {
 	m_pCtrl = upCtrl;
 }
 
+void Player::SetTintColor(Uint8 r, Uint8 g, Uint8 b) {
+	m_tintR = r;
+	m_tintG = g;
+	m_tintB = b;
+}
+
 void Player::Update(float deltaTime) {
 	if (!m_pCtrl)
 		return;
@@ -52,5 +58,5 @@ bool Player::Draw(int posX, int posY, float deltaTime) {
 		}
 	}
 
-	return GetTextureAtlas()->Draw(posX, posY, ComputeSpriteId(static_cast<unsigned char>(m_animId), deltaTime));
+	return GetTextureAtlas()->DrawTint(posX, posY, ComputeSpriteId(static_cast<unsigned char>(m_animId), deltaTime), m_tintR, m_tintG, m_tintB);
 }

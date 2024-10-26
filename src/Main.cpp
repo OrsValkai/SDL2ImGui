@@ -30,10 +30,13 @@ public:
         player2.SetControl(pPlayerCtrl2);
         player3.SetControl(std::make_shared<AIControl>(*pPlayGround, pPlayGround->GetTileId(3, 4)));
 
+        player2.SetTintColor(245, 210, 160);
+        player3.SetTintColor(200, 255, 200);
+
         pPlayerCtrl2->RemapKey(0, SDLK_a);
         pPlayerCtrl2->RemapKey(1, SDLK_d);
         pPlayerCtrl2->RemapKey(2, SDLK_w);
-        pPlayerCtrl2->RemapKey(3, SDLK_s); 
+        pPlayerCtrl2->RemapKey(3, SDLK_s);
         pPlayerCtrl2->RemapKey(4, SDLK_TAB);
 
         bool shouldExit = false;

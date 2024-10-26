@@ -10,7 +10,6 @@ namespace vo {
 	}
 
 	bool AnimatedSprite::Draw(int posX, int posY, float deltaTime) {
-
 		return m_textureAtlas->Draw(posX, posY, 0, 0, SDL_FLIP_NONE);
 	}
 
