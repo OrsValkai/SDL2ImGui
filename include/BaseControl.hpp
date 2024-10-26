@@ -26,9 +26,9 @@ protected:
 	void Move(const vo::Vector2D<signed short>& dir, float deltaTime);
 
 private:
+	std::function<float(const float)> m_activeStepper{ nullptr };
 	vo::Vector2D<float> m_pos{0.f, 0.f};
 	vo::Vector2D<signed short> m_moveDir{0, 0};
-	std::function<float(const float)> m_activeStepper{nullptr};
 	float m_movementSpeed{0.14f};
 	unsigned short m_currentTileId{std::numeric_limits<unsigned short>::max()};
 	unsigned short m_targetTileId{std::numeric_limits<unsigned short>::max()};

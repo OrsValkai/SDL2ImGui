@@ -6,7 +6,6 @@
 
 PlayGround::PlayGround(unsigned short screenWidth, unsigned short screenHeight, SDL_Renderer* pRenderer, const char* pFilePathToTileAtlas)
 	: m_tileTextureAtlas(pRenderer, pFilePathToTileAtlas, 64, 90, 2) {
-	//: m_tileTextureAtlas(pRenderer, "", 64, 56, 2) {
 	m_height = screenHeight / TileEntry::Height;
 	m_width = screenWidth / TileEntry::Width;
 
@@ -45,6 +44,7 @@ void PlayGround::Init() {
 		for (size_t j = 0; j < m_height; ++j) {
 			auto& tile = m_tiles[j * m_width + i];
 
+			tile.m_flags = 0;
 			if ((0 != i % 2) && (0 != j % 2)) {
 				tile.SetFlag(TileEntry::Flags::OccupiedByTile);
 			}

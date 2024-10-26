@@ -19,7 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\src\AIControl.cpp" />
     <ClCompile Include="..\src\AppSettings.cpp" />
+    <ClCompile Include="..\src\AnimatedSprite.cpp" />
+    <ClCompile Include="..\src\Sprite.cpp" />
     <ClCompile Include="..\src\TextureAtlasBase.cpp" />
     <ClCompile Include="..\src\TextureAtlasU.cpp" />
     <ClCompile Include="..\src\BaseControl.cpp" />
@@ -33,7 +36,10 @@
     <ClCompile Include="..\src\Application.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\AIControl.hpp" />
     <ClInclude Include="..\include\AppSettings.hpp" />
+    <ClInclude Include="..\include\AnimatedSprite.hpp" />
+    <ClInclude Include="..\include\Sprite.hpp" />
     <ClInclude Include="..\include\TextureAtlasBase.hpp" />
     <ClInclude Include="..\include\TextureAtlasU.hpp" />
     <ClInclude Include="..\include\BaseControl.hpp" />

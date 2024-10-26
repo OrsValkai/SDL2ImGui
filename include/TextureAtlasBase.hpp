@@ -14,7 +14,7 @@ namespace vo {
 		TextureAtlasBase(SDL_Renderer* pRenderer, SDL_Surface& surface, unsigned m_texCount);
 		TextureAtlasBase(const TextureAtlasBase&) = delete;
 		TextureAtlasBase& operator=(const TextureAtlasBase&) = delete;
-		virtual bool Draw(int posX, int posY, unsigned texId, const double angle, const SDL_RendererFlip flip) = 0;
+		virtual bool Draw(int posX, int posY, unsigned texId, const double angle = 0, const SDL_RendererFlip flip = SDL_RendererFlip::SDL_FLIP_NONE) = 0;
 		bool IsValidSpriteId(unsigned texId) const;
 		virtual ~TextureAtlasBase() = default;
 

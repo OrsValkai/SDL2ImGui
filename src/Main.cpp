@@ -7,11 +7,11 @@
 #include "PlayGround.hpp"
 #include "TimerHR.hpp"
 #include "PlayerControl.hpp"
+#include "AIControl.hpp"
 
 class GameApp : public vo::Application
 {
 public:
-
     void MainLoop() const {
         auto pRenderer = GetRenderer();
         auto pPlayGround = std::make_unique<PlayGround>(GetWindowWidth(), GetWindowHeight(), pRenderer, "EnvAtlas.png");
@@ -19,20 +19,21 @@ public:
         auto pPlayerCtrl2 = std::make_shared<PlayerControl>(*pPlayGround, pPlayGround->GetTileId(5, 4));
         vo::TimerHR timerHR;
 
-        //Player player1(pRenderer, "Combined64.png_", 64, 56, 160);
-        Player player1(pRenderer, "Combined64.png", 64, 102, 160);
-
         //timerHR.Start();
-        Player player2(player1);
+        Player player1(std::make_shared<vo::TextureAtlasU>(pRenderer, "Combined64.png", 64, 102, 160));
         //std::cout << "Make texture took: " << timerHR.MarkUS() << "us\n";
+        
+        Player player2(player1);
+        Player player3(player1);
 
-        player1.AddControl(pPlayerCtrl1);
-        player2.AddControl(pPlayerCtrl2);
+        player1.SetControl(pPlayerCtrl1);
+        player2.SetControl(pPlayerCtrl2);
+        player3.SetControl(std::make_shared<AIControl>(*pPlayGround, pPlayGround->GetTileId(3, 4)));
 
         pPlayerCtrl2->RemapKey(0, SDLK_a);
         pPlayerCtrl2->RemapKey(1, SDLK_d);
         pPlayerCtrl2->RemapKey(2, SDLK_w);
-        pPlayerCtrl2->RemapKey(3, SDLK_s);
+        pPlayerCtrl2->RemapKey(3, SDLK_s); 
         pPlayerCtrl2->RemapKey(4, SDLK_TAB);
 
         bool shouldExit = false;
@@ -42,9 +43,9 @@ public:
             SDL_Event event;
 
             while (SDL_PollEvent(&event)) {
-                if (SDL_QUIT == event.type)
+                if (SDL_QUIT == event.type) {
                     shouldExit = true;
-                else {
+                } else {
                     pPlayerCtrl1->OnEvent(&event);
                     pPlayerCtrl2->OnEvent(&event);
                 }
@@ -52,8 +53,9 @@ public:
 
             player1.Update(deltaTime);
             player2.Update(deltaTime);
+            player3.Update(deltaTime);
 
-            SDL_SetRenderDrawColor(pRenderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
+            SDL_SetRenderDrawColor(pRenderer, 30, 30, 30, SDL_ALPHA_OPAQUE);
             SDL_RenderClear(pRenderer);
 
             pPlayGround->Draw(deltaTime);
