@@ -24,6 +24,9 @@ protected:
 	PlayGround& m_playGround;
 
 	void Move(const vo::Vector2D<signed short>& dir, float deltaTime);
+	unsigned short& GetPotentialTargetId();
+	unsigned short& GetCurrentId();
+	unsigned short& GetTargetId();
 
 private:
 	float (BaseControl::*m_activeStepper)(const float){nullptr};
@@ -40,5 +43,18 @@ private:
 	float StepTowardsY(const float step);
 	void UpdateInternal(float step, vo::IDrawable* pDrawable);
 };
+
+// Implementation
+inline unsigned short& BaseControl::GetPotentialTargetId() {
+	return m_potentialTargetTileId;
+}
+
+inline unsigned short& BaseControl::GetCurrentId() {
+	return m_currentTileId;
+}
+
+inline unsigned short& BaseControl::GetTargetId() {
+	return m_targetTileId;
+}
 
 #endif // BASE_CONTROL_H

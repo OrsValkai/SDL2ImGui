@@ -19,9 +19,9 @@ public:
         auto pPlayerCtrl2 = std::make_shared<PlayerControl>(*pPlayGround, pPlayGround->GetTileId(5, 4));
         vo::TimerHR timerHR;
 
-        //timerHR.Start();
+        timerHR.Start();
         Player player1(std::make_shared<vo::TextureAtlasU>(pRenderer, "Combined64.png", 64, 102, 160));
-        //std::cout << "Make texture took: " << timerHR.MarkUS() << "us\n";
+        std::cout << "Make texture took: " << timerHR.MarkUS() << "us\n";
         
         Player player2(player1);
         Player player3(player1);
