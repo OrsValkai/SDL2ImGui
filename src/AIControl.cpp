@@ -20,10 +20,13 @@ void AIControl::Update(float deltaTime, vo::IDrawable* pDrawable) {
 		auto nCount = m_playGround.GetNeighborIdsForTileAt(neighbs, targetTileId);
         std::uniform_int_distribution<unsigned short> randDist(0, 6);
 
+		const auto& currentId = GetCurrentId();
 		for (unsigned short i = 0; i < nCount; i++) {
-			if (neighbs[i] == GetCurrentId())
+			// Favor new target instead of going back to where we came from
+			if (neighbs[i] == currentId)
 				continue;
 
+			// Check tile is walkable and do the dice roll to randomize direction
 			const auto& nTile = m_playGround.GetTileAt(neighbs[i]);
 			if ((nTile.HasFlagAny(TileEntry::Flags::Destroyable) || !nTile.HasFlagAny(TileEntry::Flags::Occupied)) && randDist(randEng) >= 3) {
 				m_prevId = neighbs[i];
@@ -34,6 +37,7 @@ void AIControl::Update(float deltaTime, vo::IDrawable* pDrawable) {
 				break;
 			}
 		}
+	// Potential target became actual target, so we should pick a new potential target
 	} else if (targetTileId == m_prevId) {
 		m_shouldPickNewTarget = true;
 	}
