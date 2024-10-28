@@ -15,6 +15,7 @@ public:
 
 private:
 	unsigned short m_prevId{std::numeric_limits<unsigned short>::max()};
+	bool m_shouldPickNewTarget{true};
 };
 
 #endif // AI_CONTROL_H
