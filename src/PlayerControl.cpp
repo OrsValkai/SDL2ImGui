@@ -3,14 +3,23 @@
 #include "PlayerControl.hpp"
 #include <SDL.h>
 
+#include <algorithm>
+
 PlayerControl::PlayerControl(PlayGround& playGround, unsigned short startTileId)
     : BaseControl(playGround, startTileId), m_keys({SDLK_LEFT, SDLK_RIGHT, SDLK_UP, SDLK_DOWN, SDLK_LCTRL}) {
+    m_commands.reserve(m_keys.size());
 }
 
 
 
 void PlayerControl::Update(float deltaTime, vo::IDrawable* pDrawable) {
-    Move(m_velocity, deltaTime);
+    if (!m_commands.empty()) {
+        Move(m_commands.back().dir, deltaTime);
+    }
+    else {
+        vo::Vector2D<signed short> zero{};
+        Move(zero, deltaTime);
+    }
 
     BaseControl::Update(deltaTime, pDrawable);
 }
@@ -18,41 +27,31 @@ void PlayerControl::Update(float deltaTime, vo::IDrawable* pDrawable) {
 void PlayerControl::OnEvent(const SDL_Event* pEvent) {
     switch (pEvent->type) {
         // Look for a keypress
-        case SDL_KEYDOWN:
-            if (pEvent->key.keysym.sym == m_keys[0]) {
-                m_velocity.x = -1;
-                m_velocity.y = 0;
-            } else if (pEvent->key.keysym.sym == m_keys[1]) {
-                m_velocity.x = 1;
-                m_velocity.y = 0;
-            } else if (pEvent->key.keysym.sym == m_keys[2]) {
-                m_velocity.y = -1;
-                m_velocity.x = 0;
-            } else if (pEvent->key.keysym.sym == m_keys[3]) {
-                m_velocity.y = 1;
-                m_velocity.x = 0;
-            }
-                   
-            break;
+            case SDL_KEYDOWN: {
+                if (m_commands.end() != std::find(m_commands.begin(), m_commands.end(), pEvent->key.keysym.sym))
+                    break; // already pressed, and not released yet
 
-        // We must also use the SDL_KEYUP events to zero the x
-        // and y velocity variables. But we must also be      
-        // careful not to zero the velocities when we shouldn't
-        case SDL_KEYUP:
-            if (pEvent->key.keysym.sym == m_keys[0]) {
-                if (m_velocity.x < 0)
-                    m_velocity.x = 0;
-            } else if (pEvent->key.keysym.sym == m_keys[1]) {
-                if (m_velocity.x > 0)
-                    m_velocity.x = 0;
-            } else if (pEvent->key.keysym.sym == m_keys[2]) {
-                if (m_velocity.y < 0)
-                    m_velocity.y = 0;
-            } else if (pEvent->key.keysym.sym == m_keys[3]
-                && m_velocity.y > 0) {
-                    m_velocity.y = 0;
+                if (pEvent->key.keysym.sym == m_keys[0]) {
+                    m_commands.emplace_back(m_keys[0], -1, 0);
+                }
+                else if (pEvent->key.keysym.sym == m_keys[1]) {
+                    m_commands.emplace_back(m_keys[1], 1, 0);
+                }
+                else if (pEvent->key.keysym.sym == m_keys[2]) {
+                    m_commands.emplace_back(m_keys[2], 0, -1);
+                }
+                else if (pEvent->key.keysym.sym == m_keys[3]) {
+                    m_commands.emplace_back(m_keys[3], 0, 1);
+                }
+
+                break;
             }
-            break;
+
+                            // When released we remove it from commands
+            case SDL_KEYUP: {
+                m_commands.erase(std::remove_if(m_commands.begin(), m_commands.end(), [pEvent](const CommandEntry& e) { return e.keyCode == pEvent->key.keysym.sym; }), m_commands.end());
+                break;
+            }
 
         default:
             break;

@@ -18,8 +18,16 @@ public:
 	void RemapKey(size_t id, SDL_KeyCode newKeyCode);
 
 private:
-	vo::Vector2D<signed short> m_velocity{0, 0};
+	struct CommandEntry {
+		int keyCode;
+		vo::Vector2D<signed short> dir;
+
+		CommandEntry(int _keyCode, signed short x, signed short y) : keyCode(_keyCode), dir(x, y) {};
+		bool operator==(const int& val) const { return val == keyCode; };
+	};
+
 	std::array<int, 5> m_keys{0};
+	std::vector<CommandEntry> m_commands{};
 };
 
 #endif // PLAYER_CONTROL_H
