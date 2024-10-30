@@ -12,8 +12,7 @@
 class PlayGround
 {
 public:
-	PlayGround(unsigned short screenWidth, unsigned short screenHeight, SDL_Renderer* pRenderer, const char* pFilePathToTileAtlas);
-	PlayGround(unsigned short screenWidth, unsigned short screenHeight, SDL_Renderer* pRenderer, SDL_Surface& surface);
+	PlayGround(unsigned short screenWidth, unsigned short screenHeight, const std::shared_ptr<vo::TextureAtlasU> textureAtlas);
 	void Init();
 	void Draw(float deltaTime);
 	unsigned short GetNrOfTiles() const;
@@ -24,10 +23,11 @@ public:
 	unsigned short GetNeighborIdsForTileAt(std::array<unsigned short, 4>& neighborIds, unsigned short tileId) const;
 	unsigned short GetNeighborIdForTileAt(const vo::Vector2D<signed short>& direction, unsigned short tileX, unsigned short tileY) const;
 	unsigned short GetNeighborIdsForTileAt(std::array<unsigned short, 4>& neighborIds, unsigned short tileX, unsigned short tileY) const;
+	std::shared_ptr<vo::TextureAtlasBase> GetAtlas() const;
 
 private:
 	std::vector<TileEntry> m_tiles;
-	vo::TextureAtlasU m_tileTextureAtlas;
+	std::shared_ptr<vo::TextureAtlasU> m_pTileTextureAtlas;
 	unsigned short m_height{0};
 	unsigned short m_width{0};
 };

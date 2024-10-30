@@ -4,16 +4,8 @@
 #include "IDrawable.hpp"
 #include <array>
 
-PlayGround::PlayGround(unsigned short screenWidth, unsigned short screenHeight, SDL_Renderer* pRenderer, const char* pFilePathToTileAtlas)
-	: m_tileTextureAtlas(pRenderer, pFilePathToTileAtlas, 64, 128, 32) {
-	m_height = screenHeight / TileEntry::Height;
-	m_width = screenWidth / TileEntry::Width;
-
-	Init();
-}
-
-PlayGround::PlayGround(unsigned short screenWidth, unsigned short screenHeight, SDL_Renderer* pRenderer, SDL_Surface& surface)
-	: m_tileTextureAtlas(pRenderer, surface, 2) {
+PlayGround::PlayGround(unsigned short screenWidth, unsigned short screenHeight, const std::shared_ptr<vo::TextureAtlasU> textureAtlas)
+	: m_pTileTextureAtlas(textureAtlas) {
 	m_height = screenHeight / TileEntry::Height;
 	m_width = screenWidth / TileEntry::Width;
 
@@ -61,7 +53,8 @@ void PlayGround::Init() {
 void PlayGround::Draw(float deltaTime) {
 	for (auto& tile : m_tiles) {
 		if (tile.HasFlagAny(TileEntry::Flags::OccupiedByTile)) {
-			m_tileTextureAtlas.Draw(tile.posX, tile.posY, 30 + tile.HasFlagAny(TileEntry::Flags::Destroyable));
+			unsigned int tileType = tile.HasFlagAny(TileEntry::Flags::Destroyable) ? 0 : 1;
+			m_pTileTextureAtlas->DrawDoubleHeight(tile.posX, tile.posY, 46 + tileType);
 		}
 
 		while (tile.pDrawable) {
@@ -135,4 +128,8 @@ unsigned short PlayGround::GetNeighborIdsForTileAt(std::array<unsigned short, 4>
 	}
 
 	return count;
+}
+
+std::shared_ptr<vo::TextureAtlasBase> PlayGround::GetAtlas() const {
+	return m_pTileTextureAtlas;
 }

@@ -13,6 +13,7 @@ namespace vo {
 		TextureAtlasU(SDL_Renderer* pRenderer, const char* pFilePath, unsigned width, unsigned height, unsigned m_texCount);
 		TextureAtlasU(SDL_Renderer* pRenderer, SDL_Surface& surface, unsigned m_texCount);
 		bool Draw(int posX, int posY, unsigned texId, const double angle = 0, const SDL_RendererFlip flip = SDL_RendererFlip::SDL_FLIP_NONE) override;
+		bool DrawDoubleHeight(int posX, int posY, unsigned texId, const double angle = 0, const SDL_RendererFlip flip = SDL_RendererFlip::SDL_FLIP_NONE);
 		bool DrawTint(int posX, int posY, unsigned texId, Uint8 r, Uint8 g, Uint8 b, const double angle = 0, const SDL_RendererFlip flip = SDL_RendererFlip::SDL_FLIP_NONE) override;
 		~TextureAtlasU() override = default;
 	

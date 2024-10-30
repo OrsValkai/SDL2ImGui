@@ -47,6 +47,30 @@ namespace vo {
 		return DrawInternal(&srcRect, &dstRect, angle, flip);
 	}
 
+	bool TextureAtlasU::DrawDoubleHeight(int posX, int posY, unsigned texId, const double angle, const SDL_RendererFlip flip) {
+		if (!IsValidSpriteId(texId))
+			return false;
+
+		SDL_Rect dstRect = {
+			posX,
+			posY,
+			m_width,
+			m_height * 2
+		};
+
+		if (0 == m_nrColumns)
+			return DrawInternal(nullptr, &dstRect, angle, flip);
+
+		SDL_Rect srcRect = {
+			m_width * (static_cast<int>(texId) % m_nrRows),
+			m_height * (static_cast<int>(texId) / m_nrRows),
+			m_width,
+			m_height * 2
+		};
+
+		return DrawInternal(&srcRect, &dstRect, angle, flip);
+	}
+
 	bool TextureAtlasU::DrawTint(int posX, int posY, unsigned texId, Uint8 r, Uint8 g, Uint8 b, const double angle, const SDL_RendererFlip flip)
 	{
 		if (!IsValidSpriteId(texId))
