@@ -10,8 +10,6 @@ PlayerControl::PlayerControl(PlayGround& playGround, unsigned short startTileId)
     m_commands.reserve(m_keys.size());
 }
 
-
-
 void PlayerControl::Update(float deltaTime, vo::IDrawable* pDrawable) {
     if (!m_commands.empty()) {
         Move(m_commands.back().dir, deltaTime);
@@ -26,7 +24,7 @@ void PlayerControl::Update(float deltaTime, vo::IDrawable* pDrawable) {
 
 void PlayerControl::OnEvent(const SDL_Event* pEvent) {
     switch (pEvent->type) {
-        // Look for a keypress
+            // Look for a keypress
             case SDL_KEYDOWN: {
                 if (m_commands.end() != std::find(m_commands.begin(), m_commands.end(), pEvent->key.keysym.sym))
                     break; // already pressed, and not released yet
@@ -47,7 +45,7 @@ void PlayerControl::OnEvent(const SDL_Event* pEvent) {
                 break;
             }
 
-                            // When released we remove it from commands
+            // When released we remove it from commands
             case SDL_KEYUP: {
                 m_commands.erase(std::remove_if(m_commands.begin(), m_commands.end(), [pEvent](const CommandEntry& e) { return e.keyCode == pEvent->key.keysym.sym; }), m_commands.end());
                 break;
