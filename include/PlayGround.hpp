@@ -3,10 +3,11 @@
 #ifndef PLAY_GROUND_H
 #define PLAY_GROUND_H
 
-#include <vector>
 #include "TileEntry.hpp"
 #include "TextureAtlasU.hpp"
 #include "Vector2D.hpp"
+
+#include <vector>
 
 class PlayGround
 {

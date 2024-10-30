@@ -6,8 +6,6 @@
 #include "BaseControl.hpp"
 #include <array>
 
-union SDL_Event;
-
 class PlayerControl : public BaseControl
 {
 public:
@@ -26,7 +24,7 @@ private:
 		bool operator==(const int& val) const { return val == keyCode; };
 	};
 
-	std::array<int, 5> m_keys{0};
+	std::array<int, 5> m_keys;
 	std::vector<CommandEntry> m_commands{};
 };
 

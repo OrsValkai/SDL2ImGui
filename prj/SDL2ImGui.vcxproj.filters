@@ -46,6 +46,9 @@
     <ClCompile Include="..\src\AIControl.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\Bomb.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\WrapperHelpers.hpp">
@@ -103,6 +106,9 @@
       <Filter>inlcude</Filter>
     </ClInclude>
     <ClInclude Include="..\include\AIControl.hpp">
+      <Filter>inlcude</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Bomb.hpp">
       <Filter>inlcude</Filter>
     </ClInclude>
   </ItemGroup>

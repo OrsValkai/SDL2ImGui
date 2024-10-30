@@ -5,7 +5,7 @@
 #include <array>
 
 PlayGround::PlayGround(unsigned short screenWidth, unsigned short screenHeight, SDL_Renderer* pRenderer, const char* pFilePathToTileAtlas)
-	: m_tileTextureAtlas(pRenderer, pFilePathToTileAtlas, 64, 90, 2) {
+	: m_tileTextureAtlas(pRenderer, pFilePathToTileAtlas, 64, 128, 32) {
 	m_height = screenHeight / TileEntry::Height;
 	m_width = screenWidth / TileEntry::Width;
 
@@ -61,7 +61,7 @@ void PlayGround::Init() {
 void PlayGround::Draw(float deltaTime) {
 	for (auto& tile : m_tiles) {
 		if (tile.HasFlagAny(TileEntry::Flags::OccupiedByTile)) {
-			m_tileTextureAtlas.Draw(tile.posX, tile.posY, tile.HasFlagAny(TileEntry::Flags::Destroyable));
+			m_tileTextureAtlas.Draw(tile.posX, tile.posY, 30 + tile.HasFlagAny(TileEntry::Flags::Destroyable));
 		}
 
 		while (tile.pDrawable) {

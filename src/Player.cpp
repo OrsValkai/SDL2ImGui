@@ -58,5 +58,5 @@ bool Player::Draw(int posX, int posY, float deltaTime) {
 		}
 	}
 
-	return GetTextureAtlas()->DrawTint(posX, posY, ComputeSpriteId(static_cast<unsigned char>(m_animId), deltaTime), m_tintR, m_tintG, m_tintB);
+	return GetTextureAtlas()->DrawTint(posX, posY+16, ComputeSpriteId(static_cast<unsigned char>(m_animId), deltaTime), m_tintR, m_tintG, m_tintB);
 }

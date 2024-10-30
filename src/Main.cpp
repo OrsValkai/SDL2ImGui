@@ -14,13 +14,13 @@ class GameApp : public vo::Application
 public:
     void MainLoop() const {
         auto pRenderer = GetRenderer();
-        auto pPlayGround = std::make_unique<PlayGround>(GetWindowWidth(), GetWindowHeight(), pRenderer, "EnvAtlas.png");
+        auto pPlayGround = std::make_unique<PlayGround>(GetWindowWidth(), GetWindowHeight(), pRenderer, "Atlas64.png");
         auto pPlayerCtrl1 = std::make_shared<PlayerControl>(*pPlayGround, pPlayGround->GetTileId(1, 2));
         auto pPlayerCtrl2 = std::make_shared<PlayerControl>(*pPlayGround, pPlayGround->GetTileId(5, 4));
         vo::TimerHR timerHR;
 
         timerHR.Start();
-        Player player1(std::make_shared<vo::TextureAtlasU>(pRenderer, "Combined64.png", 64, 102, 160));
+        Player player1(std::make_shared<vo::TextureAtlasU>(pRenderer, "Player64.png", 64, 102, 160));
         std::cout << "Make texture took: " << timerHR.MarkUS() << "us\n";
         
         Player player2(player1);
