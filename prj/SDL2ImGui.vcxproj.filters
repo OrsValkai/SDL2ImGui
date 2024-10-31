@@ -46,7 +46,7 @@
     <ClCompile Include="..\src\AIControl.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\Bomb.cpp">
+    <ClCompile Include="..\src\BombLogic.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
@@ -108,7 +108,7 @@
     <ClInclude Include="..\include\AIControl.hpp">
       <Filter>inlcude</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\Bomb.hpp">
+    <ClInclude Include="..\include\BombLogic.hpp">
       <Filter>inlcude</Filter>
     </ClInclude>
   </ItemGroup>

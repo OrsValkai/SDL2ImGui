@@ -25,8 +25,7 @@ const vo::Vector2D<signed short>& BaseControl::GetMoveDir() const {
 	return m_moveDir;
 }
 
-void BaseControl::SetMovementSpeed(const float speed)
-{
+void BaseControl::SetMovementSpeed(const float speed) {
 	m_movementSpeed = speed;
 }
 

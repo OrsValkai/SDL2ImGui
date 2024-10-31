@@ -1,7 +1,8 @@
 #include "Player.hpp"
 
-Player::Player(const std::shared_ptr<vo::TextureAtlasBase> textureAtlas)
-	: vo::AnimatedSprite(textureAtlas, 20) {
+Player::Player(const std::shared_ptr<vo::TextureAtlasBase> textureAtlas, PlayGround& playGround)
+	: vo::AnimatedSprite(textureAtlas, 20)
+	,m_bombLogic(playGround, 0) {
 
 	SetSpriteIdPattern({ 0, 1, 2, 3, 16, 17, 18, 19, 32, 33, 34, 35, 48, 49, 50, 51, 64, 65, 66, 67 });
 
@@ -32,6 +33,7 @@ void Player::Update(float deltaTime) {
 	if (!m_pCtrl)
 		return;
 
+	m_bombLogic.Update(deltaTime);
 	m_pCtrl->Update(deltaTime, this);
 }
 

@@ -7,6 +7,7 @@
 #include "SpriteAnimator.hpp"
 #include "AnimatedSprite.hpp"
 #include "BaseControl.hpp"
+#include "BombLogic.hpp"
 
 enum class AnimId : unsigned char
 {
@@ -24,7 +25,7 @@ enum class AnimId : unsigned char
 class Player : public vo::AnimatedSprite
 {
 public:
-	explicit Player(const std::shared_ptr<vo::TextureAtlasBase> textureAtlas);
+	explicit Player(const std::shared_ptr<vo::TextureAtlasBase> textureAtlas, PlayGround& playGround);
 	void SetControl(std::shared_ptr<BaseControl> spCtrl);
 	void SetTintColor(Uint8 r, Uint8 g, Uint8 b);
 	void Update(float deltaTime);
@@ -32,6 +33,7 @@ public:
 
 private:
 	std::shared_ptr<BaseControl> m_pCtrl;
+	BombLogic m_bombLogic;
 	AnimId m_animId = AnimId::IdleFront;
 	Uint8 m_tintR = 255;
 	Uint8 m_tintG = 255;

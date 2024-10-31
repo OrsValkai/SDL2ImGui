@@ -20,7 +20,7 @@ public:
         vo::TimerHR timerHR;
 
         timerHR.Start();
-        Player player1(std::make_shared<vo::TextureAtlasU>(pRenderer, "Player64.png", 64, 102, 160));
+        Player player1(std::make_shared<vo::TextureAtlasU>(pRenderer, "Player64.png", 64, 102, 160), *pPlayGround);
         std::cout << "Make texture took: " << timerHR.MarkUS() << "us\n";
         
         Player player2(player1);
