@@ -22,7 +22,7 @@ namespace vo {
 		std::shared_ptr<TextureAtlasBase> m_textureAtlas;
 	};
 
-
+	// Implementation
 	inline TextureAtlasBase* AnimatedSprite::GetTextureAtlas() {
 		return m_textureAtlas.get();
 	}

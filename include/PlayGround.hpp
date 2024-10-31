@@ -24,12 +24,18 @@ public:
 	unsigned short GetNeighborIdForTileAt(const vo::Vector2D<signed short>& direction, unsigned short tileX, unsigned short tileY) const;
 	unsigned short GetNeighborIdsForTileAt(std::array<unsigned short, 4>& neighborIds, unsigned short tileX, unsigned short tileY) const;
 	std::shared_ptr<vo::TextureAtlasBase> GetAtlas() const;
+	void SubScribeToPostDraw(vo::IDrawable* pDrawable);
+	void SubScribeToPreDraw(vo::IDrawable* pDrawable);
 
 private:
 	std::vector<TileEntry> m_tiles;
 	std::shared_ptr<vo::TextureAtlasU> m_pTileTextureAtlas;
+	vo::IDrawable* m_pPostDraw{nullptr};
+	vo::IDrawable* m_pPreDraw{nullptr};
 	unsigned short m_height{0};
 	unsigned short m_width{0};
+
+	static void DrawSubscribed(vo::IDrawable** pDrawable, int posX, int posY, float deltaTime);
 };
 
 #endif // PLAY_GROUND_H

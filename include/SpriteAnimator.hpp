@@ -22,6 +22,7 @@ namespace vo {
 		explicit SpriteAnimator(const int targetFPS);
 		void SetSpriteIdPattern(std::vector<T>&& pattern);
 		void AddAnimOffset(const T offset);
+		T GetAnimOffset(unsigned char animId) const;
 		int ComputeSpriteId(unsigned char animId, float deltaTime);
 
 	private:

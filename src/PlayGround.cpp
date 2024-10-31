@@ -50,21 +50,23 @@ void PlayGround::Init() {
 	}
 }
 
+void inline Draw() {
+
+}
+
 void PlayGround::Draw(float deltaTime) {
+	DrawSubscribed(&m_pPreDraw, 0, 0, deltaTime);
+
 	for (auto& tile : m_tiles) {
 		if (tile.HasFlagAny(TileEntry::Flags::OccupiedByTile)) {
 			unsigned int tileType = tile.HasFlagAny(TileEntry::Flags::Destroyable) ? 0 : 1;
 			m_pTileTextureAtlas->DrawDoubleHeight(tile.posX, tile.posY, 46 + tileType);
 		}
 
-		while (tile.pDrawable) {
-			vo::IDrawable* pCurrent = tile.pDrawable;
-
-			pCurrent->Draw(tile.posX, tile.posY, deltaTime);
-			tile.pDrawable = pCurrent->m_pNextDrawable;
-			pCurrent->m_pNextDrawable = nullptr;
-		}
+		DrawSubscribed(&tile.pDrawable, tile.posX, tile.posY, deltaTime);
 	}
+
+	DrawSubscribed(&m_pPostDraw, 0, 0, deltaTime);
 }
 
 unsigned short PlayGround::GetNrOfTiles() const {
@@ -132,4 +134,38 @@ unsigned short PlayGround::GetNeighborIdsForTileAt(std::array<unsigned short, 4>
 
 std::shared_ptr<vo::TextureAtlasBase> PlayGround::GetAtlas() const {
 	return m_pTileTextureAtlas;
+}
+
+void PlayGround::SubScribeToPostDraw(vo::IDrawable* pDrawable) {
+	if (nullptr == pDrawable)
+		return;
+
+	if (nullptr == m_pPostDraw)
+		m_pPostDraw = pDrawable;
+	else {
+		pDrawable->m_pNextDrawable = m_pPostDraw;
+		m_pPostDraw = pDrawable;
+	}
+}
+
+void PlayGround::SubScribeToPreDraw(vo::IDrawable* pDrawable) {
+	if (nullptr == pDrawable)
+		return;
+
+	if (nullptr == m_pPreDraw)
+		m_pPreDraw = pDrawable;
+	else {
+		pDrawable->m_pNextDrawable = m_pPreDraw;
+		m_pPreDraw = pDrawable;
+	}
+}
+
+void PlayGround::DrawSubscribed(vo::IDrawable** pDrawable, int posX, int posY, float deltaTime) {
+	while (*pDrawable) {
+		vo::IDrawable* pCurrent = *pDrawable;
+
+		pCurrent->Draw(posX, posY, deltaTime);
+		*pDrawable = pCurrent->m_pNextDrawable;
+		pCurrent->m_pNextDrawable = nullptr;
+	}
 }

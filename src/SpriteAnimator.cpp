@@ -20,6 +20,14 @@ namespace vo {
 	}
 
 	template <typename T>
+	T SpriteAnimator<T>::GetAnimOffset(unsigned char animId) const {
+		if (animId < m_animOffset.size())
+			return m_animOffset[animId];
+
+		return 0;
+	}
+
+	template <typename T>
 	int SpriteAnimator<T>::ComputeSpriteId(unsigned char animId, float deltaTime) {
 		float targetAcc = 1000.f / static_cast<float>(m_targetFPS);
 		m_accTime += deltaTime;
