@@ -13,19 +13,20 @@ PlayGround::PlayGround(unsigned short screenWidth, unsigned short screenHeight, 
 }
 
 void PlayGround::Init() {
-	vo::Vector2D<signed short> posOffset = { 0, 0 };
+	m_posOffset.x = 0;
+	m_posOffset.y = 0;
 
 	if (0 == m_height % 2) {
 		m_height-=3;
-		posOffset.y += TileEntry::Height + TileEntry::Height / 2;
+		m_posOffset.y += TileEntry::Height + TileEntry::Height / 2;
 	} else {
 		m_height-=2;
-		posOffset.y += TileEntry::Height;
+		m_posOffset.y += TileEntry::Height;
 	}
 
 	if (0 == m_width % 2) {
 		m_width--;
-		posOffset.x += TileEntry::Width / 2;
+		m_posOffset.x += TileEntry::Width / 2;
 	}
 
 	m_tiles.resize(static_cast<size_t>(m_height) * m_width);
@@ -39,23 +40,18 @@ void PlayGround::Init() {
 			tile.m_flags = 0;
 			if ((0 != i % 2) && (0 != j % 2)) {
 				tile.SetFlag(TileEntry::Flags::OccupiedByTile);
-			}
-			else {
+			} else {
 				tile.SetFlag(TileEntry::Flags::DestroyableTile);
 			}
 
-			tile.posX = static_cast<signed short>(i * TileEntry::Width + posOffset.x);
-			tile.posY = static_cast<signed short>((j * TileEntry::Height) + posOffset.y);
+			tile.posX = static_cast<signed short>(i * TileEntry::Width + m_posOffset.x);
+			tile.posY = static_cast<signed short>((j * TileEntry::Height) + m_posOffset.y);
 		}
 	}
 }
 
-void inline Draw() {
-
-}
-
 void PlayGround::Draw(float deltaTime) {
-	DrawSubscribed(&m_pPreDraw, 0, 0, deltaTime);
+	DrawSubscribed(&m_pPreDraw, m_posOffset.x, m_posOffset.y, deltaTime);
 
 	for (auto& tile : m_tiles) {
 		if (tile.HasFlagAny(TileEntry::Flags::OccupiedByTile)) {
@@ -66,7 +62,7 @@ void PlayGround::Draw(float deltaTime) {
 		DrawSubscribed(&tile.pDrawable, tile.posX, tile.posY, deltaTime);
 	}
 
-	DrawSubscribed(&m_pPostDraw, 0, 0, deltaTime);
+	DrawSubscribed(&m_pPostDraw, m_posOffset.x, m_posOffset.y, deltaTime);
 }
 
 unsigned short PlayGround::GetNrOfTiles() const {
@@ -134,6 +130,10 @@ unsigned short PlayGround::GetNeighborIdsForTileAt(std::array<unsigned short, 4>
 
 std::shared_ptr<vo::TextureAtlasBase> PlayGround::GetAtlas() const {
 	return m_pTileTextureAtlas;
+}
+
+vo::Vector2D<signed short>& PlayGround::GetPosOffset() const {
+	m_posOffset;
 }
 
 void PlayGround::SubScribeToPostDraw(vo::IDrawable* pDrawable) {

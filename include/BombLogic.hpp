@@ -7,6 +7,15 @@
 #include "SpriteAnimator.hpp"
 #include "PlayGround.hpp"
 
+class BombSprite : public vo::Sprite {
+public:
+	BombSprite(const std::shared_ptr<vo::TextureAtlasBase> textureAtlas, const unsigned texId);
+	bool Draw(int posX, int posY, float deltaTime) override;
+
+private:
+	vo::SpriteAnimator<unsigned char> m_fuseAnimator;
+};
+
 class BombLogic : public vo::IDrawable {
 public:
 	BombLogic(PlayGround& playGround, const unsigned texId);
@@ -15,9 +24,8 @@ public:
 
 private:
 	vo::SpriteAnimator<unsigned char> m_blastAnimator;
-	vo::SpriteAnimator<unsigned char> m_fuseAnimator;
 	PlayGround& m_playGround;
-	vo::Sprite m_bomb;
+	BombSprite m_bomb;
 	vo::TextureAtlasBase* m_pAtlas;
 };
 
