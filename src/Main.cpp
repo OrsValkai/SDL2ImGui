@@ -9,6 +9,8 @@
 #include "PlayerControl.hpp"
 #include "AIControl.hpp"
 
+#include <algorithm>
+
 class GameApp : public vo::Application
 {
 public:
@@ -41,8 +43,8 @@ public:
 
         bool shouldExit = false;
         timerHR.Start(); // start to clear time spent before
+        timerHR.Mark();
         while (false == shouldExit) {
-            float deltaTime = timerHR.StartMS(); // read time spent in loop and restart
             SDL_Event event;
 
             while (SDL_PollEvent(&event)) {
@@ -54,6 +56,9 @@ public:
                 }
             }
 
+            float deltaTime = timerHR.MS(); // read time spent in loop and restart
+            timerHR.Start();
+
             player1.Update(deltaTime);
             player2.Update(deltaTime);
             player3.Update(deltaTime);
@@ -64,6 +69,7 @@ public:
             pPlayGround->Draw(deltaTime);
 
             SDL_RenderPresent(pRenderer);
+            timerHR.Mark();
         }
     }
 };

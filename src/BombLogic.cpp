@@ -56,7 +56,9 @@ bool BombLogic::Draw(int posX, int posY, float deltaTime) {
 	m_pAtlas->Draw(posX+128, posY, base + m_blastAnimator.GetAnimOffset(Horizontal));
 	m_pAtlas->Draw(posX+192, posY, base + m_blastAnimator.GetAnimOffset(Middle));
 	m_pAtlas->Draw(posX+256, posY, base + m_blastAnimator.GetAnimOffset(Vertical));
-	m_pAtlas->Draw(posX+320, posY, base + m_blastAnimator.GetAnimOffset(VerticalEnd));
+	m_pAtlas->Draw(posX+320, posY+2, base + m_blastAnimator.GetAnimOffset(VerticalEnd));
+	m_pAtlas->Draw(posX+320, posY+61, base + m_blastAnimator.GetAnimOffset(Vertical));
+	m_pAtlas->Draw(posX+320, posY+112, base + m_blastAnimator.GetAnimOffset(Middle));
 
 	return true;
 }
