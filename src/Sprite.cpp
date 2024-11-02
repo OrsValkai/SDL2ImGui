@@ -9,7 +9,7 @@ namespace vo {
 		, m_texId(texId) {
 	}
 
-	bool Sprite::Draw(int posX, int posY, float deltaTime) {
+	bool Sprite::Draw(int posX, int posY, float) {
 		return m_textureAtlas->Draw(posX, posY, m_texId, 0, SDL_FLIP_NONE);
 	}
 

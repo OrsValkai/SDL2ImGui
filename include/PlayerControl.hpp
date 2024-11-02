@@ -21,7 +21,7 @@ private:
 		vo::Vector2D<signed short> dir;
 
 		CommandEntry(int _keyCode, signed short x, signed short y) : keyCode(_keyCode), dir(x, y) {};
-		bool operator==(const int& val) const { return val == keyCode; };
+		friend bool operator==(const CommandEntry& lh, const int& rh) { return lh.keyCode == rh; };
 	};
 
 	std::array<int, 5> m_keys;

@@ -9,7 +9,7 @@ namespace vo {
 		, m_textureAtlas(textureAtlas) {
 	}
 
-	bool AnimatedSprite::Draw(int posX, int posY, float deltaTime) {
+	bool AnimatedSprite::Draw(int posX, int posY, float) {
 		return m_textureAtlas->Draw(posX, posY, 0, 0, SDL_FLIP_NONE);
 	}
 

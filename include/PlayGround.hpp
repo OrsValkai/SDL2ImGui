@@ -24,7 +24,7 @@ public:
 	unsigned short GetNeighborIdForTileAt(const vo::Vector2D<signed short>& direction, unsigned short tileX, unsigned short tileY) const;
 	unsigned short GetNeighborIdsForTileAt(std::array<unsigned short, 4>& neighborIds, unsigned short tileX, unsigned short tileY) const;
 	std::shared_ptr<vo::TextureAtlasBase> GetAtlas() const;
-	vo::Vector2D<signed short>& GetPosOffset() const;
+	vo::Vector2D<signed short>& GetPosOffset();
 	void SubScribeToPostDraw(vo::IDrawable* pDrawable);
 	void SubScribeToPreDraw(vo::IDrawable* pDrawable);
 

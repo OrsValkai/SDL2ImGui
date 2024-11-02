@@ -30,16 +30,16 @@ void PlayerControl::OnEvent(const SDL_Event* pEvent) {
                     break; // already pressed, and not released yet
 
                 if (pEvent->key.keysym.sym == m_keys[0]) {
-                    m_commands.emplace_back(m_keys[0], -1, 0);
+                    m_commands.emplace_back(m_keys[0], static_cast<signed short>(-1), static_cast<signed short>(0));
                 }
                 else if (pEvent->key.keysym.sym == m_keys[1]) {
-                    m_commands.emplace_back(m_keys[1], 1, 0);
+                    m_commands.emplace_back(m_keys[1], static_cast<signed short>(1), static_cast<signed short>(0));
                 }
                 else if (pEvent->key.keysym.sym == m_keys[2]) {
-                    m_commands.emplace_back(m_keys[2], 0, -1);
+                    m_commands.emplace_back(m_keys[2], static_cast<signed short>(0), static_cast<signed short>(-1));
                 }
                 else if (pEvent->key.keysym.sym == m_keys[3]) {
-                    m_commands.emplace_back(m_keys[3], 0, 1);
+                    m_commands.emplace_back(m_keys[3], static_cast<signed short>(0), static_cast<signed short>(1));
                 }
 
                 break;
