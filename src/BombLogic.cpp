@@ -35,7 +35,6 @@ namespace {
 
 BombLogic::BombLogic(PlayGround& playGround, const unsigned texId)
 	: m_blastAnimator(20)
-	
 	, m_playGround(playGround)
 	, m_bomb(playGround.GetAtlas(), texId)
 	, m_pAtlas(playGround.GetAtlas().get()) {
@@ -58,9 +57,14 @@ bool BombLogic::Draw(int posX, int posY, float deltaTime) {
 
 	posY += 18;
 
+	// Horizontal blast
 	m_pAtlas->Draw(posX+64, posY, base + m_blastAnimator.GetAnimOffset(HorizontalEnd));
 	m_pAtlas->Draw(posX+128, posY, base + m_blastAnimator.GetAnimOffset(Horizontal));
 	m_pAtlas->Draw(posX+192, posY, base + m_blastAnimator.GetAnimOffset(Middle));
+	m_pAtlas->Draw(posX+256, posY, base + m_blastAnimator.GetAnimOffset(Horizontal), 180.0);
+	m_pAtlas->Draw(posX+320, posY, base + m_blastAnimator.GetAnimOffset(HorizontalEnd), 180.0);
+
+	// Vertical blast
 	m_pAtlas->Draw(posX+256, posY, base + m_blastAnimator.GetAnimOffset(VerticalEnd));
 	m_pAtlas->Draw(posX+256, posY+56, base + m_blastAnimator.GetAnimOffset(Vertical));
 	m_pAtlas->Draw(posX+256, posY+112, base + m_blastAnimator.GetAnimOffset(Vertical));
@@ -69,9 +73,14 @@ bool BombLogic::Draw(int posX, int posY, float deltaTime) {
 	m_pAtlas->Draw(posX+256, posY+280, base + m_blastAnimator.GetAnimOffset(Vertical), 180.0);
 	m_pAtlas->Draw(posX+256, posY+336, base + m_blastAnimator.GetAnimOffset(VerticalEnd), 180.0);
 
+	// Horizontal blast core
 	m_pAtlas->Draw(posX+64, posY, HorizontalEndCore);
 	m_pAtlas->Draw(posX+128, posY, HorizontalCore);
 	m_pAtlas->Draw(posX+192, posY, MiddleCore);
+	m_pAtlas->Draw(posX+256, posY, HorizontalCore, 180.0);
+	m_pAtlas->Draw(posX+320, posY, HorizontalEndCore, 180.0);
+	
+	// Vertical blast core
 	m_pAtlas->Draw(posX+256, posY, VerticalEndCore);
 	m_pAtlas->Draw(posX+256, posY+56, VerticalCore);
 	m_pAtlas->Draw(posX+256, posY+112, VerticalCore);
