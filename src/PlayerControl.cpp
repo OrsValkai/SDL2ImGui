@@ -7,39 +7,45 @@
 
 PlayerControl::PlayerControl(PlayGround& playGround, unsigned short startTileId)
     : BaseControl(playGround, startTileId), m_keys({SDLK_LEFT, SDLK_RIGHT, SDLK_UP, SDLK_DOWN, SDLK_LCTRL}) {
-    m_commands.reserve(m_keys.size());
+    m_moveCommands.reserve(4);
 }
 
-void PlayerControl::Update(float deltaTime, vo::IDrawable* pDrawable) {
-    if (!m_commands.empty()) {
-        Move(m_commands.back().dir, deltaTime);
+void PlayerControl::Update(float deltaTime, Player* pParent) {
+    if (!m_moveCommands.empty()) {
+        Move(m_moveCommands.back().dir, deltaTime);
     }
     else {
         vo::Vector2D<signed short> zero{};
         Move(zero, deltaTime);
     }
 
-    BaseControl::Update(deltaTime, pDrawable);
+    if (m_actionKeyPressed)
+        PlaceBomb();
+
+    BaseControl::Update(deltaTime, pParent);
 }
 
 void PlayerControl::OnEvent(const SDL_Event* pEvent) {
     switch (pEvent->type) {
             // Look for a keypress
             case SDL_KEYDOWN: {
-                if (m_commands.end() != std::find(m_commands.begin(), m_commands.end(), pEvent->key.keysym.sym))
+                if (m_moveCommands.end() != std::find(m_moveCommands.begin(), m_moveCommands.end(), pEvent->key.keysym.sym))
                     break; // already pressed, and not released yet
 
                 if (pEvent->key.keysym.sym == m_keys[0]) {
-                    m_commands.emplace_back(m_keys[0], static_cast<signed short>(-1), static_cast<signed short>(0));
+                    m_moveCommands.emplace_back(m_keys[0], static_cast<signed short>(-1), static_cast<signed short>(0));
                 }
                 else if (pEvent->key.keysym.sym == m_keys[1]) {
-                    m_commands.emplace_back(m_keys[1], static_cast<signed short>(1), static_cast<signed short>(0));
+                    m_moveCommands.emplace_back(m_keys[1], static_cast<signed short>(1), static_cast<signed short>(0));
                 }
                 else if (pEvent->key.keysym.sym == m_keys[2]) {
-                    m_commands.emplace_back(m_keys[2], static_cast<signed short>(0), static_cast<signed short>(-1));
+                    m_moveCommands.emplace_back(m_keys[2], static_cast<signed short>(0), static_cast<signed short>(-1));
                 }
                 else if (pEvent->key.keysym.sym == m_keys[3]) {
-                    m_commands.emplace_back(m_keys[3], static_cast<signed short>(0), static_cast<signed short>(1));
+                    m_moveCommands.emplace_back(m_keys[3], static_cast<signed short>(0), static_cast<signed short>(1));
+                }
+                else if (pEvent->key.keysym.sym == m_keys[4]) {
+                    m_actionKeyPressed = true;
                 }
 
                 break;
@@ -47,7 +53,12 @@ void PlayerControl::OnEvent(const SDL_Event* pEvent) {
 
             // When released we remove it from commands
             case SDL_KEYUP: {
-                m_commands.erase(std::remove_if(m_commands.begin(), m_commands.end(), [pEvent](const CommandEntry& e) { return e.keyCode == pEvent->key.keysym.sym; }), m_commands.end());
+                if (pEvent->key.keysym.sym == m_keys[4]) {
+                    m_actionKeyPressed = false;
+                    break;
+                }
+
+                m_moveCommands.erase(std::remove_if(m_moveCommands.begin(), m_moveCommands.end(), [pEvent](const CommandEntry& e) { return e.keyCode == pEvent->key.keysym.sym; }), m_moveCommands.end());
                 break;
             }
 

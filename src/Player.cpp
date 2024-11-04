@@ -19,6 +19,10 @@ Player::Player(const std::shared_ptr<vo::TextureAtlasBase> textureAtlas, PlayGro
 	AddAnimOffset(92);
 }
 
+void Player::PlaceBomb(unsigned int tileId) {
+	m_bombLogic.PlaceBomb(tileId);
+}
+
 void Player::SetControl(std::shared_ptr<BaseControl> upCtrl) {
 	m_pCtrl = upCtrl;
 }
@@ -33,8 +37,8 @@ void Player::Update(float deltaTime) {
 	if (!m_pCtrl)
 		return;
 
-	m_bombLogic.Update(deltaTime);
 	m_pCtrl->Update(deltaTime, this);
+	m_bombLogic.Update(deltaTime);
 }
 
 bool Player::Draw(int posX, int posY, float deltaTime) {

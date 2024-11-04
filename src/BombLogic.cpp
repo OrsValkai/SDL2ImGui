@@ -19,25 +19,13 @@ bool BombSprite::Draw(int posX, int posY, float deltaTime) {
 	return retVal;
 }
 
-namespace {
-	inline const unsigned char Middle = 2;
-	inline const unsigned char Horizontal = 0;
-	inline const unsigned char Vertical = 3;
-	inline const unsigned char HorizontalEnd = 1;
-	inline const unsigned char VerticalEnd= 4;
-
-	inline const unsigned char MiddleCore = 15;
-	inline const unsigned char HorizontalCore = 22;
-	inline const unsigned char VerticalCore = 21;
-	inline const unsigned char HorizontalEndCore = 24;
-	inline const unsigned char VerticalEndCore = 23;
-}
-
 BombLogic::BombLogic(PlayGround& playGround, const unsigned texId)
 	: m_blastAnimator(20)
 	, m_playGround(playGround)
-	, m_bomb(playGround.GetAtlas(), texId)
+	, m_bombSprite(playGround.GetAtlas(), texId)
 	, m_pAtlas(playGround.GetAtlas().get()) {
+
+	m_bombs.reserve(s_MaxNrOfBombs);
 
 	m_blastAnimator.SetSpriteIdPattern({0, 1, 2});
 	m_blastAnimator.AddAnimOffset(0);
@@ -47,8 +35,21 @@ BombLogic::BombLogic(PlayGround& playGround, const unsigned texId)
 	m_blastAnimator.AddAnimOffset(12);
 }
 
+void BombLogic::PlaceBomb(unsigned int tileId) {
+	if (m_bombs.size() == s_MaxNrOfBombs)
+		return;
+
+	m_bombs.emplace_back(static_cast<unsigned short>(0), static_cast<unsigned short>(tileId));
+	auto& tile = m_playGround.GetTileAt(tileId);
+	tile.SetFlag(TileEntry::Flags::OccupiedByBomb);
+}
+
 void BombLogic::Update(float) {
-	m_playGround.SubScribeToPreDraw(&m_bomb);
+	for (const auto& bE : m_bombs) {
+		m_playGround.GetTileAt(bE.tileId).SubscribeForDraw(&m_bombSprite);
+	}
+
+	//m_playGround.SubScribeToPreDraw(&m_bombSprite);
 	m_playGround.SubScribeToPostDraw(this);
 }
 
@@ -58,36 +59,36 @@ bool BombLogic::Draw(int posX, int posY, float deltaTime) {
 	posY += 18;
 
 	// Horizontal blast
-	m_pAtlas->Draw(posX+64, posY, base + m_blastAnimator.GetAnimOffset(HorizontalEnd));
-	m_pAtlas->Draw(posX+128, posY, base + m_blastAnimator.GetAnimOffset(Horizontal));
-	m_pAtlas->Draw(posX+192, posY, base + m_blastAnimator.GetAnimOffset(Middle));
-	m_pAtlas->Draw(posX+256, posY, base + m_blastAnimator.GetAnimOffset(Horizontal), 180.0);
-	m_pAtlas->Draw(posX+320, posY, base + m_blastAnimator.GetAnimOffset(HorizontalEnd), 180.0);
+	m_pAtlas->Draw(posX+64, posY, base + m_blastAnimator.GetAnimOffset(s_HorizontalEnd));
+	m_pAtlas->Draw(posX+128, posY, base + m_blastAnimator.GetAnimOffset(s_Horizontal));
+	m_pAtlas->Draw(posX+192, posY, base + m_blastAnimator.GetAnimOffset(s_Middle));
+	m_pAtlas->Draw(posX+256, posY, base + m_blastAnimator.GetAnimOffset(s_Horizontal), 180.0);
+	m_pAtlas->Draw(posX+320, posY, base + m_blastAnimator.GetAnimOffset(s_HorizontalEnd), 180.0);
 
 	// Vertical blast
-	m_pAtlas->Draw(posX+256, posY, base + m_blastAnimator.GetAnimOffset(VerticalEnd));
-	m_pAtlas->Draw(posX+256, posY+56, base + m_blastAnimator.GetAnimOffset(Vertical));
-	m_pAtlas->Draw(posX+256, posY+112, base + m_blastAnimator.GetAnimOffset(Vertical));
-	m_pAtlas->Draw(posX+256, posY+168, base + m_blastAnimator.GetAnimOffset(Middle));
-	m_pAtlas->Draw(posX+256, posY+224, base + m_blastAnimator.GetAnimOffset(Vertical), 180.0);
-	m_pAtlas->Draw(posX+256, posY+280, base + m_blastAnimator.GetAnimOffset(Vertical), 180.0);
-	m_pAtlas->Draw(posX+256, posY+336, base + m_blastAnimator.GetAnimOffset(VerticalEnd), 180.0);
+	m_pAtlas->Draw(posX+256, posY, base + m_blastAnimator.GetAnimOffset(s_VerticalEnd));
+	m_pAtlas->Draw(posX+256, posY+56, base + m_blastAnimator.GetAnimOffset(s_Vertical));
+	m_pAtlas->Draw(posX+256, posY+112, base + m_blastAnimator.GetAnimOffset(s_Vertical));
+	m_pAtlas->Draw(posX+256, posY+168, base + m_blastAnimator.GetAnimOffset(s_Middle));
+	m_pAtlas->Draw(posX+256, posY+224, base + m_blastAnimator.GetAnimOffset(s_Vertical), 180.0);
+	m_pAtlas->Draw(posX+256, posY+280, base + m_blastAnimator.GetAnimOffset(s_Vertical), 180.0);
+	m_pAtlas->Draw(posX+256, posY+336, base + m_blastAnimator.GetAnimOffset(s_VerticalEnd), 180.0);
 
 	// Horizontal blast core
-	m_pAtlas->Draw(posX+64, posY, HorizontalEndCore);
-	m_pAtlas->Draw(posX+128, posY, HorizontalCore);
-	m_pAtlas->Draw(posX+192, posY, MiddleCore);
-	m_pAtlas->Draw(posX+256, posY, HorizontalCore, 180.0);
-	m_pAtlas->Draw(posX+320, posY, HorizontalEndCore, 180.0);
+	m_pAtlas->Draw(posX+64, posY, s_HorizontalEndCore);
+	m_pAtlas->Draw(posX+128, posY, s_HorizontalCore);
+	m_pAtlas->Draw(posX+192, posY, s_MiddleCore);
+	m_pAtlas->Draw(posX+256, posY, s_HorizontalCore, 180.0);
+	m_pAtlas->Draw(posX+320, posY, s_HorizontalEndCore, 180.0);
 	
 	// Vertical blast core
-	m_pAtlas->Draw(posX+256, posY, VerticalEndCore);
-	m_pAtlas->Draw(posX+256, posY+56, VerticalCore);
-	m_pAtlas->Draw(posX+256, posY+112, VerticalCore);
-	m_pAtlas->Draw(posX+256, posY+168, MiddleCore);
-	m_pAtlas->Draw(posX+256, posY+224, VerticalCore, 180.0);
-	m_pAtlas->Draw(posX+256, posY+280, VerticalCore, 180.0);
-	m_pAtlas->Draw(posX+256, posY+336, VerticalEndCore, 180.0);
+	m_pAtlas->Draw(posX+256, posY, s_VerticalEndCore);
+	m_pAtlas->Draw(posX+256, posY+56, s_VerticalCore);
+	m_pAtlas->Draw(posX+256, posY+112, s_VerticalCore);
+	m_pAtlas->Draw(posX+256, posY+168, s_MiddleCore);
+	m_pAtlas->Draw(posX+256, posY+224, s_VerticalCore, 180.0);
+	m_pAtlas->Draw(posX+256, posY+280, s_VerticalCore, 180.0);
+	m_pAtlas->Draw(posX+256, posY+336, s_VerticalEndCore, 180.0);
 
 	return true;
 }

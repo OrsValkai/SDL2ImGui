@@ -33,6 +33,7 @@
     <ClCompile Include="..\src\PlayerControl.cpp" />
     <ClCompile Include="..\src\PlayGround.cpp" />
     <ClCompile Include="..\src\SpriteAnimator.cpp" />
+    <ClCompile Include="..\src\TileEntry.cpp" />
     <ClCompile Include="..\src\TimerHR.cpp" />
     <ClCompile Include="..\src\Application.cpp" />
   </ItemGroup>

@@ -10,7 +10,7 @@ class PlayerControl : public BaseControl
 {
 public:
 	explicit PlayerControl(PlayGround& playGround, unsigned short startTileId);
-	void Update(float deltaTime, vo::IDrawable* pDrawable) final;
+	void Update(float deltaTime, Player* pParent) final;
 	void OnEvent(const SDL_Event*);
 
 	void RemapKey(size_t id, SDL_KeyCode newKeyCode);
@@ -25,7 +25,8 @@ private:
 	};
 
 	std::array<int, 5> m_keys;
-	std::vector<CommandEntry> m_commands{};
+	std::vector<CommandEntry> m_moveCommands{};
+	bool m_actionKeyPressed{false};
 };
 
 #endif // PLAYER_CONTROL_H

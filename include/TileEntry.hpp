@@ -38,6 +38,7 @@ public:
     void ClearFlag(Flags flag);
     void SetFlag(unsigned int flag);
     void SetFlag(Flags flag);
+    void SubscribeForDraw(vo::IDrawable* _pDrawable);
 
     unsigned int m_flags{ 0 };
     signed short posX{ 0 };

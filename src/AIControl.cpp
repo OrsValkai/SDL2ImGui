@@ -10,7 +10,7 @@ AIControl::AIControl(PlayGround& playGround, unsigned short startTileId)
 
 
 
-void AIControl::Update(float deltaTime, vo::IDrawable* pDrawable) {
+void AIControl::Update(float deltaTime, Player* pParent) {
 	static std::default_random_engine randEng;
 
 	//std::cout << "AI update\n";
@@ -42,5 +42,5 @@ void AIControl::Update(float deltaTime, vo::IDrawable* pDrawable) {
 		m_shouldPickNewTarget = true;
 	}
 
-    BaseControl::Update(deltaTime, pDrawable);
+    BaseControl::Update(deltaTime, pParent);
 }

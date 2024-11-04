@@ -4,9 +4,9 @@
 #define BASE_CONTROL_H
 
 #include "PlayGround.hpp"
-#include "IDrawable.hpp"
-
 #include <functional>
+
+class Player;
 
 class BaseControl
 {
@@ -17,13 +17,14 @@ public:
 	const vo::Vector2D<float>& GetPos() const;
 	const vo::Vector2D<signed short>& GetMoveDir() const;
 	void SetMovementSpeed(const float speed);
-	virtual void Update(float deltaTime, vo::IDrawable* pDrawable);
+	virtual void Update(float deltaTime, Player* parent);
 	virtual ~BaseControl() = default;
 
 protected:
 	PlayGround& m_playGround;
 
 	void Move(const vo::Vector2D<signed short>& dir, float deltaTime);
+	void PlaceBomb();
 	unsigned short& GetPotentialTargetId();
 	unsigned short& GetCurrentId();
 	unsigned short& GetTargetId();
@@ -37,11 +38,12 @@ private:
 	unsigned short m_currentTileId{std::numeric_limits<unsigned short>::max()};
 	unsigned short m_targetTileId{std::numeric_limits<unsigned short>::max()};
 	unsigned short m_potentialTargetTileId{std::numeric_limits<unsigned short>::max()};
+	bool m_shouldPlaceBomb{false};
 
 	static float StepTowards(float& valToStep, signed short &moveDir, const float target, const float step);
 	float StepTowardsX(const float step);
 	float StepTowardsY(const float step);
-	void UpdateInternal(float step, vo::IDrawable* pDrawable);
+	void UpdateInternal(float step, Player* parent);
 };
 
 // Implementation

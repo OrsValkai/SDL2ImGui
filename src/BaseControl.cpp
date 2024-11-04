@@ -1,6 +1,7 @@
 // Copyright(c) 2024 Valkai-Németh Béla-Örs
 
 #include "BaseControl.hpp"
+#include "Player.hpp"
 #include <array>
 
 BaseControl::BaseControl(PlayGround& playGround, unsigned short startTileId) : m_playGround(playGround) {
@@ -51,6 +52,10 @@ void BaseControl::Move(const vo::Vector2D<signed short>& dir, float /*deltaTime*
 	}
 }
 
+void BaseControl::PlaceBomb() {
+	m_shouldPlaceBomb = true;
+}
+
 float BaseControl::StepTowards(float& valToStep, signed short& moveDir, const float target, const float step) {
 	float diff = target - valToStep;
 	if (float aDiff = std::abs(diff); aDiff > step) {
@@ -79,8 +84,15 @@ float BaseControl::StepTowardsY(const float step) {
 	return StepTowards(m_pos.y, m_moveDir.y, m_stepperTarget, step);
 }
 
-void BaseControl::UpdateInternal(float step, vo::IDrawable* pDrawable) {
+void BaseControl::UpdateInternal(float step, Player* pParent) {
 	auto& curTileEntry = m_playGround.GetTileAt(m_currentTileId);
+
+	if (m_shouldPlaceBomb) {
+		m_shouldPlaceBomb = false;
+
+		if (!curTileEntry.HasFlagAny(TileEntry::Flags::Occupied))
+			pParent->PlaceBomb(m_currentTileId);
+	}
 
 	if (m_potentialTargetTileId < m_playGround.GetNrOfTiles() && m_targetTileId == m_currentTileId) {
 		m_targetTileId = m_potentialTargetTileId;
@@ -112,7 +124,7 @@ void BaseControl::UpdateInternal(float step, vo::IDrawable* pDrawable) {
 			m_currentTileId = m_targetTileId;
 			m_activeStepper = nullptr;
 
-			UpdateInternal(stepLeft, pDrawable);
+			UpdateInternal(stepLeft, pParent);
 			return;
 		}
 	} else {
@@ -120,14 +132,9 @@ void BaseControl::UpdateInternal(float step, vo::IDrawable* pDrawable) {
 		m_moveDir.y = 0;
 	}
 
-	if (nullptr == curTileEntry.pDrawable)
-		curTileEntry.pDrawable = pDrawable;
-	else {
-		pDrawable->m_pNextDrawable = curTileEntry.pDrawable;
-		curTileEntry.pDrawable = pDrawable;
-	}
+	curTileEntry.SubscribeForDraw(pParent);
 }
 
-void BaseControl::Update(float deltaTime, vo::IDrawable* pDrawable) {
-	UpdateInternal(m_movementSpeed * deltaTime, pDrawable);
+void BaseControl::Update(float deltaTime, Player* pParent) {
+	UpdateInternal(m_movementSpeed * deltaTime, pParent);
 }

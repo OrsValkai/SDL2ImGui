@@ -26,6 +26,7 @@ class Player : public vo::AnimatedSprite
 {
 public:
 	explicit Player(const std::shared_ptr<vo::TextureAtlasBase> textureAtlas, PlayGround& playGround);
+	void PlaceBomb(unsigned int tileId);
 	void SetControl(std::shared_ptr<BaseControl> spCtrl);
 	void SetTintColor(Uint8 r, Uint8 g, Uint8 b);
 	void Update(float deltaTime);
