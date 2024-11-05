@@ -16,6 +16,7 @@ public:
 	void Init();
 	void Draw(float deltaTime);
 	unsigned short GetNrOfTiles() const;
+	unsigned short GetWidth() const;
 	unsigned short GetTileId(unsigned short tileX, unsigned short tileY) const;
 	TileEntry& GetTileAt(unsigned short tileId);
 	TileEntry& GetTileAt(unsigned short tileX, unsigned short tileY);

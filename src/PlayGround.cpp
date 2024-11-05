@@ -69,6 +69,10 @@ unsigned short PlayGround::GetNrOfTiles() const {
 	return static_cast<unsigned short>(m_tiles.size());
 }
 
+unsigned short PlayGround::GetWidth() const {
+	return m_width;
+}
+
 TileEntry& PlayGround::GetTileAt(unsigned short tileId) {
 	return m_tiles[tileId];
 }

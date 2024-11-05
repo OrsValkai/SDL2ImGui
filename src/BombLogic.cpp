@@ -2,19 +2,24 @@
 
 #include "BombLogic.hpp"
 
-BombSprite::BombSprite(const std::shared_ptr<vo::TextureAtlasBase> textureAtlas, const unsigned texId)
-	: Sprite(textureAtlas, texId)
-	, m_fuseAnimator(20) {
+BombLogic::BombSharedSprite::BombSharedSprite(const std::shared_ptr<vo::TextureAtlasBase> textureAtlas, const unsigned texId)
+	: m_textureAtlas(textureAtlas)
+	, m_fuseAnimator(20)
+	, m_texId(texId) {
 
 	m_fuseAnimator.SetSpriteIdPattern({ 0, 1, 2, 3, 4 });
 	m_fuseAnimator.AddAnimOffset(16);
 }
 
-bool BombSprite::Draw(int posX, int posY, float deltaTime) {
+void BombLogic::BombSharedSprite::Update(float deltaTime) {
+	m_fuseAnimator.ComputeSpriteId(0, deltaTime);
+}
+
+bool BombLogic::BombSharedSprite::Draw(int posX, int posY) {
 	posY += 32;
 	
-	auto retVal = vo::Sprite::Draw(posX, posY, deltaTime);
-	GetTextureAtlas()->Draw(posX-24, posY-20, m_fuseAnimator.ComputeSpriteId(0, deltaTime));
+	auto retVal = m_textureAtlas->Draw(posX, posY, m_texId);
+	m_textureAtlas->Draw(posX-24, posY-20, m_fuseAnimator.ComputeSpriteId(0, 0.f));
 
 	return retVal;
 }
@@ -39,17 +44,25 @@ void BombLogic::PlaceBomb(unsigned int tileId) {
 	if (m_bombs.size() == s_MaxNrOfBombs)
 		return;
 
-	m_bombs.emplace_back(static_cast<unsigned short>(0), static_cast<unsigned short>(tileId));
-	auto& tile = m_playGround.GetTileAt(tileId);
+	m_bombs.emplace_back(m_bombSprite, static_cast<unsigned short>(tileId));
+	
+	auto& bE = m_bombs.back();
+	auto& tile = m_playGround.GetTileAt(bE.tileId);
 	tile.SetFlag(TileEntry::Flags::OccupiedByBomb);
+
+	bE.posX = tile.posX;
+	bE.posY = tile.posY;
+	bE.tileId -= m_playGround.GetWidth();
+	if (bE.tileId >= m_playGround.GetNrOfTiles())
+		bE.tileId = 0;
 }
 
-void BombLogic::Update(float) {
-	for (const auto& bE : m_bombs) {
-		m_playGround.GetTileAt(bE.tileId).SubscribeForDraw(&m_bombSprite);
+void BombLogic::Update(float deltaTime) {
+	m_bombSprite.Update(deltaTime);
+	for (auto& bE : m_bombs) {
+		m_playGround.GetTileAt(bE.tileId).SubscribeForDraw(&bE, 0);
 	}
 
-	//m_playGround.SubScribeToPreDraw(&m_bombSprite);
 	m_playGround.SubScribeToPostDraw(this);
 }
 

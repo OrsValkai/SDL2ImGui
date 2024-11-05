@@ -39,7 +39,7 @@ void BaseControl::Move(const vo::Vector2D<signed short>& dir, float /*deltaTime*
 	auto nId = m_playGround.GetNeighborIdForTileAt(dir, m_targetTileId);
 	if (nId < m_playGround.GetNrOfTiles()) {
 		const auto& tileEntry = m_playGround.GetTileAt(nId);
-		if (tileEntry.HasFlagAny(TileEntry::Flags::Destroyable) || !tileEntry.HasFlagAny(TileEntry::Flags::Occupied)) {
+		if (tileEntry.HasFlagAny(TileEntry::Flags::Destroyable) || !tileEntry.HasFlagAny(TileEntry::Flags::Occupied) || tileEntry.HasFlagAll(TileEntry::Flags::OccupiedByBomb)) {
 			if (nId == m_currentTileId) {
 				m_potentialTargetTileId = std::numeric_limits<unsigned short>::max();
 				m_currentTileId = m_targetTileId;
@@ -119,8 +119,7 @@ void BaseControl::UpdateInternal(float step, Player* pParent) {
 			}
 		}
 
-		float stepLeft = (this->*m_activeStepper)(step);
-		if (stepLeft > 0.0001f) {
+		if (float stepLeft = (this->*m_activeStepper)(step); stepLeft > 0.0001f) {
 			m_currentTileId = m_targetTileId;
 			m_activeStepper = nullptr;
 
@@ -132,7 +131,7 @@ void BaseControl::UpdateInternal(float step, Player* pParent) {
 		m_moveDir.y = 0;
 	}
 
-	curTileEntry.SubscribeForDraw(pParent);
+	curTileEntry.SubscribeForDraw(pParent, 1);
 }
 
 void BaseControl::Update(float deltaTime, Player* pParent) {

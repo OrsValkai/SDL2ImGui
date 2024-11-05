@@ -37,8 +37,8 @@ void Player::Update(float deltaTime) {
 	if (!m_pCtrl)
 		return;
 
-	m_pCtrl->Update(deltaTime, this);
 	m_bombLogic.Update(deltaTime);
+	m_pCtrl->Update(deltaTime, this);
 }
 
 bool Player::Draw(int posX, int posY, float deltaTime) {

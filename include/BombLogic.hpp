@@ -9,15 +9,6 @@
 
 #include <vector>
 
-class BombSprite : public vo::Sprite {
-public:
-	BombSprite(const std::shared_ptr<vo::TextureAtlasBase> textureAtlas, const unsigned texId);
-	bool Draw(int posX, int posY, float deltaTime) override;
-
-private:
-	vo::SpriteAnimator<unsigned char> m_fuseAnimator;
-};
-
 class BombLogic : public vo::IDrawable {
 public:
 	BombLogic(PlayGround& playGround, const unsigned texId);
@@ -40,17 +31,33 @@ private:
 
 	static constexpr unsigned char s_MaxNrOfBombs = 4;
 
-	struct BombEntry {
-		float timeTillBlastS{1.f};
-		unsigned short drawTileId;
-		unsigned short tileId;
+	class BombSharedSprite {
+	public:
+		BombSharedSprite(const std::shared_ptr<vo::TextureAtlasBase> textureAtlas, const unsigned texId);
+		void Update(float deltaTime);
+		bool Draw(int posX, int posY);
 
-		BombEntry(unsigned short _drawTileId, unsigned short _tileId) : drawTileId(_drawTileId), tileId(_tileId) {}
+	private:
+		std::shared_ptr<vo::TextureAtlasBase> m_textureAtlas;
+		vo::SpriteAnimator<unsigned char> m_fuseAnimator;
+		unsigned m_texId;
+	};
+
+	class BombEntry : public vo::IDrawable {
+	public:
+		BombSharedSprite& sharedSprite;
+		float timeTillBlastS{1.f};
+		unsigned short tileId;
+		unsigned short posX{0};
+		unsigned short posY{0};
+
+		BombEntry(BombSharedSprite& _sharedSprite, unsigned short _tileId) : sharedSprite(_sharedSprite), tileId(_tileId) {}
+		bool Draw(int, int, float) override { return sharedSprite.Draw(posX, posY); };
 	};
 
 	vo::SpriteAnimator<unsigned char> m_blastAnimator;
 	PlayGround& m_playGround;
-	BombSprite m_bombSprite;
+	BombSharedSprite m_bombSprite;
 	vo::TextureAtlasBase* m_pAtlas;
 	std::vector<BombEntry> m_bombs;
 };
