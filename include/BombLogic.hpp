@@ -8,6 +8,7 @@
 #include "PlayGround.hpp"
 
 #include <vector>
+#include <array>
 
 class BombLogic : public vo::IDrawable {
 public:
@@ -29,7 +30,9 @@ private:
 	static constexpr unsigned char s_HorizontalEndCore = 24;
 	static constexpr unsigned char s_VerticalEndCore = 23;
 
-	static constexpr unsigned char s_MaxNrOfBombs = 4;
+	static constexpr unsigned char s_MaxBlastLength = 8;
+	static constexpr unsigned char s_MaxBombCount = 4;
+	inline static float s_BlastTimeSec = 500.f;
 
 	class BombSharedSprite {
 	public:
@@ -45,21 +48,30 @@ private:
 
 	class BombEntry : public vo::IDrawable {
 	public:
-		BombSharedSprite& sharedSprite;
-		float timeTillBlastS{1.f};
-		unsigned short tileId;
-		unsigned short posX{0};
-		unsigned short posY{0};
+		inline static BombSharedSprite* s_pSharedSprite{nullptr};
 
-		BombEntry(BombSharedSprite& _sharedSprite, unsigned short _tileId) : sharedSprite(_sharedSprite), tileId(_tileId) {}
-		bool Draw(int, int, float) override { return sharedSprite.Draw(posX, posY); };
+		double counterSec{-1.f};
+		unsigned short tileId{std::numeric_limits<unsigned short>::max()};
+		signed short posX{0};
+		signed short posY{0};
+
+		bool Draw(int, int, float) override { return s_pSharedSprite->Draw(posX, posY); };
+	};
+
+	struct BlastEntry {
+		signed short posX;
+		signed short posY;
+		unsigned char type;
+
+		BlastEntry(signed short _posX, signed short _posY, unsigned char _type) : posX(_posX), posY(_posY), type(_type) {}
 	};
 
 	vo::SpriteAnimator<unsigned char> m_blastAnimator;
 	PlayGround& m_playGround;
 	BombSharedSprite m_bombSprite;
 	vo::TextureAtlasBase* m_pAtlas;
-	std::vector<BombEntry> m_bombs;
+	std::array<BombEntry, s_MaxBombCount> m_bombs{};
+	std::array<std::vector<BlastEntry>, s_MaxBombCount> m_blasts{};
 };
 
 #endif // BOMB_LOGIC_HPP
