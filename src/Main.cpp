@@ -19,6 +19,10 @@ public:
         auto pPlayGround = std::make_unique<PlayGround>(GetWindowWidth(), GetWindowHeight(), std::make_shared<vo::TextureAtlasU>(pRenderer, "Atlas64.png", 64, 64, 64));
         auto pPlayerCtrl1 = std::make_shared<PlayerControl>(*pPlayGround, pPlayGround->GetTileId(1, 2));
         auto pPlayerCtrl2 = std::make_shared<PlayerControl>(*pPlayGround, pPlayGround->GetTileId(5, 4));
+        auto upBG = vo::SDL_MakeTexturePtr(pRenderer, "BG.jpg");
+        const auto& posOffset = pPlayGround->GetPosOffset();
+        SDL_Rect bgDst{ 0, 0, GetWindowWidth(), GetWindowHeight() };
+        SDL_Rect bgSrc{posOffset.x, posOffset.y+8, bgDst.w, bgDst.h};
         vo::TimerHR timerHR;
 
         timerHR.Start();
@@ -63,8 +67,7 @@ public:
             player2.Update(deltaTime);
             player3.Update(deltaTime);
 
-            SDL_SetRenderDrawColor(pRenderer, 30, 30, 30, SDL_ALPHA_OPAQUE);
-            SDL_RenderClear(pRenderer);
+            SDL_RenderCopy(pRenderer, upBG.get(), &bgSrc, &bgDst);
 
             pPlayGround->Draw(deltaTime);
 
