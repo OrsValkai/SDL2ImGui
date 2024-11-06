@@ -19,8 +19,10 @@ void PlayerControl::Update(float deltaTime, Player* pParent) {
         Move(zero, deltaTime);
     }
 
-    if (m_actionKeyPressed)
+    if (!m_actionConsumed && m_actionKeyPressed) {
+        m_actionConsumed = true;
         PlaceBomb();
+    }
 
     BaseControl::Update(deltaTime, pParent);
 }
@@ -55,6 +57,7 @@ void PlayerControl::OnEvent(const SDL_Event* pEvent) {
             case SDL_KEYUP: {
                 if (pEvent->key.keysym.sym == m_keys[4]) {
                     m_actionKeyPressed = false;
+                    m_actionConsumed = false;
                     break;
                 }
 

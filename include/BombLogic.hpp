@@ -66,6 +66,8 @@ private:
 		BlastEntry(signed short _posX, signed short _posY, unsigned char _type) : posX(_posX), posY(_posY), type(_type) {}
 	};
 
+	void BlastDebugDraw(int posX, int posY, int base);
+
 	vo::SpriteAnimator<unsigned char> m_blastAnimator;
 	PlayGround& m_playGround;
 	BombSharedSprite m_bombSprite;

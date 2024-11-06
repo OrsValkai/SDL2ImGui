@@ -87,13 +87,6 @@ float BaseControl::StepTowardsY(const float step) {
 void BaseControl::UpdateInternal(float step, Player* pParent) {
 	auto& curTileEntry = m_playGround.GetTileAt(m_currentTileId);
 
-	if (m_shouldPlaceBomb) {
-		m_shouldPlaceBomb = false;
-
-		if (!curTileEntry.HasFlagAny(TileEntry::Flags::Occupied))
-			pParent->PlaceBomb(m_currentTileId);
-	}
-
 	if (m_potentialTargetTileId < m_playGround.GetNrOfTiles() && m_targetTileId == m_currentTileId) {
 		m_targetTileId = m_potentialTargetTileId;
 		m_potentialTargetTileId = std::numeric_limits<unsigned short>::max();
@@ -103,6 +96,22 @@ void BaseControl::UpdateInternal(float step, Player* pParent) {
 		auto& targetTileEntry = m_playGround.GetTileAt(m_targetTileId);
 
 		targetTileEntry.m_flags = 0;
+
+		if (m_shouldPlaceBomb) {
+			float roundedX = std::roundf(m_pos.x);
+			float roundedY = std::roundf(m_pos.y);
+			m_shouldPlaceBomb = false;
+
+			if (roundedX == m_pos.x && roundedY == m_pos.y) {
+				if (!curTileEntry.HasFlagAny(TileEntry::Flags::Occupied))
+					pParent->PlaceBomb(m_currentTileId);
+			}
+			else {
+				const auto& targetTileEntry = m_playGround.GetTileAt(m_targetTileId);
+				if (!targetTileEntry.HasFlagAny(TileEntry::Flags::Occupied))
+					pParent->PlaceBomb(m_targetTileId);
+			}
+		}
 
 		if (nullptr == m_activeStepper) {
 			float xDiff = std::abs(targetTileEntry.posX - m_pos.x);
@@ -129,6 +138,13 @@ void BaseControl::UpdateInternal(float step, Player* pParent) {
 	} else {
 		m_moveDir.x = 0;
 		m_moveDir.y = 0;
+
+		if (m_shouldPlaceBomb) {
+			m_shouldPlaceBomb = false;
+
+			if (!curTileEntry.HasFlagAny(TileEntry::Flags::Occupied))
+				pParent->PlaceBomb(m_currentTileId);
+		}
 	}
 
 	curTileEntry.SubscribeForDraw(pParent, 1);

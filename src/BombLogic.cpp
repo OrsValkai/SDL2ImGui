@@ -107,7 +107,14 @@ bool BombLogic::Draw(int posX, int posY, float deltaTime) {
 		}
 	}
 
-	/*/ Blast debug start
+	//BlastDebugDraw(posX, posY, base);
+
+	return true;
+}
+
+void BombLogic::BlastDebugDraw(int posX, int posY, int base)
+{
+	// Blast debug start
 	posY += 18;
 
 	// Horizontal blast
@@ -132,7 +139,7 @@ bool BombLogic::Draw(int posX, int posY, float deltaTime) {
 	m_pAtlas->Draw(posX+192, posY, s_MiddleCore);
 	m_pAtlas->Draw(posX+256, posY, s_HorizontalCore, 180.0);
 	m_pAtlas->Draw(posX+320, posY, s_HorizontalEndCore, 180.0);
-	
+
 	// Vertical blast core
 	m_pAtlas->Draw(posX+256, posY, s_VerticalEndCore);
 	m_pAtlas->Draw(posX+256, posY+56, s_VerticalCore);
@@ -140,8 +147,6 @@ bool BombLogic::Draw(int posX, int posY, float deltaTime) {
 	m_pAtlas->Draw(posX+256, posY+168, s_MiddleCore);
 	m_pAtlas->Draw(posX+256, posY+224, s_VerticalCore, 180.0);
 	m_pAtlas->Draw(posX+256, posY+280, s_VerticalCore, 180.0);
-	m_pAtlas->Draw(posX+256, posY+336, s_VerticalEndCore, 180.0); //*/// Blast debug end!
-
-	return true;
+	m_pAtlas->Draw(posX+256, posY+336, s_VerticalEndCore, 180.0);
 }
 

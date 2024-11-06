@@ -27,6 +27,7 @@ private:
 	std::array<int, 5> m_keys;
 	std::vector<CommandEntry> m_moveCommands{};
 	bool m_actionKeyPressed{false};
+	bool m_actionConsumed{false};
 };
 
 #endif // PLAYER_CONTROL_H
