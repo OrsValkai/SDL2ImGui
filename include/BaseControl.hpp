@@ -40,6 +40,7 @@ private:
 	unsigned short m_potentialTargetTileId{std::numeric_limits<unsigned short>::max()};
 	bool m_shouldPlaceBomb{false};
 
+	static constexpr float s_ySpeedMultiplier = static_cast<float>(TileEntry::Height) / static_cast<float>(TileEntry::Width);
 	static float StepTowards(float& valToStep, signed short &moveDir, const float target, const float step);
 	float StepTowardsX(const float step);
 	float StepTowardsY(const float step);

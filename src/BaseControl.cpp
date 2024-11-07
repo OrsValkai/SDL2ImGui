@@ -81,7 +81,7 @@ float BaseControl::StepTowardsX(const float step) {
 }
 
 float BaseControl::StepTowardsY(const float step) {
-	return StepTowards(m_pos.y, m_moveDir.y, m_stepperTarget, step);
+	return StepTowards(m_pos.y, m_moveDir.y, m_stepperTarget, step * s_ySpeedMultiplier);
 }
 
 void BaseControl::UpdateInternal(float step, Player* pParent) {
@@ -106,10 +106,8 @@ void BaseControl::UpdateInternal(float step, Player* pParent) {
 				if (!curTileEntry.HasFlagAny(TileEntry::Flags::Occupied))
 					pParent->PlaceBomb(m_currentTileId);
 			}
-			else {
-				const auto& targetTileEntry = m_playGround.GetTileAt(m_targetTileId);
-				if (!targetTileEntry.HasFlagAny(TileEntry::Flags::Occupied))
-					pParent->PlaceBomb(m_targetTileId);
+			else if (!targetTileEntry.HasFlagAny(TileEntry::Flags::Occupied)) {
+				pParent->PlaceBomb(m_targetTileId);
 			}
 		}
 
