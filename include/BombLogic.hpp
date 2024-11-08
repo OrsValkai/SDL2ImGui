@@ -52,6 +52,7 @@ private:
 
 		double counterSec{-1.f};
 		unsigned short tileId{std::numeric_limits<unsigned short>::max()};
+		unsigned short drawTileId{0};
 		signed short posX{0};
 		signed short posY{0};
 
@@ -62,10 +63,20 @@ private:
 		signed short posX;
 		signed short posY;
 		unsigned char type;
+		unsigned char angle;
 
-		BlastEntry(signed short _posX, signed short _posY, unsigned char _type) : posX(_posX), posY(_posY), type(_type) {}
+		BlastEntry(signed short _posX, signed short _posY, unsigned char _type, unsigned char _angle) : posX(_posX), posY(_posY), type(_type), angle(_angle) {}
 	};
 
+	struct BlastDrawHelper {
+		unsigned char coreId;
+		unsigned char id;
+		unsigned char angle;
+
+		BlastDrawHelper(unsigned char _id, unsigned char _coreId, unsigned char _angle) : coreId(_coreId), id(_id), angle(_angle) {}
+	};
+
+	void CreateBlast(BombEntry& bE, std::vector<BlastEntry>& blast);
 	void BlastDebugDraw(int posX, int posY, int base);
 
 	vo::SpriteAnimator<unsigned char> m_blastAnimator;
