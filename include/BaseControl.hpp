@@ -44,6 +44,7 @@ private:
 	static float StepTowards(float& valToStep, signed short &moveDir, const float target, const float step);
 	float StepTowardsX(const float step);
 	float StepTowardsY(const float step);
+	void PlaceBombInternal(Player* pParent, const TileEntry& tileEntry, const unsigned short tileId);
 	void UpdateInternal(float step, Player* parent);
 };
 

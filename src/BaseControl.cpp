@@ -84,6 +84,13 @@ float BaseControl::StepTowardsY(const float step) {
 	return StepTowards(m_pos.y, m_moveDir.y, m_stepperTarget, step * s_ySpeedMultiplier);
 }
 
+void BaseControl::PlaceBombInternal(Player* pParent, const TileEntry& tileEntry, const unsigned short tileId) {
+	m_shouldPlaceBomb = false;
+
+	if (!tileEntry.HasFlagAny(TileEntry::Flags::Occupied))
+		pParent->PlaceBomb(tileId);
+}
+
 void BaseControl::UpdateInternal(float step, Player* pParent) {
 	auto& curTileEntry = m_playGround.GetTileAt(m_currentTileId);
 
@@ -100,14 +107,12 @@ void BaseControl::UpdateInternal(float step, Player* pParent) {
 		if (m_shouldPlaceBomb) {
 			float roundedX = std::roundf(m_pos.x);
 			float roundedY = std::roundf(m_pos.y);
-			m_shouldPlaceBomb = false;
 
 			if (roundedX == m_pos.x && roundedY == m_pos.y) {
-				if (!curTileEntry.HasFlagAny(TileEntry::Flags::Occupied))
-					pParent->PlaceBomb(m_currentTileId);
+				PlaceBombInternal(pParent, curTileEntry, m_currentTileId);
 			}
-			else if (!targetTileEntry.HasFlagAny(TileEntry::Flags::Occupied)) {
-				pParent->PlaceBomb(m_targetTileId);
+			else {
+				PlaceBombInternal(pParent, targetTileEntry, m_targetTileId);
 			}
 		}
 
@@ -138,10 +143,7 @@ void BaseControl::UpdateInternal(float step, Player* pParent) {
 		m_moveDir.y = 0;
 
 		if (m_shouldPlaceBomb) {
-			m_shouldPlaceBomb = false;
-
-			if (!curTileEntry.HasFlagAny(TileEntry::Flags::Occupied))
-				pParent->PlaceBomb(m_currentTileId);
+			PlaceBombInternal(pParent, curTileEntry, m_currentTileId);
 		}
 	}
 
