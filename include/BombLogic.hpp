@@ -18,17 +18,13 @@ public:
 	bool Draw(int posX, int posY, float deltaTime) override;
 
 private:
-	static constexpr unsigned char s_Middle = 2;
 	static constexpr unsigned char s_Horizontal = 0;
-	static constexpr unsigned char s_Vertical = 3;
 	static constexpr unsigned char s_HorizontalEnd = 1;
+	static constexpr unsigned char s_Middle = 2;
+	static constexpr unsigned char s_Vertical = 3;
 	static constexpr unsigned char s_VerticalEnd = 4;
 
-	static constexpr unsigned char s_MiddleCore = 15;
-	static constexpr unsigned char s_HorizontalCore = 22;
-	static constexpr unsigned char s_VerticalCore = 21;
-	static constexpr unsigned char s_HorizontalEndCore = 24;
-	static constexpr unsigned char s_VerticalEndCore = 23;
+	static constexpr std::array<unsigned char, 5> s_coreIds{22, 24, 15, 21, 23};
 
 	static constexpr unsigned char s_MaxBlastLength = 8;
 	static constexpr unsigned char s_MaxBombCount = 4;
@@ -62,18 +58,17 @@ private:
 	struct BlastEntry {
 		signed short posX;
 		signed short posY;
-		unsigned char type;
+		unsigned char typeId;
 		unsigned char angle;
 
-		BlastEntry(signed short _posX, signed short _posY, unsigned char _type, unsigned char _angle) : posX(_posX), posY(_posY), type(_type), angle(_angle) {}
+		BlastEntry(signed short _posX, signed short _posY, unsigned char _typeId, unsigned char _angle) : posX(_posX), posY(_posY), typeId(_typeId), angle(_angle) {}
 	};
 
 	struct BlastDrawHelper {
-		unsigned char coreId;
-		unsigned char id;
+		unsigned char typeId;
 		unsigned char angle;
 
-		BlastDrawHelper(unsigned char _id, unsigned char _coreId, unsigned char _angle) : coreId(_coreId), id(_id), angle(_angle) {}
+		BlastDrawHelper(unsigned char _typeId, unsigned char _angle) : typeId(_typeId), angle(_angle) {}
 	};
 
 	void CreateBlast(BombEntry& bE, std::vector<BlastEntry>& blast);
@@ -85,6 +80,7 @@ private:
 	vo::TextureAtlasBase* m_pAtlas;
 	std::array<BombEntry, s_MaxBombCount> m_bombs{};
 	std::array<std::vector<BlastEntry>, s_MaxBombCount> m_blasts{};
+	unsigned char m_blastLen{2};
 };
 
 #endif // BOMB_LOGIC_HPP

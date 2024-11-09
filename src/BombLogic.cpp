@@ -71,28 +71,38 @@ void BombLogic::CreateBlast(BombEntry& bE, std::vector<BlastEntry>& blast) {
 	// Center
 	cTile.SetFlag(TileEntry::Flags::HasBlast);
 	blast.emplace_back(bE.posX, (signed short)(bE.posY + 18), s_Middle, 0);
-	blast.emplace_back(bE.posX, (signed short)(bE.posY + 18), s_MiddleCore, 0);
 
+	// Branch out in the 4 directions while possible
 	std::array<vo::Vector2D<signed short>, 4> dirs{{{-1,0}, {1,0}, {0,-1}, {0,1}}};
-	std::array<BlastDrawHelper, 4> drawBar{{{s_Horizontal, s_HorizontalCore, 0}, {s_Horizontal, s_HorizontalCore, 180}, {s_Vertical, s_VerticalCore, 0}, {s_Vertical, s_VerticalCore, 180}}};
-	std::array<BlastDrawHelper, 4> drawEnd{{{s_HorizontalEnd, s_HorizontalEndCore, 0}, {s_HorizontalEnd, s_HorizontalEndCore, 180}, {s_VerticalEnd, s_VerticalEndCore, 0}, {s_VerticalEnd, s_VerticalEndCore, 180}}};
+	std::array<BlastDrawHelper, 4> drawMid{{{s_Horizontal, 0}, {s_Horizontal, 180}, {s_Vertical, 0}, {s_Vertical, 180}}};
+	std::array<BlastDrawHelper, 4> drawEnd{{{s_HorizontalEnd, 0}, {s_HorizontalEnd, 180}, {s_VerticalEnd, 0}, {s_VerticalEnd, 180}}};
 	for (int i = 0; i < 4; i++) {
 		auto prevTileId = bE.tileId;
-		for (int j = 0; j < 1; j++) {
+		for (int j = 0; j < m_blastLen; j++) {
 			auto tileId = m_playGround.GetNeighborIdForTileAt(dirs[i], prevTileId);
 			if (tileId >= m_playGround.GetNrOfTiles())
 				break;
 
 			auto& tile = m_playGround.GetTileAt(tileId);
-			prevTileId = tileId;
+			bool hasTile = tile.HasFlagAll(TileEntry::Flags::OccupiedByTile);
 
-			if (tile.HasFlagAny(TileEntry::Flags::Occupied) && !tile.HasFlagAll(TileEntry::Flags::DestroyableTile))
+			// Break here in case it's not a destroyable tile
+			if (hasTile && !tile.HasFlagAll(TileEntry::Flags::Destroyable))
 				break;
 
+			prevTileId = tileId;
 			tile.ClearFlag(TileEntry::Flags::OccupiedByTile);
+			tile.SetFlag(TileEntry::Flags::HasBlast);
 
-			blast.emplace_back(tile.posX, (signed short)(tile.posY + 18), drawEnd[i].id, drawEnd[i].angle);
-			blast.emplace_back(tile.posX, (signed short)(tile.posY + 18), drawEnd[i].coreId, drawEnd[i].angle);
+			if (j >= 1) {
+				blast.back().typeId = drawMid[i].typeId;
+			}
+
+			blast.emplace_back(tile.posX, (signed short)(tile.posY + 18), drawEnd[i].typeId, drawEnd[i].angle);
+
+			// We only go 1 deep, so break after
+			if (hasTile)
+				break;
 		}
 	}
 }
@@ -128,12 +138,14 @@ void BombLogic::Update(float deltaTime) {
 bool BombLogic::Draw(int posX, int posY, float deltaTime) {
 	auto base = m_blastAnimator.ComputeSpriteId(0, deltaTime);
 	for (const auto& bEA : m_blasts) {
-		for (int i = 0; i < bEA.size(); i+=2) {
-			const auto& bE1 = bEA[i+1];
-			const auto& bE0 = bEA[i];
+		for (const auto& bE : bEA) {
+			m_pAtlas->Draw(bE.posX, bE.posY, base + m_blastAnimator.GetAnimOffset(bE.typeId), bE.angle);
+		}
+	}
 
-			m_pAtlas->Draw(bE0.posX, bE0.posY, base + m_blastAnimator.GetAnimOffset(bE0.type), bE0.angle);
-			m_pAtlas->Draw(bE1.posX, bE1.posY, bE1.type, bE1.angle);
+	for (const auto& bEA : m_blasts) {
+		for (const auto& bE : bEA) {
+			m_pAtlas->Draw(bE.posX, bE.posY, s_coreIds[bE.typeId], bE.angle);
 		}
 	}
 
@@ -164,19 +176,19 @@ void BombLogic::BlastDebugDraw(int posX, int posY, int base)
 	m_pAtlas->Draw(posX+256, posY+336, base + m_blastAnimator.GetAnimOffset(s_VerticalEnd), 180.0);
 
 	// Horizontal blast core
-	m_pAtlas->Draw(posX+64, posY, s_HorizontalEndCore);
-	m_pAtlas->Draw(posX+128, posY, s_HorizontalCore);
-	m_pAtlas->Draw(posX+192, posY, s_MiddleCore);
-	m_pAtlas->Draw(posX+256, posY, s_HorizontalCore, 180.0);
-	m_pAtlas->Draw(posX+320, posY, s_HorizontalEndCore, 180.0);
+	m_pAtlas->Draw(posX+64, posY, s_coreIds[s_HorizontalEnd]);
+	m_pAtlas->Draw(posX+128, posY, s_coreIds[s_Horizontal]);
+	m_pAtlas->Draw(posX+192, posY, s_coreIds[s_Middle]);
+	m_pAtlas->Draw(posX+256, posY, s_coreIds[s_Horizontal], 180.0);
+	m_pAtlas->Draw(posX+320, posY, s_coreIds[s_HorizontalEnd], 180.0);
 
 	// Vertical blast core
-	m_pAtlas->Draw(posX+256, posY, s_VerticalEndCore);
-	m_pAtlas->Draw(posX+256, posY+56, s_VerticalCore);
-	m_pAtlas->Draw(posX+256, posY+112, s_VerticalCore);
-	m_pAtlas->Draw(posX+256, posY+168, s_MiddleCore);
-	m_pAtlas->Draw(posX+256, posY+224, s_VerticalCore, 180.0);
-	m_pAtlas->Draw(posX+256, posY+280, s_VerticalCore, 180.0);
-	m_pAtlas->Draw(posX+256, posY+336, s_VerticalEndCore, 180.0);
+	m_pAtlas->Draw(posX + 256, posY, s_coreIds[s_VerticalEnd]);
+	m_pAtlas->Draw(posX+256, posY+56, s_coreIds[s_Vertical]);
+	m_pAtlas->Draw(posX+256, posY+112, s_coreIds[s_Vertical]);
+	m_pAtlas->Draw(posX+256, posY+168, s_coreIds[s_Middle]);
+	m_pAtlas->Draw(posX+256, posY+224, s_coreIds[s_Vertical], 180.0);
+	m_pAtlas->Draw(posX+256, posY+280, s_coreIds[s_Vertical], 180.0);
+	m_pAtlas->Draw(posX+256, posY+336, s_coreIds[s_VerticalEnd], 180.0);
 }
 
