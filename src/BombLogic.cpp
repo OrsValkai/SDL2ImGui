@@ -70,7 +70,7 @@ void BombLogic::CreateBlast(BombEntry& bE, std::vector<BlastEntry>& blast) {
 
 	// Center
 	cTile.SetFlag(TileEntry::Flags::HasBlast);
-	blast.emplace_back(bE.posX, (signed short)(bE.posY + 18), s_Middle, 0);
+	blast.emplace_back(bE.tileId, bE.posX, (signed short)(bE.posY + 18), s_Middle, 0);
 
 	// Branch out in the 4 directions while possible
 	std::array<vo::Vector2D<signed short>, 4> dirs{{{-1,0}, {1,0}, {0,-1}, {0,1}}};
@@ -98,7 +98,7 @@ void BombLogic::CreateBlast(BombEntry& bE, std::vector<BlastEntry>& blast) {
 				blast.back().typeId = drawMid[i].typeId;
 			}
 
-			blast.emplace_back(tile.posX, (signed short)(tile.posY + 18), drawEnd[i].typeId, drawEnd[i].angle);
+			blast.emplace_back(tileId, tile.posX, (signed short)(tile.posY + 18), drawEnd[i].typeId, drawEnd[i].angle);
 
 			// We only go 1 deep, so break after
 			if (hasTile)
@@ -113,6 +113,10 @@ void BombLogic::Update(float deltaTime) {
 	for (int i = 0; i < m_bombs.size(); i++) {
 		auto& bE = m_bombs[i];
 		bE.counterSec -= deltaTime;
+
+		if (bE.tileId < m_playGround.GetNrOfTiles() && m_playGround.GetTileAt(bE.tileId).HasFlagAny(TileEntry::Flags::HasBlast)) {
+			bE.counterSec = s_BlastTimeSec-0.0001f;
+		}
 		
 		if (bE.counterSec < s_BlastTimeSec) {
 			if (constexpr auto tileMax = std::numeric_limits<unsigned short>::max(); bE.tileId != tileMax) {
@@ -123,6 +127,9 @@ void BombLogic::Update(float deltaTime) {
 			}
 			else if (bE.counterSec <= 0.f) {
 				// Clear blast here
+				for (const auto& blast : m_blasts[i]) {
+					m_playGround.GetTileAt(blast.tileId).ClearFlag(TileEntry::Flags::HasBlast);
+				}
 				m_blasts[i].clear();
 				bE.counterSec = -1.f;
 			}

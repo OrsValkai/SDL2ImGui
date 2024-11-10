@@ -56,12 +56,13 @@ private:
 	};
 
 	struct BlastEntry {
+		unsigned short tileId;
 		signed short posX;
 		signed short posY;
 		unsigned char typeId;
 		unsigned char angle;
 
-		BlastEntry(signed short _posX, signed short _posY, unsigned char _typeId, unsigned char _angle) : posX(_posX), posY(_posY), typeId(_typeId), angle(_angle) {}
+		BlastEntry(unsigned short _tileId, signed short _posX, signed short _posY, unsigned char _typeId, unsigned char _angle) : tileId(_tileId), posX(_posX), posY(_posY), typeId(_typeId), angle(_angle) {}
 	};
 
 	struct BlastDrawHelper {
