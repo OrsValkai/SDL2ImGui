@@ -27,11 +27,13 @@ void AIControl::Update(float deltaTime, Player* pParent) {
 				continue;
 
 			// Check tile is walkable and do the dice roll to randomize direction
-			const auto& nTile = m_playGround.GetTileAt(neighbs[i]);
+			auto& nTile = m_playGround.GetTileAt(neighbs[i]);
 			if ((nTile.HasFlagAny(TileEntry::Flags::Destroyable) || !nTile.HasFlagAny(TileEntry::Flags::Occupied)) && randDist(randEng) >= 3) {
 				m_prevId = neighbs[i];
 				GetPotentialTargetId() = m_prevId;
 				m_shouldPickNewTarget = false;
+
+				nTile.ClearFlag(TileEntry::Flags::OccupiedByTile);
 
 				//std::cout << "AI new target!\n";
 				break;

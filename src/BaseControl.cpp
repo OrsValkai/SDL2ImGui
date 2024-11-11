@@ -38,16 +38,13 @@ void BaseControl::Move(const vo::Vector2D<signed short>& dir, float /*deltaTime*
 
 	auto nId = m_playGround.GetNeighborIdForTileAt(dir, m_targetTileId);
 	if (nId < m_playGround.GetNrOfTiles()) {
-		const auto& tileEntry = m_playGround.GetTileAt(nId);
-		if (tileEntry.HasFlagAny(TileEntry::Flags::Destroyable) || !tileEntry.HasFlagAny(TileEntry::Flags::Occupied) || tileEntry.HasFlagAll(TileEntry::Flags::OccupiedByBomb)) {
-			if (nId == m_currentTileId) {
-				m_potentialTargetTileId = std::numeric_limits<unsigned short>::max();
-				m_currentTileId = m_targetTileId;
-				m_targetTileId = nId;
-				m_activeStepper = nullptr;
-			} else {
-				m_potentialTargetTileId = nId;
-			}
+		if (nId == m_currentTileId) {
+			m_potentialTargetTileId = std::numeric_limits<unsigned short>::max();
+			m_currentTileId = m_targetTileId;
+			m_targetTileId = nId;
+			m_activeStepper = nullptr;
+		} else if (!m_playGround.GetTileAt(nId).HasFlagAny(TileEntry::Flags::Occupied)) {
+			m_potentialTargetTileId = nId;
 		}
 	}
 }
@@ -100,9 +97,7 @@ void BaseControl::UpdateInternal(float step, Player* pParent) {
 	}
 
 	if (m_targetTileId != m_currentTileId) {
-		auto& targetTileEntry = m_playGround.GetTileAt(m_targetTileId);
-
-		targetTileEntry.m_flags = 0;
+		const auto& targetTileEntry = m_playGround.GetTileAt(m_targetTileId);
 
 		if (m_shouldPlaceBomb) {
 			float roundedX = std::roundf(m_pos.x);
