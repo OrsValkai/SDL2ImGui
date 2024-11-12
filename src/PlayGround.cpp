@@ -136,7 +136,7 @@ std::shared_ptr<vo::TextureAtlasBase> PlayGround::GetAtlas() const {
 	return m_pTileTextureAtlas;
 }
 
-vo::Vector2D<signed short>& PlayGround::GetPosOffset() {
+vo::Vector2D<signed short> PlayGround::GetPosOffset() const {
 	return m_posOffset;
 }
 

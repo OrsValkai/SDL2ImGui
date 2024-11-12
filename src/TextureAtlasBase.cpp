@@ -12,7 +12,7 @@ namespace vo {
 		SDL_UpdateTexture(upTexture.get(), nullptr, &pixel, 4);
 
 		// Assert the error, on release builds this won't fire
-		SDL_assert(false && "Failed to create texture!");
+		SDL_assert(!"Failed to create texture!");
 	}
 
 	TextureAtlasBase::TextureAtlasBase(SDL_Renderer* pRenderer, const char* pFilePath, unsigned texCount)

@@ -38,6 +38,10 @@ void Player::Update(float deltaTime) {
 		return;
 
 	m_bombLogic.Update(deltaTime);
+
+	if (!m_isAlive)
+		return;
+
 	m_pCtrl->Update(deltaTime, this);
 }
 
@@ -65,4 +69,8 @@ bool Player::Draw(int posX, int posY, float deltaTime) {
 	}
 
 	return GetTextureAtlas()->DrawTint(posX, posY+16, ComputeSpriteId(static_cast<unsigned char>(m_animId), deltaTime), m_tintR, m_tintG, m_tintB);
+}
+
+void Player::OnDeath() {
+	m_isAlive = false;
 }

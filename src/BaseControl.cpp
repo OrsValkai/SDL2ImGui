@@ -7,14 +7,27 @@
 BaseControl::BaseControl(PlayGround& playGround, unsigned short startTileId) : m_playGround(playGround) {
 	if (startTileId < playGround.GetNrOfTiles())
 	{
+		// Make sure starting tile is free
 		auto& tileEntry = m_playGround.GetTileAt(startTileId);
 		tileEntry.m_flags = 0;
+
+		// Make sure it's neighbours are free too
+		std::array<unsigned short, 4> nIds;
+		for (unsigned short i = 0; i < m_playGround.GetNeighborIdsForTileAt(nIds, startTileId); i++) {
+			auto& nTileEntry = m_playGround.GetTileAt(nIds[i]);
+
+			if (nTileEntry.HasFlagAll(TileEntry::Flags::DestroyableTile))
+				nTileEntry.m_flags = 0;
+		}
 
 		m_pos.x = tileEntry.posX;
 		m_pos.y = tileEntry.posY;
 
 		m_currentTileId = startTileId;
 		m_targetTileId = startTileId;
+	}
+	else {
+		throw std::out_of_range("Provided startTileId is out of range!");
 	}
 }
 
@@ -98,17 +111,22 @@ void BaseControl::UpdateInternal(float step, Player* pParent) {
 
 	if (m_targetTileId != m_currentTileId) {
 		const auto& targetTileEntry = m_playGround.GetTileAt(m_targetTileId);
+		float roundedX = std::roundf(m_pos.x);
+		float roundedY = std::roundf(m_pos.y);
 
-		if (m_shouldPlaceBomb) {
-			float roundedX = std::roundf(m_pos.x);
-			float roundedY = std::roundf(m_pos.y);
-
-			if (roundedX == m_pos.x && roundedY == m_pos.y) {
+		if (roundedX == m_pos.x && roundedY == m_pos.y) {
+			if (curTileEntry.HasFlagAny(TileEntry::Flags::HasBlast)) {
+				pParent->OnDeath();
+			}
+			else if (m_shouldPlaceBomb) {
 				PlaceBombInternal(pParent, curTileEntry, m_currentTileId);
 			}
-			else {
-				PlaceBombInternal(pParent, targetTileEntry, m_targetTileId);
-			}
+		}
+		else if (targetTileEntry.HasFlagAny(TileEntry::Flags::HasBlast)) {
+			pParent->OnDeath();
+		}
+		else if (m_shouldPlaceBomb) {
+			PlaceBombInternal(pParent, targetTileEntry, m_targetTileId);
 		}
 
 		if (nullptr == m_activeStepper) {
@@ -137,7 +155,10 @@ void BaseControl::UpdateInternal(float step, Player* pParent) {
 		m_moveDir.x = 0;
 		m_moveDir.y = 0;
 
-		if (m_shouldPlaceBomb) {
+		if (curTileEntry.HasFlagAny(TileEntry::Flags::HasBlast)) {
+			pParent->OnDeath();
+		}
+		else if (m_shouldPlaceBomb) {
 			PlaceBombInternal(pParent, curTileEntry, m_currentTileId);
 		}
 	}

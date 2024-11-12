@@ -50,7 +50,7 @@ namespace vo {
 		}
 
 		// Assert the error, on release builds this won't fire
-		SDL_assert(false && "Missing data for animator, object won't be drawn, make sure you called SetSpriteIdPattern() and AddAnimOffset()!");
+		SDL_assert(!"Missing data for animator, object won't be drawn, make sure you called SetSpriteIdPattern() and AddAnimOffset()!");
 
 		return -1;
 	}

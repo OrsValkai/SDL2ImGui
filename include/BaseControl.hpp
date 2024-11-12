@@ -35,8 +35,8 @@ private:
 	vo::Vector2D<signed short> m_moveDir{0, 0};
 	float m_movementSpeed{0.14f};
 	float m_stepperTarget{0.f};
-	unsigned short m_currentTileId{std::numeric_limits<unsigned short>::max()};
-	unsigned short m_targetTileId{std::numeric_limits<unsigned short>::max()};
+	unsigned short m_currentTileId{0};
+	unsigned short m_targetTileId{0};
 	unsigned short m_potentialTargetTileId{std::numeric_limits<unsigned short>::max()};
 	bool m_shouldPlaceBomb{false};
 

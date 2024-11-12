@@ -17,7 +17,7 @@ public:
     void MainLoop() const {
         auto pRenderer = GetRenderer();
         auto pPlayGround = std::make_unique<PlayGround>(GetWindowWidth(), GetWindowHeight(), std::make_shared<vo::TextureAtlasU>(pRenderer, "Atlas64.png", 64, 64, 64));
-        auto pPlayerCtrl1 = std::make_shared<PlayerControl>(*pPlayGround, 0);
+        auto pPlayerCtrl1 = std::make_shared<PlayerControl>(*pPlayGround, static_cast<unsigned short>(0));
         auto pPlayerCtrl2 = std::make_shared<PlayerControl>(*pPlayGround, pPlayGround->GetNrOfTiles()-1);
         auto upBG = vo::SDL_MakeTexturePtr(pRenderer, "BG.jpg");
         const auto& posOffset = pPlayGround->GetPosOffset();
@@ -34,7 +34,7 @@ public:
 
         player1.SetControl(pPlayerCtrl1);
         player2.SetControl(pPlayerCtrl2);
-        player3.SetControl(std::make_shared<AIControl>(*pPlayGround, pPlayGround->GetTileId(pPlayGround->GetWidth() - 1, 0)));
+        player3.SetControl(std::make_shared<AIControl>(*pPlayGround, pPlayGround->GetTileId(pPlayGround->GetWidth()-1, 0)));
 
         player2.SetTintColor(245, 210, 160);
         player3.SetTintColor(255, 180, 180);

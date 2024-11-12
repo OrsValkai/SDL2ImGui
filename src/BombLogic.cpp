@@ -70,12 +70,12 @@ void BombLogic::CreateBlast(BombEntry& bE, std::vector<BlastEntry>& blast) {
 
 	// Center
 	cTile.SetFlag(TileEntry::Flags::HasBlast);
-	blast.emplace_back(bE.tileId, bE.posX, (signed short)(bE.posY + 18), s_Middle, 0);
+	blast.emplace_back(bE.tileId, bE.posX, (signed short)(bE.posY + 18), s_Middle, static_cast<unsigned char>(0));
 
 	// Branch out in the 4 directions while possible
 	std::array<vo::Vector2D<signed short>, 4> dirs{{{-1,0}, {1,0}, {0,-1}, {0,1}}};
-	std::array<BlastDrawHelper, 4> drawMid{{{s_Horizontal, 0}, {s_Horizontal, 180}, {s_Vertical, 0}, {s_Vertical, 180}}};
-	std::array<BlastDrawHelper, 4> drawEnd{{{s_HorizontalEnd, 0}, {s_HorizontalEnd, 180}, {s_VerticalEnd, 0}, {s_VerticalEnd, 180}}};
+	std::array<BlastDrawHelper, 4> drawMid{{{s_Horizontal, static_cast<unsigned char>(0)}, {s_Horizontal, static_cast<unsigned char>(180)}, {s_Vertical, static_cast<unsigned char>(0)}, {s_Vertical, static_cast<unsigned char>(180)}}};
+	std::array<BlastDrawHelper, 4> drawEnd{{{s_HorizontalEnd, static_cast<unsigned char>(0)}, {s_HorizontalEnd, static_cast<unsigned char>(180)}, {s_VerticalEnd, static_cast<unsigned char>(0)}, {s_VerticalEnd, static_cast<unsigned char>(180)}}};
 	for (int i = 0; i < 4; i++) {
 		auto prevTileId = bE.tileId;
 		for (int j = 0; j < m_blastLen; j++) {
@@ -142,7 +142,7 @@ void BombLogic::Update(float deltaTime) {
 	m_playGround.SubScribeToPostDraw(this);
 }
 
-bool BombLogic::Draw(int posX, int posY, float deltaTime) {
+bool BombLogic::Draw(int /*posX*/, int /*posY*/, float deltaTime) {
 	auto base = m_blastAnimator.ComputeSpriteId(0, deltaTime);
 	for (const auto& bEA : m_blasts) {
 		for (const auto& bE : bEA) {

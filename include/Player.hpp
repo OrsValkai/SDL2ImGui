@@ -31,6 +31,7 @@ public:
 	void SetTintColor(Uint8 r, Uint8 g, Uint8 b);
 	void Update(float deltaTime);
 	bool Draw(int posX, int posY, float deltaTime) override;
+	void OnDeath();
 
 private:
 	std::shared_ptr<BaseControl> m_pCtrl;
@@ -39,6 +40,7 @@ private:
 	Uint8 m_tintR = 255;
 	Uint8 m_tintG = 255;
 	Uint8 m_tintB = 255;
+	bool m_isAlive = true;
 };
 
 #endif // PLAYER_H
