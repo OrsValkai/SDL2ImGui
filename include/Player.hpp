@@ -32,6 +32,8 @@ public:
 	void Update(float deltaTime);
 	bool Draw(int posX, int posY, float deltaTime) override;
 	void OnDeath();
+	void Reset();
+	bool IsAlive() const { return m_isAlive; };
 
 private:
 	std::shared_ptr<BaseControl> m_pCtrl;

@@ -74,3 +74,9 @@ bool Player::Draw(int posX, int posY, float deltaTime) {
 void Player::OnDeath() {
 	m_isAlive = false;
 }
+
+void Player::Reset() {
+	m_animId = AnimId::IdleFront;
+	m_bombLogic.Reset();
+	m_isAlive = true;
+}

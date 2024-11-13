@@ -16,6 +16,7 @@ public:
 	void PlaceBomb(unsigned int tileId);
 	void Update(float deltaTime);
 	bool Draw(int posX, int posY, float deltaTime) override;
+	void Reset();
 
 private:
 	static constexpr unsigned char s_Horizontal = 0;

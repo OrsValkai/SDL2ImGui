@@ -112,9 +112,9 @@ void BaseControl::UpdateInternal(float step, Player* pParent) {
 	if (m_targetTileId != m_currentTileId) {
 		const auto& targetTileEntry = m_playGround.GetTileAt(m_targetTileId);
 		float roundedX = std::roundf(m_pos.x);
-		float roundedY = std::roundf(m_pos.y);
-
-		if (roundedX == m_pos.x && roundedY == m_pos.y) {
+		
+		// Check death and place bomb for when moving
+		if (float roundedY = std::roundf(m_pos.y); roundedX == m_pos.x && roundedY == m_pos.y) {
 			if (curTileEntry.HasFlagAny(TileEntry::Flags::HasBlast)) {
 				pParent->OnDeath();
 			}
@@ -129,6 +129,7 @@ void BaseControl::UpdateInternal(float step, Player* pParent) {
 			PlaceBombInternal(pParent, targetTileEntry, m_targetTileId);
 		}
 
+		// Initialize a new stepper function to execute move with
 		if (nullptr == m_activeStepper) {
 			float xDiff = std::abs(targetTileEntry.posX - m_pos.x);
 			float yDiff = std::abs(targetTileEntry.posY - m_pos.y);
@@ -144,7 +145,10 @@ void BaseControl::UpdateInternal(float step, Player* pParent) {
 			}
 		}
 
+		// Ececute move
 		if (float stepLeft = (this->*m_activeStepper)(step); stepLeft > 0.0001f) {
+			// We arrived and had some overflow movement
+			// use it for next move if we have one lined up
 			m_currentTileId = m_targetTileId;
 			m_activeStepper = nullptr;
 
@@ -155,6 +159,7 @@ void BaseControl::UpdateInternal(float step, Player* pParent) {
 		m_moveDir.x = 0;
 		m_moveDir.y = 0;
 
+		// Check death and place bomb for when standing still
 		if (curTileEntry.HasFlagAny(TileEntry::Flags::HasBlast)) {
 			pParent->OnDeath();
 		}

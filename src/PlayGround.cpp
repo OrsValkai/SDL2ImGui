@@ -12,21 +12,27 @@ PlayGround::PlayGround(unsigned short screenWidth, unsigned short screenHeight, 
 	Init();
 }
 
-void PlayGround::Init() {
-	m_posOffset.x = 0;
-	m_posOffset.y = 0;
-
-	if (0 == m_height % 2) {
-		m_height-=3;
-		m_posOffset.y += TileEntry::Height + TileEntry::Height / 2;
-	} else {
-		m_height-=2;
-		m_posOffset.y += TileEntry::Height;
+void PlayGround::Init(bool fromReset) {
+	if (fromReset) {
+		m_tiles.clear();
 	}
+	else {
+		m_posOffset.x = 0;
+		m_posOffset.y = 0;
 
-	if (0 == m_width % 2) {
-		m_width--;
-		m_posOffset.x += TileEntry::Width / 2;
+		if (0 == m_height % 2) {
+			m_height -= 3;
+			m_posOffset.y += TileEntry::Height + TileEntry::Height / 2;
+		}
+		else {
+			m_height -= 2;
+			m_posOffset.y += TileEntry::Height;
+		}
+
+		if (0 == m_width % 2) {
+			m_width--;
+			m_posOffset.x += TileEntry::Width / 2;
+		}
 	}
 
 	m_tiles.resize(static_cast<size_t>(m_height) * m_width);
@@ -162,6 +168,13 @@ void PlayGround::SubScribeToPreDraw(vo::IDrawable* pDrawable) {
 		pDrawable->m_pNextDrawable = m_pPreDraw;
 		m_pPreDraw = pDrawable;
 	}
+}
+
+void PlayGround::Reset() {
+	m_pPostDraw = nullptr;
+	m_pPreDraw = nullptr;
+
+	Init(true);
 }
 
 void PlayGround::DrawSubscribed(vo::IDrawable** pDrawable, int posX, int posY, float deltaTime) {

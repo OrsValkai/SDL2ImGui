@@ -27,12 +27,12 @@ void PlayerControl::Update(float deltaTime, Player* pParent) {
     BaseControl::Update(deltaTime, pParent);
 }
 
-void PlayerControl::OnEvent(const SDL_Event* pEvent) {
+bool PlayerControl::OnEvent(const SDL_Event* pEvent) {
     switch (pEvent->type) {
             // Look for a keypress
             case SDL_KEYDOWN: {
                 if (m_moveCommands.end() != std::find(m_moveCommands.begin(), m_moveCommands.end(), pEvent->key.keysym.sym))
-                    break; // already pressed, and not released yet
+                    return false; // already pressed, and not released yet
 
                 if (pEvent->key.keysym.sym == m_keys[0]) {
                     m_moveCommands.emplace_back(m_keys[0], static_cast<signed short>(-1), static_cast<signed short>(0));
@@ -50,7 +50,7 @@ void PlayerControl::OnEvent(const SDL_Event* pEvent) {
                     m_actionKeyPressed = true;
                 }
 
-                break;
+                return false;
             }
 
             // When released we remove it from commands
@@ -58,15 +58,15 @@ void PlayerControl::OnEvent(const SDL_Event* pEvent) {
                 if (pEvent->key.keysym.sym == m_keys[4]) {
                     m_actionKeyPressed = false;
                     m_actionConsumed = false;
-                    break;
+                    return false;
                 }
 
                 m_moveCommands.erase(std::remove_if(m_moveCommands.begin(), m_moveCommands.end(), [pEvent](const CommandEntry& e) { return e.keyCode == pEvent->key.keysym.sym; }), m_moveCommands.end());
-                break;
+                return false;
             }
 
         default:
-            break;
+            return false;
     }
 }
 

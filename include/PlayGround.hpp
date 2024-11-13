@@ -13,7 +13,7 @@ class PlayGround
 {
 public:
 	PlayGround(unsigned short screenWidth, unsigned short screenHeight, const std::shared_ptr<vo::TextureAtlasU> textureAtlas);
-	void Init();
+	void Init(bool fromReset=false);
 	void Draw(float deltaTime);
 	unsigned short GetNrOfTiles() const;
 	unsigned short GetWidth() const;
@@ -28,6 +28,7 @@ public:
 	vo::Vector2D<signed short> GetPosOffset() const;
 	void SubScribeToPostDraw(vo::IDrawable* pDrawable);
 	void SubScribeToPreDraw(vo::IDrawable* pDrawable);
+	void Reset();
 
 private:
 	std::vector<TileEntry> m_tiles;

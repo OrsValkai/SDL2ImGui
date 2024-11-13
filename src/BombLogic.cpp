@@ -161,6 +161,15 @@ bool BombLogic::Draw(int /*posX*/, int /*posY*/, float deltaTime) {
 	return true;
 }
 
+void BombLogic::Reset() {
+	for (int i = 0; i < m_bombs.size(); i++) {
+		auto& bE = m_bombs[i];
+
+		bE.tileId = std::numeric_limits<unsigned short>::max();
+		m_blasts[i].clear();
+	}
+}
+
 void BombLogic::BlastDebugDraw(int posX, int posY, int base)
 {
 	// Blast debug start

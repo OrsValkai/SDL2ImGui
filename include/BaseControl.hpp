@@ -18,6 +18,7 @@ public:
 	const vo::Vector2D<signed short>& GetMoveDir() const;
 	void SetMovementSpeed(const float speed);
 	virtual void Update(float deltaTime, Player* parent);
+	virtual bool OnEvent(const SDL_Event*) { return false; };
 	virtual ~BaseControl() = default;
 
 protected:
