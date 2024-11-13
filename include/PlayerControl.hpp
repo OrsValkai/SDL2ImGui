@@ -11,7 +11,7 @@ class PlayerControl : public BaseControl
 public:
 	explicit PlayerControl(PlayGround& playGround, unsigned short startTileId);
 	void Update(float deltaTime, Player* pParent) final;
-	bool OnEvent(const SDL_Event*) override;
+	bool OnEvent(const SDL_Event*) final;
 
 	void RemapKey(size_t id, SDL_KeyCode newKeyCode);
 

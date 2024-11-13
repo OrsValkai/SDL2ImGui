@@ -18,8 +18,8 @@ public:
         auto pRenderer = GetRenderer();
         auto pPlayGround = std::make_unique<PlayGround>(GetWindowWidth(), GetWindowHeight(), std::make_shared<vo::TextureAtlasU>(pRenderer, "Atlas64.png", 64, 64, 64));
         std::array<std::shared_ptr<BaseControl>, 2> pPlayerCtrl{
-            std::make_shared<BaseControl>(*pPlayGround, static_cast<unsigned short>(0)),
-            std::make_shared<BaseControl>(*pPlayGround, pPlayGround->GetNrOfTiles() - 1)
+            std::make_shared<PlayerControl>(*pPlayGround, static_cast<unsigned short>(0)),
+            std::make_shared<PlayerControl>(*pPlayGround, pPlayGround->GetNrOfTiles() - 1)
         };
         auto upBG = vo::SDL_MakeTexturePtr(pRenderer, "BG.jpg");
         const auto& posOffset = pPlayGround->GetPosOffset();
@@ -61,7 +61,7 @@ public:
                 if (SDL_QUIT == event.type) {
                     shouldExit = true;
                 } else {
-                    for (auto& pCtrl : pPlayerCtrl)
+                    for (const auto& pCtrl : pPlayerCtrl)
                         pCtrl->OnEvent(&event);
                 }
             }
