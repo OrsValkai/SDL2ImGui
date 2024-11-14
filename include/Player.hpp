@@ -33,7 +33,8 @@ public:
 	bool Draw(int posX, int posY, float deltaTime) override;
 	void OnDeath();
 	void Reset();
-	bool IsAlive() const { return m_isAlive; };
+	inline bool IsAlive() const { return m_isAlive; };
+	inline BaseControl* GetCtrl() { return m_pCtrl.get(); };
 
 private:
 	std::shared_ptr<BaseControl> m_pCtrl;

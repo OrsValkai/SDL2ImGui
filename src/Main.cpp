@@ -17,10 +17,6 @@ public:
     void MainLoop() const {
         auto pRenderer = GetRenderer();
         auto pPlayGround = std::make_unique<PlayGround>(GetWindowWidth(), GetWindowHeight(), std::make_shared<vo::TextureAtlasU>(pRenderer, "Atlas64.png", 64, 64, 64));
-        std::array<std::shared_ptr<BaseControl>, 2> pPlayerCtrl{
-            std::make_shared<PlayerControl>(*pPlayGround, static_cast<unsigned short>(0)),
-            std::make_shared<PlayerControl>(*pPlayGround, pPlayGround->GetNrOfTiles() - 1)
-        };
         auto upBG = vo::SDL_MakeTexturePtr(pRenderer, "BG.jpg");
         const auto& posOffset = pPlayGround->GetPosOffset();
         SDL_Rect bgDst{ 0, 0, GetWindowWidth(), GetWindowHeight() };
@@ -36,14 +32,14 @@ public:
         players.push_back(players.back());
         players.push_back(players.back());
 
-        players.at(0).SetControl(pPlayerCtrl.at(0));
-        players.at(1).SetControl(pPlayerCtrl.at(1));
+        players.at(0).SetControl(std::make_shared<PlayerControl>(*pPlayGround, static_cast<unsigned short>(0)));
+        players.at(1).SetControl(std::make_shared<PlayerControl>(*pPlayGround, pPlayGround->GetNrOfTiles() - 1));
         players.at(2).SetControl(std::make_shared<AIControl>(*pPlayGround, pPlayGround->GetTileId(pPlayGround->GetWidth() - 1, 0)));
 
         players[1].SetTintColor(245, 210, 160);
         players[2].SetTintColor(255, 180, 180);
 
-        if (auto pCtrl = dynamic_cast<PlayerControl*>(pPlayerCtrl[1].get());  nullptr != pCtrl) {
+        if (auto pCtrl = dynamic_cast<PlayerControl*>(players[1].GetCtrl());  nullptr != pCtrl) {
             pCtrl->RemapKey(0, SDLK_a);
             pCtrl->RemapKey(1, SDLK_d);
             pCtrl->RemapKey(2, SDLK_w);
@@ -61,8 +57,8 @@ public:
                 if (SDL_QUIT == event.type) {
                     shouldExit = true;
                 } else {
-                    for (const auto& pCtrl : pPlayerCtrl)
-                        pCtrl->OnEvent(&event);
+                    for (auto& player : players)
+                        player.GetCtrl()->OnEvent(&event);
                 }
             }
 
