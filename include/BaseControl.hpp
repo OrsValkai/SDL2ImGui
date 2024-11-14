@@ -14,9 +14,11 @@ public:
 	explicit BaseControl(PlayGround& playGround, unsigned short startTileId);
 	BaseControl(const BaseControl&) = delete;
 	BaseControl& operator= (const BaseControl&) = delete;
+	void Init();
 	const vo::Vector2D<float>& GetPos() const;
 	const vo::Vector2D<signed short>& GetMoveDir() const;
 	void SetMovementSpeed(const float speed);
+	virtual void Reset();
 	virtual void Update(float deltaTime, Player* parent);
 	virtual bool OnEvent(const SDL_Event*) { return false; };
 	virtual ~BaseControl() = default;
@@ -36,6 +38,7 @@ private:
 	vo::Vector2D<signed short> m_moveDir{0, 0};
 	float m_movementSpeed{0.14f};
 	float m_stepperTarget{0.f};
+	unsigned short m_initialTileId{0};
 	unsigned short m_currentTileId{0};
 	unsigned short m_targetTileId{0};
 	unsigned short m_potentialTargetTileId{std::numeric_limits<unsigned short>::max()};

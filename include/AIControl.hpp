@@ -12,6 +12,7 @@ class AIControl : public BaseControl
 public:
 	explicit AIControl(PlayGround& playGround, unsigned short startTileId);
 	void Update(float deltaTime, Player* pParent) final;
+	void Reset() final;
 
 private:
 	unsigned short m_prevId{std::numeric_limits<unsigned short>::max()};

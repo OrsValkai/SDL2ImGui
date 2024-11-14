@@ -71,5 +71,5 @@ bool PlayerControl::OnEvent(const SDL_Event* pEvent) {
 }
 
 void PlayerControl::RemapKey(size_t id, SDL_KeyCode newKeyCode) {
-    m_keys[id] = newKeyCode;
+    m_keys.at(id) = newKeyCode;
 }

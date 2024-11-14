@@ -36,9 +36,9 @@ public:
         players.push_back(players.back());
         players.push_back(players.back());
 
-        players[0].SetControl(pPlayerCtrl[0]);
-        players[1].SetControl(pPlayerCtrl[1]);
-        players[2].SetControl(std::make_shared<AIControl>(*pPlayGround, pPlayGround->GetTileId(pPlayGround->GetWidth() - 1, 0)));
+        players.at(0).SetControl(pPlayerCtrl.at(0));
+        players.at(1).SetControl(pPlayerCtrl.at(1));
+        players.at(2).SetControl(std::make_shared<AIControl>(*pPlayGround, pPlayGround->GetTileId(pPlayGround->GetWidth() - 1, 0)));
 
         players[1].SetTintColor(245, 210, 160);
         players[2].SetTintColor(255, 180, 180);
@@ -78,10 +78,10 @@ public:
             }
 
             if (nrPlayersAlive <= 1) {
+                pPlayGround->Reset();
+
                 for (auto& player : players)
                     player.Reset();
-
-                pPlayGround->Reset();
 
                 continue;
             }

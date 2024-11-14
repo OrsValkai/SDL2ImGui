@@ -79,4 +79,7 @@ void Player::Reset() {
 	m_animId = AnimId::IdleFront;
 	m_bombLogic.Reset();
 	m_isAlive = true;
+
+	if (nullptr != m_pCtrl)
+		m_pCtrl->Reset();
 }

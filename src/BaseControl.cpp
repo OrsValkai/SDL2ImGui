@@ -4,31 +4,36 @@
 #include "Player.hpp"
 #include <array>
 
-BaseControl::BaseControl(PlayGround& playGround, unsigned short startTileId) : m_playGround(playGround) {
+BaseControl::BaseControl(PlayGround& playGround, unsigned short startTileId) : m_playGround(playGround), m_initialTileId(startTileId) {
 	if (startTileId < playGround.GetNrOfTiles())
 	{
-		// Make sure starting tile is free
-		auto& tileEntry = m_playGround.GetTileAt(startTileId);
-		tileEntry.m_flags = 0;
-
-		// Make sure it's neighbours are free too
-		std::array<unsigned short, 4> nIds;
-		for (unsigned short i = 0; i < m_playGround.GetNeighborIdsForTileAt(nIds, startTileId); i++) {
-			auto& nTileEntry = m_playGround.GetTileAt(nIds[i]);
-
-			if (nTileEntry.HasFlagAll(TileEntry::Flags::DestroyableTile))
-				nTileEntry.m_flags = 0;
-		}
-
-		m_pos.x = tileEntry.posX;
-		m_pos.y = tileEntry.posY;
-
-		m_currentTileId = startTileId;
-		m_targetTileId = startTileId;
+		Init();
 	}
 	else {
 		throw std::out_of_range("Provided startTileId is out of range!");
 	}
+}
+
+void BaseControl::Init()
+{
+	// Make sure starting tile is free
+	auto& tileEntry = m_playGround.GetTileAt(m_initialTileId);
+	tileEntry.m_flags = 0;
+
+	// Make sure it's neighbours are free too
+	std::array<unsigned short, 4> nIds;
+	for (unsigned short i = 0; i < m_playGround.GetNeighborIdsForTileAt(nIds, m_initialTileId); i++) {
+		auto& nTileEntry = m_playGround.GetTileAt(nIds[i]);
+
+		if (nTileEntry.HasFlagAll(TileEntry::Flags::DestroyableTile))
+			nTileEntry.m_flags = 0;
+	}
+
+	m_pos.x = tileEntry.posX;
+	m_pos.y = tileEntry.posY;
+
+	m_currentTileId = m_initialTileId;
+	m_targetTileId = m_initialTileId;
 }
 
 const vo::Vector2D<float>& BaseControl::GetPos() const {
@@ -41,6 +46,15 @@ const vo::Vector2D<signed short>& BaseControl::GetMoveDir() const {
 
 void BaseControl::SetMovementSpeed(const float speed) {
 	m_movementSpeed = speed;
+}
+
+void BaseControl::Reset() {
+	m_activeStepper = nullptr;
+	m_potentialTargetTileId = std::numeric_limits<unsigned short>::max();
+	m_shouldPlaceBomb = false;
+	m_moveDir = 0;
+	
+	Init();
 }
 
 void BaseControl::Move(const vo::Vector2D<signed short>& dir, float /*deltaTime*/) {

@@ -46,3 +46,10 @@ void AIControl::Update(float deltaTime, Player* pParent) {
 
     BaseControl::Update(deltaTime, pParent);
 }
+
+void AIControl::Reset() {
+	BaseControl::Reset();
+
+	m_prevId = std::numeric_limits<unsigned short>::max();
+	m_shouldPickNewTarget = true;
+}

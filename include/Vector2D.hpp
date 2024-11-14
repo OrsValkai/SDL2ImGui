@@ -25,6 +25,12 @@ namespace vo {
         constexpr Vector2D& operator=(const Vector2D& other) noexcept = default;
         constexpr Vector2D& operator=(Vector2D&& other) noexcept = default;
 
+        constexpr Vector2D& operator=(const T value) noexcept {
+            x = value;
+            y = value;
+            return *this;
+        }
+
         constexpr const T& operator[](const size_t i) const {
             switch (i) {
             case 0: return x;
