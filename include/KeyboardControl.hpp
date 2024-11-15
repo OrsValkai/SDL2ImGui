@@ -1,15 +1,15 @@
 // Copyright(c) 2024 Valkai-Németh Béla-Örs
 
-#ifndef PLAYER_CONTROL_H
-#define PLAYER_CONTROL_H
+#ifndef KEYBOARD_CONTROL_H
+#define KEYBOARD_CONTROL_H
 
 #include "BaseControl.hpp"
 #include <array>
 
-class PlayerControl : public BaseControl
+class KeyboardControl : public BaseControl
 {
 public:
-	explicit PlayerControl(PlayGround& playGround, unsigned short startTileId);
+	explicit KeyboardControl(PlayGround& playGround, unsigned short startTileId);
 	void Update(float deltaTime, Player* pParent) final;
 	bool OnEvent(const SDL_Event*) final;
 
@@ -30,5 +30,5 @@ private:
 	bool m_actionConsumed{false};
 };
 
-#endif // PLAYER_CONTROL_H
+#endif // KEYBOARD_CONTROL_H
 

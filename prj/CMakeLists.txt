@@ -3,10 +3,10 @@
 #
 
 set(SDL2_DIR ${CMAKE_CURRENT_LIST_DIR}/dep/SDL2/cmake/)
-set(SDL2_IMAGE_DIR ${CMAKE_CURRENT_LIST_DIR}/dep/SDL2_image/cmake/)
+set(SDL2_image_DIR ${CMAKE_CURRENT_LIST_DIR}/dep/SDL2_image/cmake/)
 
-find_package(SDL2 REQUIRED)
-find_package(sdl2_image REQUIRED)
+find_package(SDL2 CONFIG REQUIRED)
+find_package(sdl2_image CONFIG REQUIRED)
 
 include_directories(
     ${PROJECT_SOURCE_DIR}/dep/SDL2_image/include
@@ -25,8 +25,10 @@ add_executable (${PROJECT_NAME} ${ALL_SRCS})
 
 target_link_libraries(${PROJECT_NAME} SDL2::SDL2 SDL2::SDL2main SDL2_image::SDL2_image)
 
-if (CMAKE_VERSION VERSION_GREATER 3.12)
-  set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 20)
+if (CMAKE_VERSION VERSION_GREATER 3.5)
+    set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 20)
+else()
+    set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 17)
 endif()
 
 # TODO: Add tests and install targets if needed.

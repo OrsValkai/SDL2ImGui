@@ -5,15 +5,15 @@
 
 namespace vo {
 
-    bool Application::Init(const vo::AppSettings& appSettings, int imgFlags) {
+    Application::Application(const vo::AppSettings& appSettings, int imgFlags) {
         if (0 != SDL_Init(SDL_INIT_TIMER | SDL_INIT_VIDEO)) {
-            return false;
+            return;
         }
 
         if (imgFlags != IMG_Init(imgFlags)) {
             SDL_Quit();
 
-            return false;
+            return;
         }
 
         if (0 != SDL_CreateWindowAndRenderer(appSettings.m_wWidth, appSettings.m_wHeight, appSettings.ToWindowFlags(), &m_pWindow, &m_pRenderer)) {
@@ -21,8 +21,9 @@ namespace vo {
             IMG_Quit();
 
             m_pWindow = nullptr;
+            m_pRenderer = nullptr;
 
-            return false;
+            return;
         }
 
         // For finding out DPI compare these 2
@@ -35,8 +36,6 @@ namespace vo {
         m_wHeight = static_cast<unsigned short>(appSettings.m_wHeight);
 
         SDL_RenderSetVSync(m_pRenderer, 1);
-
-        return true;
     }
 
     void Application::SetWindowName(const char* pName) {

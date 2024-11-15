@@ -30,7 +30,7 @@
     <ClCompile Include="..\src\Main.cpp" />
     <ClCompile Include="..\src\PearsonHash.cpp" />
     <ClCompile Include="..\src\Player.cpp" />
-    <ClCompile Include="..\src\PlayerControl.cpp" />
+    <ClCompile Include="..\src\KeyboardControl.cpp" />
     <ClCompile Include="..\src\PlayGround.cpp" />
     <ClCompile Include="..\src\SpriteAnimator.cpp" />
     <ClCompile Include="..\src\TileEntry.cpp" />
@@ -49,7 +49,7 @@
     <ClInclude Include="..\include\IDrawable.hpp" />
     <ClInclude Include="..\include\PearsonHash.hpp" />
     <ClInclude Include="..\include\Player.hpp" />
-    <ClInclude Include="..\include\PlayerControl.hpp" />
+    <ClInclude Include="..\include\KeyboardControl.hpp" />
     <ClInclude Include="..\include\PlayGround.hpp" />
     <ClInclude Include="..\include\SDL_Wrapper.hpp" />
     <ClInclude Include="..\include\SpriteAnimator.hpp" />

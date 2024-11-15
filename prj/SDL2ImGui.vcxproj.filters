@@ -25,7 +25,7 @@
     <ClCompile Include="..\src\TimerHR.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\PlayerControl.cpp">
+    <ClCompile Include="..\src\KeyboardControl.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\src\BaseControl.cpp">
@@ -87,7 +87,7 @@
     <ClInclude Include="..\include\TimerHR.hpp">
       <Filter>inlcude</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\PlayerControl.hpp">
+    <ClInclude Include="..\include\KeyboardControl.hpp">
       <Filter>inlcude</Filter>
     </ClInclude>
     <ClInclude Include="..\include\BaseControl.hpp">

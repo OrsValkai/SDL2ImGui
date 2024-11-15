@@ -6,7 +6,7 @@
 #include "Player.hpp"
 #include "PlayGround.hpp"
 #include "TimerHR.hpp"
-#include "PlayerControl.hpp"
+#include "KeyboardControl.hpp"
 #include "AIControl.hpp"
 
 #include <algorithm>
@@ -14,6 +14,8 @@
 class GameApp : public vo::Application
 {
 public:
+    using Application::Application;
+
     void MainLoop() const {
         auto pRenderer = GetRenderer();
         auto pPlayGround = std::make_unique<PlayGround>(GetWindowWidth(), GetWindowHeight(), std::make_shared<vo::TextureAtlasU>(pRenderer, "Atlas64.png", 64, 64, 64));
@@ -32,14 +34,14 @@ public:
         players.push_back(players.back());
         players.push_back(players.back());
 
-        players.at(0).SetControl(std::make_shared<PlayerControl>(*pPlayGround, static_cast<unsigned short>(0)));
-        players.at(1).SetControl(std::make_shared<PlayerControl>(*pPlayGround, pPlayGround->GetNrOfTiles() - 1));
+        players.at(0).SetControl(std::make_shared<KeyboardControl>(*pPlayGround, static_cast<unsigned short>(0)));
+        players.at(1).SetControl(std::make_shared<KeyboardControl>(*pPlayGround, pPlayGround->GetNrOfTiles() - 1));
         players.at(2).SetControl(std::make_shared<AIControl>(*pPlayGround, pPlayGround->GetTileId(pPlayGround->GetWidth() - 1, 0)));
 
         players[1].SetTintColor(245, 210, 160);
         players[2].SetTintColor(255, 180, 180);
 
-        if (auto pCtrl = dynamic_cast<PlayerControl*>(players[1].GetCtrl());  nullptr != pCtrl) {
+        if (auto pCtrl = dynamic_cast<KeyboardControl*>(players[1].GetCtrl());  nullptr != pCtrl) {
             pCtrl->RemapKey(0, SDLK_a);
             pCtrl->RemapKey(1, SDLK_d);
             pCtrl->RemapKey(2, SDLK_w);
@@ -94,9 +96,9 @@ public:
 
 int main(int /*argc*/, char* /*argv*/[]) {
     vo::AppSettings appSettings("App.ini");
-    GameApp app;
+    GameApp app(appSettings, IMG_INIT_JPG | IMG_INIT_PNG);
 
-    if (false == app.Init(appSettings, IMG_INIT_JPG | IMG_INIT_PNG)) {
+    if (nullptr == app.GetRenderer()) {
         return EXIT_FAILURE;
     }
 

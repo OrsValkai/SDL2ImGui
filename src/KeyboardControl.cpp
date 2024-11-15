@@ -1,16 +1,16 @@
 // Copyright(c) 2024 Valkai-Németh Béla-Örs
 
-#include "PlayerControl.hpp"
+#include "KeyboardControl.hpp"
 #include <SDL.h>
 
 #include <algorithm>
 
-PlayerControl::PlayerControl(PlayGround& playGround, unsigned short startTileId)
+KeyboardControl::KeyboardControl(PlayGround& playGround, unsigned short startTileId)
     : BaseControl(playGround, startTileId), m_keys({SDLK_LEFT, SDLK_RIGHT, SDLK_UP, SDLK_DOWN, SDLK_LCTRL}) {
     m_moveCommands.reserve(4);
 }
 
-void PlayerControl::Update(float deltaTime, Player* pParent) {
+void KeyboardControl::Update(float deltaTime, Player* pParent) {
     if (!m_moveCommands.empty()) {
         Move(m_moveCommands.back().dir, deltaTime);
     }
@@ -27,7 +27,7 @@ void PlayerControl::Update(float deltaTime, Player* pParent) {
     BaseControl::Update(deltaTime, pParent);
 }
 
-bool PlayerControl::OnEvent(const SDL_Event* pEvent) {
+bool KeyboardControl::OnEvent(const SDL_Event* pEvent) {
     switch (pEvent->type) {
             // Look for a keypress
             case SDL_KEYDOWN: {
@@ -70,6 +70,6 @@ bool PlayerControl::OnEvent(const SDL_Event* pEvent) {
     }
 }
 
-void PlayerControl::RemapKey(size_t id, SDL_KeyCode newKeyCode) {
+void KeyboardControl::RemapKey(size_t id, SDL_KeyCode newKeyCode) {
     m_keys.at(id) = newKeyCode;
 }

@@ -10,7 +10,7 @@ namespace vo {
 	class Application
 	{
 	public:
-		Application() = default;
+		Application(const vo::AppSettings& appSettings, int imgFlags);
 		Application(const Application& other) = delete;
 		Application& operator=(const Application& other) = delete;
 
@@ -18,7 +18,6 @@ namespace vo {
 		unsigned short GetWindowWidth() const;
 		unsigned short GetWindowHeight() const;
 
-		bool Init(const vo::AppSettings& appSettings, int imgFlags);
 		void SetWindowName(const char* pName);
 		~Application();
 
