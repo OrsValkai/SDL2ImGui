@@ -3,13 +3,11 @@
 #
 
 set(SDL2_DIR ${CMAKE_CURRENT_LIST_DIR}/dep/SDL2/cmake/)
-set(SDL2_image_DIR ${CMAKE_CURRENT_LIST_DIR}/dep/SDL2_image/cmake/)
 
 find_package(SDL2 CONFIG REQUIRED)
-find_package(sdl2_image CONFIG REQUIRED)
+find_package(SDL2_image REQUIRED CONFIG)
 
 include_directories(
-    ${PROJECT_SOURCE_DIR}/dep/SDL2_image/include
     ${PROJECT_SOURCE_DIR}/dep/SDL2/include
     ${PROJECT_SOURCE_DIR}/include
 )
@@ -30,6 +28,8 @@ if (CMAKE_VERSION VERSION_GREATER 3.5)
 else()
     set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 17)
 endif()
+
+set_property(TARGET ${PROJECT_NAME} PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/data")
 
 # TODO: Add tests and install targets if needed.
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD

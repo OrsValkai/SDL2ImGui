@@ -13,3 +13,4 @@ project ("SDL2ImGui")
 
 # Include sub-projects.
 add_subdirectory ("prj")
+add_subdirectory("dep/SDL_image" EXCLUDE_FROM_ALL)
