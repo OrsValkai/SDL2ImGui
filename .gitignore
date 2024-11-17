@@ -7,6 +7,9 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/main/VisualStudio.gitignore
 
+# Project specific files
+make_data_hash_list.json
+
 # User-specific files
 *.rsuser
 *.suo
