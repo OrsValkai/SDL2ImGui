@@ -52,6 +52,30 @@
     <ClCompile Include="..\src\TileEntry.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\dep\imgui\imgui.cpp">
+      <Filter>imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dep\imgui\imgui_demo.cpp">
+      <Filter>imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dep\imgui\imgui_draw.cpp">
+      <Filter>imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dep\imgui\imgui_tables.cpp">
+      <Filter>imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dep\imgui\imgui_widgets.cpp">
+      <Filter>imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dep\imgui\backends\imgui_impl_sdl2.cpp">
+      <Filter>imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dep\imgui\backends\imgui_impl_sdlrenderer2.cpp">
+      <Filter>imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dep\imgui\misc\cpp\imgui_stdlib.cpp">
+      <Filter>imgui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\WrapperHelpers.hpp">
@@ -114,6 +138,33 @@
     <ClInclude Include="..\include\BombLogic.hpp">
       <Filter>inlcude</Filter>
     </ClInclude>
+    <ClInclude Include="..\dep\imgui\imconfig.h">
+      <Filter>imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dep\imgui\imgui.h">
+      <Filter>imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dep\imgui\imgui_internal.h">
+      <Filter>imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dep\imgui\imstb_rectpack.h">
+      <Filter>imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dep\imgui\imstb_textedit.h">
+      <Filter>imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dep\imgui\imstb_truetype.h">
+      <Filter>imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dep\imgui\backends\imgui_impl_sdl2.h">
+      <Filter>imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dep\imgui\backends\imgui_impl_sdlrenderer2.h">
+      <Filter>imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dep\imgui\misc\cpp\imgui_stdlib.h">
+      <Filter>imgui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\include\TextureAtlasBase.inl">
@@ -126,6 +177,9 @@
     </Filter>
     <Filter Include="src">
       <UniqueIdentifier>{51cf7f72-debb-45a7-b59b-1e5455fa3168}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="imgui">
+      <UniqueIdentifier>{2e5ef9ce-b76a-41e3-a6f0-8d05ddeffee5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

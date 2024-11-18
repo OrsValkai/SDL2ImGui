@@ -14,6 +14,7 @@ namespace vo {
 		Application(const Application& other) = delete;
 		Application& operator=(const Application& other) = delete;
 
+		SDL_Window* GetWindow() const;
 		SDL_Renderer* GetRenderer() const;
 		unsigned short GetWindowWidth() const;
 		unsigned short GetWindowHeight() const;
@@ -29,6 +30,7 @@ namespace vo {
 	};
 
 	// Implementation
+	inline SDL_Window* Application::GetWindow() const { return m_pWindow; };
 	inline SDL_Renderer* Application::GetRenderer() const { return m_pRenderer; };
 	inline unsigned short Application::GetWindowWidth() const { return m_wWidth; };
 	inline unsigned short Application::GetWindowHeight() const { return m_wHeight; };

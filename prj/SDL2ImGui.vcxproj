@@ -19,6 +19,14 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\dep\imgui\backends\imgui_impl_sdl2.cpp" />
+    <ClCompile Include="..\dep\imgui\backends\imgui_impl_sdlrenderer2.cpp" />
+    <ClCompile Include="..\dep\imgui\imgui.cpp" />
+    <ClCompile Include="..\dep\imgui\imgui_demo.cpp" />
+    <ClCompile Include="..\dep\imgui\imgui_draw.cpp" />
+    <ClCompile Include="..\dep\imgui\imgui_tables.cpp" />
+    <ClCompile Include="..\dep\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="..\dep\imgui\misc\cpp\imgui_stdlib.cpp" />
     <ClCompile Include="..\src\AIControl.cpp" />
     <ClCompile Include="..\src\AppSettings.cpp" />
     <ClCompile Include="..\src\AnimatedSprite.cpp" />
@@ -38,6 +46,15 @@
     <ClCompile Include="..\src\Application.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\dep\imgui\backends\imgui_impl_sdl2.h" />
+    <ClInclude Include="..\dep\imgui\backends\imgui_impl_sdlrenderer2.h" />
+    <ClInclude Include="..\dep\imgui\imconfig.h" />
+    <ClInclude Include="..\dep\imgui\imgui.h" />
+    <ClInclude Include="..\dep\imgui\imgui_internal.h" />
+    <ClInclude Include="..\dep\imgui\imstb_rectpack.h" />
+    <ClInclude Include="..\dep\imgui\imstb_textedit.h" />
+    <ClInclude Include="..\dep\imgui\imstb_truetype.h" />
+    <ClInclude Include="..\dep\imgui\misc\cpp\imgui_stdlib.h" />
     <ClInclude Include="..\include\AIControl.hpp" />
     <ClInclude Include="..\include\AppSettings.hpp" />
     <ClInclude Include="..\include\AnimatedSprite.hpp" />
@@ -148,7 +165,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\include;..\dep\SDL2\include;..\dep\SDL2_image\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\include;..\dep\SDL2\include;..\dep\SDL2_image\include;..\dep\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -170,7 +187,7 @@ copy /Y "$(SolutionDir)..\dep\SDL2_image\lib\$(PlatformName)\SDL2_image.dll" "$(
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\include;..\dep\SDL2\include;..\dep\SDL2_image\include;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\include;..\dep\SDL2\include;..\dep\SDL2_image\include;..\dep\imgui</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>

@@ -11,6 +11,10 @@
 
 #include <algorithm>
 
+#include "imgui.h"
+#include "backends/imgui_impl_sdl2.h"
+#include "backends/imgui_impl_sdlrenderer2.h"
+
 class GameApp : public vo::Application
 {
 public:
@@ -25,6 +29,16 @@ public:
         SDL_Rect bgSrc{posOffset.x, posOffset.y+8, bgDst.w, bgDst.h};
         vo::TimerHR timerHR;
         std::vector<Player> players;
+
+        // Setup Dear ImGui context
+        IMGUI_CHECKVERSION();
+        ImGui::CreateContext();
+        ImGuiIO& io = ImGui::GetIO();
+        io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+
+        // Setup Platform/Renderer backends
+        ImGui_ImplSDL2_InitForSDLRenderer(GetWindow(), pRenderer);
+        ImGui_ImplSDLRenderer2_Init(pRenderer);
 
         players.reserve(4);
         timerHR.Start();
@@ -59,6 +73,8 @@ public:
                 if (SDL_QUIT == event.type) {
                     shouldExit = true;
                 } else {
+                    ImGui_ImplSDL2_ProcessEvent(&event);
+
                     for (auto& player : players)
                         player.GetCtrl()->OnEvent(&event);
                 }
@@ -66,6 +82,11 @@ public:
 
             float deltaTime = timerHR.MS(); // read time spent in loop and restart
             timerHR.Start();
+
+            ImGui_ImplSDLRenderer2_NewFrame();
+            ImGui_ImplSDL2_NewFrame();
+            ImGui::NewFrame();
+            ImGui::ShowDemoWindow();
 
             int nrPlayersAlive = 0;
             for (auto& player : players) {
@@ -88,9 +109,16 @@ public:
 
             pPlayGround->Draw(deltaTime);
 
+            ImGui::Render();
+            ImGui_ImplSDLRenderer2_RenderDrawData(ImGui::GetDrawData(), pRenderer);
+
             SDL_RenderPresent(pRenderer);
             timerHR.Mark();
         }
+
+        ImGui_ImplSDLRenderer2_Shutdown();
+        ImGui_ImplSDL2_Shutdown();
+        ImGui::DestroyContext();
     }
 };
 
