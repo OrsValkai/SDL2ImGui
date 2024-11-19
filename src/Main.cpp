@@ -18,7 +18,22 @@
 class GameApp : public vo::Application
 {
 public:
-    using Application::Application;
+    GameApp(const vo::AppSettings& appSettings, int imgFlags)
+    : Application(appSettings, imgFlags) {
+        auto pRenderer = GetRenderer();
+        if (!pRenderer)
+            return;
+
+        // Setup Dear ImGui context
+        IMGUI_CHECKVERSION();
+        ImGui::CreateContext();
+        ImGuiIO& io = ImGui::GetIO();
+        io.ConfigFlags |= ImGuiConfigFlags_NoKeyboard;
+
+        // Setup Platform/Renderer backends
+        ImGui_ImplSDL2_InitForSDLRenderer(GetWindow(), pRenderer);
+        ImGui_ImplSDLRenderer2_Init(pRenderer);
+    }
 
     void MainLoop() const {
         auto pRenderer = GetRenderer();
@@ -29,16 +44,6 @@ public:
         SDL_Rect bgSrc{posOffset.x, posOffset.y+8, bgDst.w, bgDst.h};
         vo::TimerHR timerHR;
         std::vector<Player> players;
-
-        // Setup Dear ImGui context
-        IMGUI_CHECKVERSION();
-        ImGui::CreateContext();
-        ImGuiIO& io = ImGui::GetIO();
-        io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
-
-        // Setup Platform/Renderer backends
-        ImGui_ImplSDL2_InitForSDLRenderer(GetWindow(), pRenderer);
-        ImGui_ImplSDLRenderer2_Init(pRenderer);
 
         players.reserve(4);
         timerHR.Start();
@@ -116,9 +121,15 @@ public:
             timerHR.Mark();
         }
 
-        ImGui_ImplSDLRenderer2_Shutdown();
-        ImGui_ImplSDL2_Shutdown();
-        ImGui::DestroyContext();
+        
+    }
+
+    ~GameApp() {
+        if (nullptr != ImGui::GetCurrentContext()) {
+            ImGui_ImplSDLRenderer2_Shutdown();
+            ImGui_ImplSDL2_Shutdown();
+            ImGui::DestroyContext();
+        }
     }
 };
 

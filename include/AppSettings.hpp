@@ -2,7 +2,6 @@
 #ifndef VO_APP_SETTINGS_H
 #define VO_APP_SETTINGS_H
 
-
 #include <SDL.h>
 
 #include <string>
@@ -12,8 +11,8 @@ namespace vo {
     class AppSettings
     {
     public:
-        int m_wWidth = 0;
-        int m_wHeight = 0;
+        int m_wWidth = 800;
+        int m_wHeight = 600;
         bool m_isFullScreen = false;
         bool m_isBorderless = false;
 
