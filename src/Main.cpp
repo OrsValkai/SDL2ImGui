@@ -28,11 +28,14 @@ public:
         IMGUI_CHECKVERSION();
         ImGui::CreateContext();
         ImGuiIO& io = ImGui::GetIO();
-        io.ConfigFlags |= ImGuiConfigFlags_NoKeyboard;
+        io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
 
         // Setup Platform/Renderer backends
         ImGui_ImplSDL2_InitForSDLRenderer(GetWindow(), pRenderer);
         ImGui_ImplSDLRenderer2_Init(pRenderer);
+
+        // Load font
+        io.Fonts->AddFontFromFileTTF("Roboto-Medium.ttf", 44);
     }
 
     void MainLoop() const {
@@ -120,8 +123,6 @@ public:
             SDL_RenderPresent(pRenderer);
             timerHR.Mark();
         }
-
-        
     }
 
     ~GameApp() {
