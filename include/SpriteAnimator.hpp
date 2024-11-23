@@ -6,7 +6,7 @@
 #include <vector>
 
 // !! Not a full template since the header doesn't contain implementation !!
-// We only offer implementation for T : unsinged char & unsigned short so only
+// We only offer implementation for T : unsigned char & unsigned short so only
 // these will work and instantiation can be found on the bottom of the .cpp
 //
 // In case we wanted to offer any T we would have needed to implement the whole

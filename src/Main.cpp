@@ -28,7 +28,7 @@ public:
         IMGUI_CHECKVERSION();
         ImGui::CreateContext();
         ImGuiIO& io = ImGui::GetIO();
-        io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
+        io.ConfigFlags |= ImGuiConfigFlags_NoKeyboard;
 
         // Setup Platform/Renderer backends
         ImGui_ImplSDL2_InitForSDLRenderer(GetWindow(), pRenderer);
@@ -47,6 +47,7 @@ public:
         SDL_Rect bgSrc{posOffset.x, posOffset.y+8, bgDst.w, bgDst.h};
         vo::TimerHR timerHR;
         std::vector<Player> players;
+        bool bMetricsOpen = false;
 
         players.reserve(4);
         timerHR.Start();
@@ -94,7 +95,11 @@ public:
             ImGui_ImplSDLRenderer2_NewFrame();
             ImGui_ImplSDL2_NewFrame();
             ImGui::NewFrame();
-            ImGui::ShowDemoWindow();
+            //ImGui::ShowDemoWindow();
+
+            ImGui::SetNextWindowPos(ImVec2(0, 0), 1);
+            ImGui::SetNextWindowCollapsed(true, 2);
+            ImGui::ShowMetricsWindow(&bMetricsOpen);
 
             int nrPlayersAlive = 0;
             for (auto& player : players) {
