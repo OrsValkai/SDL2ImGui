@@ -31,6 +31,7 @@
     <ClCompile Include="..\src\AppSettings.cpp" />
     <ClCompile Include="..\src\AnimatedSprite.cpp" />
     <ClCompile Include="..\src\BombLogic.cpp" />
+    <ClCompile Include="..\src\GameApp.cpp" />
     <ClCompile Include="..\src\Sprite.cpp" />
     <ClCompile Include="..\src\TextureAtlasBase.cpp" />
     <ClCompile Include="..\src\TextureAtlasU.cpp" />
