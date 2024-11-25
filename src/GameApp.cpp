@@ -9,6 +9,7 @@
 #include "AIControl.hpp"
 
 #include "imgui.h"
+#include "imgui_internal.h"
 #include "backends/imgui_impl_sdl2.h"
 #include "backends/imgui_impl_sdlrenderer2.h"
 
@@ -93,7 +94,17 @@ void GameApp::MainLoop() const {
 
         ImGui::SetNextWindowPos(ImVec2(0, 0), 1);
         ImGui::SetNextWindowCollapsed(true, 2);
-        ImGui::ShowMetricsWindow(&bMetricsOpen);
+
+        if (!ImGui::Begin("FPS Window!", &bMetricsOpen, ImGuiWindowFlags_NoTitleBar) || ImGui::GetCurrentWindow()->BeginCount > 1)
+        {
+            ImGui::End();
+        }
+        else {
+            auto fFPS = ImGui::GetIO().Framerate;
+            ImGui::Text("%.1f FPS (%.3f ms)", fFPS, 1000.0f / fFPS);
+
+            ImGui::End();
+        }
 
         int nrPlayersAlive = 0;
         for (auto& player : players) {
