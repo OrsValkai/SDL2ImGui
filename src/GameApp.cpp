@@ -33,7 +33,29 @@ GameApp::GameApp(const vo::AppSettings& appSettings, int imgFlags)
     io.Fonts->AddFontFromFileTTF("Roboto-Medium.ttf", 44);
 }
 
-void GameApp::MainLoop() const {
+void GameApp::DrawUI() {
+    bool bMetricsOpen = false;
+
+    //ImGui::ShowDemoWindow();
+
+    ImGui::SetNextWindowPos(ImVec2(0, 0), 1);
+    ImGui::SetNextWindowCollapsed(true, 2);
+
+    if (!ImGui::Begin("FPS Window!", &bMetricsOpen, ImGuiWindowFlags_NoTitleBar) || ImGui::GetCurrentWindow()->BeginCount > 1)
+    {
+        ImGui::End();
+    }
+    else {
+        auto fFPS = ImGui::GetIO().Framerate;
+        ImGui::Text("%.1f FPS (%.3f ms)", fFPS, 1000.0f / fFPS);
+
+        ImGui::End();
+    }
+
+    ImGui::Render();
+}
+
+void GameApp::MainLoop() {
     auto pRenderer = GetRenderer();
     auto pPlayGround = std::make_unique<PlayGround>(GetWindowWidth(), GetWindowHeight(), std::make_shared<vo::TextureAtlasU>(pRenderer, "Atlas64.png", 64, 64, 64));
     auto upBG = vo::SDL_MakeTexturePtr(pRenderer, "BG.jpg");
@@ -42,7 +64,6 @@ void GameApp::MainLoop() const {
     SDL_Rect bgSrc{posOffset.x, posOffset.y+8, bgDst.w, bgDst.h};
     vo::TimerHR timerHR;
     std::vector<Player> players;
-    bool bMetricsOpen = false;
 
     players.reserve(4);
     timerHR.Start();
@@ -90,21 +111,6 @@ void GameApp::MainLoop() const {
         ImGui_ImplSDLRenderer2_NewFrame();
         ImGui_ImplSDL2_NewFrame();
         ImGui::NewFrame();
-        //ImGui::ShowDemoWindow();
-
-        ImGui::SetNextWindowPos(ImVec2(0, 0), 1);
-        ImGui::SetNextWindowCollapsed(true, 2);
-
-        if (!ImGui::Begin("FPS Window!", &bMetricsOpen, ImGuiWindowFlags_NoTitleBar) || ImGui::GetCurrentWindow()->BeginCount > 1)
-        {
-            ImGui::End();
-        }
-        else {
-            auto fFPS = ImGui::GetIO().Framerate;
-            ImGui::Text("%.1f FPS (%.3f ms)", fFPS, 1000.0f / fFPS);
-
-            ImGui::End();
-        }
 
         int nrPlayersAlive = 0;
         for (auto& player : players) {
@@ -127,7 +133,8 @@ void GameApp::MainLoop() const {
 
         pPlayGround->Draw(deltaTime);
 
-        ImGui::Render();
+        DrawUI();
+        
         ImGui_ImplSDLRenderer2_RenderDrawData(ImGui::GetDrawData(), pRenderer);
 
         SDL_RenderPresent(pRenderer);

@@ -8,7 +8,8 @@
 class GameApp : public vo::Application {
 public:
 	GameApp(const vo::AppSettings& appSettings, int imgFlags);
-	void MainLoop() const;
+	void DrawUI();
+	void MainLoop();
 	~GameApp();
 };
 
