@@ -11,6 +11,10 @@ public:
 	void DrawUI();
 	void MainLoop();
 	~GameApp();
+
+private:
+	bool m_shouldExit{false};
+	bool m_isPaused{true};
 };
 
 #endif // GAME_APP_H

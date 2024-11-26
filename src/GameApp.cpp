@@ -34,14 +34,19 @@ GameApp::GameApp(const vo::AppSettings& appSettings, int imgFlags)
 }
 
 void GameApp::DrawUI() {
+    ImVec2 buttonSize(200.f, 50.f);
     bool bMetricsOpen = false;
+    bool bMainOpen = false;
+    int wHeight = GetWindowHeight();
+    int wWidth = GetWindowWidth();
 
     //ImGui::ShowDemoWindow();
 
+    // FPS counter
     ImGui::SetNextWindowPos(ImVec2(0, 0), 1);
     ImGui::SetNextWindowCollapsed(true, 2);
 
-    if (!ImGui::Begin("FPS Window!", &bMetricsOpen, ImGuiWindowFlags_NoTitleBar) || ImGui::GetCurrentWindow()->BeginCount > 1)
+    if (!ImGui::Begin("FPS", &bMetricsOpen, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove) || ImGui::GetCurrentWindow()->BeginCount > 1)
     {
         ImGui::End();
     }
@@ -50,6 +55,28 @@ void GameApp::DrawUI() {
         ImGui::Text("%.1f FPS (%.3f ms)", fFPS, 1000.0f / fFPS);
 
         ImGui::End();
+    }
+
+    // Main menu
+    if (m_isPaused) {
+        ImGui::SetNextWindowPos(ImVec2((float)(wWidth >> 1) - buttonSize.x * 0.5f, (float)(wHeight >> 1) - buttonSize.y * 3.f/2.f), 1);
+        if (!ImGui::Begin("Main Menu", &bMainOpen, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove) || ImGui::GetCurrentWindow()->BeginCount > 1)
+        {
+            ImGui::End();
+        }
+        else {
+            if (ImGui::Button("Start", buttonSize)) {
+                m_isPaused = false;
+            }
+
+            ImGui::Button("Options", buttonSize);
+
+            if (ImGui::Button("Exit", buttonSize)) {
+                m_shouldExit = true;
+            }
+
+            ImGui::End();
+        }
     }
 
     ImGui::Render();
@@ -88,15 +115,14 @@ void GameApp::MainLoop() {
         pCtrl->RemapKey(4, SDLK_TAB);
     }
 
-    bool shouldExit = false;
     timerHR.Start(); // start to clear time spent before
     timerHR.Mark();
-    while (false == shouldExit) {
+    while (false == m_shouldExit) {
         SDL_Event event;
 
         while (SDL_PollEvent(&event)) {
             if (SDL_QUIT == event.type) {
-                shouldExit = true;
+                m_shouldExit = true;
             } else {
                 ImGui_ImplSDL2_ProcessEvent(&event);
 
@@ -106,6 +132,7 @@ void GameApp::MainLoop() {
         }
 
         float deltaTime = timerHR.MS(); // read time spent in loop and restart
+        float deltaTimePaused = m_isPaused ? 0.f : deltaTime;
         timerHR.Start();
 
         ImGui_ImplSDLRenderer2_NewFrame();
@@ -114,7 +141,7 @@ void GameApp::MainLoop() {
 
         int nrPlayersAlive = 0;
         for (auto& player : players) {
-            player.Update(deltaTime);
+            player.Update(deltaTimePaused);
 
             if (player.IsAlive())
                 nrPlayersAlive++;
@@ -126,6 +153,7 @@ void GameApp::MainLoop() {
             for (auto& player : players)
                 player.Reset();
 
+            m_isPaused = true;
             continue;
         }
 

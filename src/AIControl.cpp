@@ -13,6 +13,11 @@ AIControl::AIControl(PlayGround& playGround, unsigned short startTileId)
 void AIControl::Update(float deltaTime, Player* pParent) {
 	static std::default_random_engine randEng;
 
+	if (deltaTime <= 0.001f) {
+		BaseControl::Update(deltaTime, pParent);
+		return;
+	}
+
 	//std::cout << "AI update\n";
 	const auto& targetTileId = GetTargetId();
 	if (m_shouldPickNewTarget) {
