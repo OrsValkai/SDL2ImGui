@@ -13,6 +13,7 @@ public:
 	~GameApp();
 
 private:
+	bool m_bOptionsOpen{false};
 	bool m_shouldExit{false};
 	bool m_isPaused{true};
 };

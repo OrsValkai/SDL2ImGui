@@ -35,8 +35,6 @@ GameApp::GameApp(const vo::AppSettings& appSettings, int imgFlags)
 
 void GameApp::DrawUI() {
     ImVec2 buttonSize(200.f, 50.f);
-    bool bMetricsOpen = false;
-    bool bMainOpen = false;
     int wHeight = GetWindowHeight();
     int wWidth = GetWindowWidth();
 
@@ -46,7 +44,7 @@ void GameApp::DrawUI() {
     ImGui::SetNextWindowPos(ImVec2(0, 0), 1);
     ImGui::SetNextWindowCollapsed(true, 2);
 
-    if (!ImGui::Begin("FPS", &bMetricsOpen, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove) || ImGui::GetCurrentWindow()->BeginCount > 1)
+    if (!ImGui::Begin("FPS", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove) || ImGui::GetCurrentWindow()->BeginCount > 1)
     {
         ImGui::End();
     }
@@ -60,7 +58,7 @@ void GameApp::DrawUI() {
     // Main menu
     if (m_isPaused) {
         ImGui::SetNextWindowPos(ImVec2((float)(wWidth >> 1) - buttonSize.x * 0.5f, (float)(wHeight >> 1) - buttonSize.y * 3.f/2.f), 1);
-        if (!ImGui::Begin("Main Menu", &bMainOpen, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove) || ImGui::GetCurrentWindow()->BeginCount > 1)
+        if (!ImGui::Begin("Main Menu", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove) || ImGui::GetCurrentWindow()->BeginCount > 1)
         {
             ImGui::End();
         }
@@ -69,11 +67,30 @@ void GameApp::DrawUI() {
                 m_isPaused = false;
             }
 
-            ImGui::Button("Options", buttonSize);
+            if (ImGui::Button("Options", buttonSize)) {
+                m_bOptionsOpen = true;
+            }
 
             if (ImGui::Button("Exit", buttonSize)) {
                 m_shouldExit = true;
             }
+
+            ImGui::End();
+        }
+    }
+
+    // Options menu
+    if (m_bOptionsOpen) {
+        ImVec2 owSize(400.f, 300.f);
+
+        ImGui::SetNextWindowSize(owSize, ImGuiCond_Always);
+        ImGui::SetNextWindowPos(ImVec2((float)(wWidth >> 1) - owSize.x * 0.5f, (float)(wHeight >> 1) - owSize.y * 0.5f));
+        if (!ImGui::Begin("Options Menu", &m_bOptionsOpen, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse) || ImGui::GetCurrentWindow()->BeginCount > 1)
+        {
+            ImGui::End();
+        }
+        else {
+            ImGui::TextWrapped("Arrow keys to move, ctrl to lay bomb!");
 
             ImGui::End();
         }
