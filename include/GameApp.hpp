@@ -5,6 +5,8 @@
 
 #include "Application.hpp"
 
+#include <array>
+
 class GameApp : public vo::Application {
 public:
 	GameApp(const vo::AppSettings& appSettings, int imgFlags);
@@ -13,6 +15,7 @@ public:
 	~GameApp();
 
 private:
+	std::array<const char*, 3> m_optionTabs{{"Controls", "Upgrades", ""}};
 	bool m_bOptionsOpen{false};
 	bool m_shouldExit{false};
 	bool m_isPaused{true};

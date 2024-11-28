@@ -58,7 +58,7 @@ void GameApp::DrawUI() {
     // Main menu
     if (m_isPaused) {
         ImGui::SetNextWindowPos(ImVec2((float)(wWidth >> 1) - buttonSize.x * 0.5f, (float)(wHeight >> 1) - buttonSize.y * 3.f/2.f), 1);
-        if (!ImGui::Begin("Main Menu", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove) || ImGui::GetCurrentWindow()->BeginCount > 1)
+        if (!ImGui::Begin("Main", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove) || ImGui::GetCurrentWindow()->BeginCount > 1)
         {
             ImGui::End();
         }
@@ -85,12 +85,30 @@ void GameApp::DrawUI() {
 
         ImGui::SetNextWindowSize(owSize, ImGuiCond_Always);
         ImGui::SetNextWindowPos(ImVec2((float)(wWidth >> 1) - owSize.x * 0.5f, (float)(wHeight >> 1) - owSize.y * 0.5f));
-        if (!ImGui::Begin("Options Menu", &m_bOptionsOpen, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse) || ImGui::GetCurrentWindow()->BeginCount > 1)
+        if (!ImGui::Begin("Options", &m_bOptionsOpen, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse) || ImGui::GetCurrentWindow()->BeginCount > 1)
         {
             ImGui::End();
         }
         else {
-            ImGui::TextWrapped("Arrow keys to move, ctrl to lay bomb!");
+            if (ImGui::BeginTabBar("Options", ImGuiTabBarFlags_None))
+            {
+                if (ImGui::BeginTabItem(m_optionTabs[0]))
+                {
+                    ImGui::TextWrapped("Arrow keys to move, ctrl to lay bomb!");
+                    ImGui::EndTabItem();
+                }
+                if (ImGui::BeginTabItem(m_optionTabs[1]))
+                {
+                    ImGui::TextWrapped("Not implemented yet!");
+                    ImGui::EndTabItem();
+                }
+                if (ImGui::BeginTabItem(m_optionTabs[2], &m_bOptionsOpen))
+                {
+                    //m_bOptionsOpen = false;
+                    ImGui::EndTabItem();
+                }
+                ImGui::EndTabBar();
+            }
 
             ImGui::End();
         }
