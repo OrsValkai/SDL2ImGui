@@ -10,12 +10,14 @@
 class GameApp : public vo::Application {
 public:
 	GameApp(const vo::AppSettings& appSettings, int imgFlags);
+	void DrawOptionUI();
 	void DrawUI();
 	void MainLoop();
 	~GameApp();
 
 private:
-	std::array<const char*, 3> m_optionTabs{{"Controls", "Upgrades", ""}};
+	std::array<const char*, 4> m_optionTabs{ {"Controls", "Settings", "Upgrades", ""} };
+	int m_nrPlayers{2};
 	bool m_bOptionsOpen{false};
 	bool m_shouldExit{false};
 	bool m_isPaused{true};

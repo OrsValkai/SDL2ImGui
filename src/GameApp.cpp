@@ -33,6 +33,49 @@ GameApp::GameApp(const vo::AppSettings& appSettings, int imgFlags)
     io.Fonts->AddFontFromFileTTF("Roboto-Medium.ttf", 44);
 }
 
+void GameApp::DrawOptionUI() {
+    if (m_bOptionsOpen) {
+        int wHeight = GetWindowHeight();
+        int wWidth = GetWindowWidth();
+        ImVec2 owSize(500.f, 300.f);
+
+        ImGui::SetNextWindowSize(owSize, ImGuiCond_Always);
+        ImGui::SetNextWindowPos(ImVec2((float)(wWidth >> 1) - owSize.x * 0.5f, (float)(wHeight >> 1) - owSize.y * 0.5f));
+        if (!ImGui::Begin("Options", &m_bOptionsOpen, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse) || ImGui::GetCurrentWindow()->BeginCount > 1)
+        {
+            ImGui::End();
+        }
+        else {
+            if (ImGui::BeginTabBar("Options", ImGuiTabBarFlags_None))
+            {
+                if (ImGui::BeginTabItem(m_optionTabs[0]))
+                {
+                    ImGui::TextWrapped("Arrow keys to move, ctrl to lay bomb!");
+                    ImGui::EndTabItem();
+                }
+                if (ImGui::BeginTabItem(m_optionTabs[1]))
+                {
+                    ImGui::SliderInt("players", &m_nrPlayers, 2, 4);
+                    ImGui::EndTabItem();
+                }
+                if (ImGui::BeginTabItem(m_optionTabs[2]))
+                {
+                    ImGui::TextWrapped("Not implemented yet!");
+                    ImGui::EndTabItem();
+                }
+                if (ImGui::BeginTabItem(m_optionTabs[3], &m_bOptionsOpen))
+                {
+                    //m_bOptionsOpen = false;
+                    ImGui::EndTabItem();
+                }
+                ImGui::EndTabBar();
+            }
+
+            ImGui::End();
+        }
+    }
+}
+
 void GameApp::DrawUI() {
     ImVec2 buttonSize(200.f, 50.f);
     int wHeight = GetWindowHeight();
@@ -80,39 +123,7 @@ void GameApp::DrawUI() {
     }
 
     // Options menu
-    if (m_bOptionsOpen) {
-        ImVec2 owSize(400.f, 300.f);
-
-        ImGui::SetNextWindowSize(owSize, ImGuiCond_Always);
-        ImGui::SetNextWindowPos(ImVec2((float)(wWidth >> 1) - owSize.x * 0.5f, (float)(wHeight >> 1) - owSize.y * 0.5f));
-        if (!ImGui::Begin("Options", &m_bOptionsOpen, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse) || ImGui::GetCurrentWindow()->BeginCount > 1)
-        {
-            ImGui::End();
-        }
-        else {
-            if (ImGui::BeginTabBar("Options", ImGuiTabBarFlags_None))
-            {
-                if (ImGui::BeginTabItem(m_optionTabs[0]))
-                {
-                    ImGui::TextWrapped("Arrow keys to move, ctrl to lay bomb!");
-                    ImGui::EndTabItem();
-                }
-                if (ImGui::BeginTabItem(m_optionTabs[1]))
-                {
-                    ImGui::TextWrapped("Not implemented yet!");
-                    ImGui::EndTabItem();
-                }
-                if (ImGui::BeginTabItem(m_optionTabs[2], &m_bOptionsOpen))
-                {
-                    //m_bOptionsOpen = false;
-                    ImGui::EndTabItem();
-                }
-                ImGui::EndTabBar();
-            }
-
-            ImGui::End();
-        }
-    }
+    DrawOptionUI();
 
     ImGui::Render();
 }
