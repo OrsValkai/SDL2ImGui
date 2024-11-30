@@ -56,6 +56,11 @@ void GameApp::DrawOptionUI() {
                 if (ImGui::BeginTabItem(m_optionTabs[1]))
                 {
                     ImGui::SliderInt("players", &m_nrPlayers, 2, 4);
+                    ImGui::SliderInt("matches", &m_nrMatches, 1, 9);
+
+                    if (ImGui::RadioButton("Let AI play alone", m_letAiPlay))
+                        m_letAiPlay = !m_letAiPlay;
+
                     ImGui::EndTabItem();
                 }
                 if (ImGui::BeginTabItem(m_optionTabs[2]))
