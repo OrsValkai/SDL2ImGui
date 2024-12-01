@@ -33,6 +33,26 @@ GameApp::GameApp(const vo::AppSettings& appSettings, int imgFlags)
     io.Fonts->AddFontFromFileTTF("Roboto-Medium.ttf", 44);
 }
 
+void GameApp::DrawResultsUI() {
+    if (m_bResultsOpen) {
+        int wHeight = GetWindowHeight();
+        int wWidth = GetWindowWidth();
+        ImVec2 owSize(500.f, 300.f);
+
+        ImGui::SetNextWindowSize(owSize, ImGuiCond_Always);
+        ImGui::SetNextWindowPos(ImVec2((float)(wWidth >> 1) - owSize.x * 0.5f, (float)(wHeight >> 1) - owSize.y * 0.5f));
+        if (!ImGui::Begin("Results", &m_bResultsOpen, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse) || ImGui::GetCurrentWindow()->BeginCount > 1)
+        {
+            ImGui::End();
+        }
+        else {
+            ImGui::TextWrapped("Not implemented yet!");
+
+            ImGui::End();
+        }
+    }
+}
+
 void GameApp::DrawOptionUI() {
     if (m_bOptionsOpen) {
         int wHeight = GetWindowHeight();
@@ -58,7 +78,7 @@ void GameApp::DrawOptionUI() {
                     ImGui::SliderInt("players", &m_nrPlayers, 2, 4);
                     ImGui::SliderInt("matches", &m_nrMatches, 1, 9);
 
-                    if (ImGui::RadioButton("Let AI play alone", m_letAiPlay))
+                    if (ImGui::RadioButton("let AI play alone", m_letAiPlay))
                         m_letAiPlay = !m_letAiPlay;
 
                     ImGui::EndTabItem();

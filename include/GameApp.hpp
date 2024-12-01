@@ -10,6 +10,7 @@
 class GameApp : public vo::Application {
 public:
 	GameApp(const vo::AppSettings& appSettings, int imgFlags);
+	void DrawResultsUI();
 	void DrawOptionUI();
 	void DrawUI();
 	void MainLoop();
@@ -20,6 +21,7 @@ private:
 	int m_nrPlayers{2};
 	int m_nrMatches{1};
 	bool m_bOptionsOpen{false};
+	bool m_bResultsOpen{false};
 	bool m_shouldExit{false};
 	bool m_isPaused{true};
 	bool m_letAiPlay{false};
