@@ -10,8 +10,9 @@
 class GameApp : public vo::Application {
 public:
 	GameApp(const vo::AppSettings& appSettings, int imgFlags);
-	void DrawResultsUI();
-	void DrawOptionUI();
+	void DrawResultsMenu();
+	void DrawOptionMenu();
+	void DrawMainMenu();
 	void DrawUI();
 	void MainLoop();
 	~GameApp();
@@ -28,4 +29,3 @@ private:
 };
 
 #endif // GAME_APP_H
-

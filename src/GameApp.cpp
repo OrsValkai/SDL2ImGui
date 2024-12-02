@@ -33,79 +33,106 @@ GameApp::GameApp(const vo::AppSettings& appSettings, int imgFlags)
     io.Fonts->AddFontFromFileTTF("Roboto-Medium.ttf", 44);
 }
 
-void GameApp::DrawResultsUI() {
-    if (m_bResultsOpen) {
-        int wHeight = GetWindowHeight();
-        int wWidth = GetWindowWidth();
-        ImVec2 owSize(500.f, 300.f);
+void GameApp::DrawResultsMenu() {
+    int wHeight = GetWindowHeight();
+    int wWidth = GetWindowWidth();
+    ImVec2 owSize(500.f, 300.f);
 
-        ImGui::SetNextWindowSize(owSize, ImGuiCond_Always);
-        ImGui::SetNextWindowPos(ImVec2((float)(wWidth >> 1) - owSize.x * 0.5f, (float)(wHeight >> 1) - owSize.y * 0.5f));
-        if (!ImGui::Begin("Results", &m_bResultsOpen, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse) || ImGui::GetCurrentWindow()->BeginCount > 1)
-        {
-            ImGui::End();
-        }
-        else {
-            ImGui::TextWrapped("Not implemented yet!");
+    ImGui::SetNextWindowSize(owSize, ImGuiCond_Always);
+    ImGui::SetNextWindowPos(ImVec2((float)(wWidth >> 1) - owSize.x * 0.5f, (float)(wHeight >> 1) - owSize.y * 0.5f));
+    if (!ImGui::Begin("Results", &m_bResultsOpen, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse) || ImGui::GetCurrentWindow()->BeginCount > 1)
+    {
+        ImGui::End();
+    }
+    else {
+        ImGui::TextWrapped("Not implemented yet!");
 
-            ImGui::End();
+        if (float xOff = (ImGui::GetContentRegionAvail().x - 100.f) * 0.5f; xOff > 0.0f)
+            ImGui::SetCursorPosX(ImGui::GetCursorPosX() + xOff);
+
+        ImGui::SetCursorPosY(ImGui::GetCursorPosY() + ImGui::GetContentRegionAvail().y - 60.f);
+        if (ImGui::Button("OK", ImVec2(100.f, 50.f))) {
+            m_bResultsOpen = !m_bResultsOpen;
         }
+
+        ImGui::End();
     }
 }
 
-void GameApp::DrawOptionUI() {
-    if (m_bOptionsOpen) {
-        int wHeight = GetWindowHeight();
-        int wWidth = GetWindowWidth();
-        ImVec2 owSize(500.f, 300.f);
+void GameApp::DrawOptionMenu() {
+    int wHeight = GetWindowHeight();
+    int wWidth = GetWindowWidth();
+    ImVec2 owSize(500.f, 300.f);
 
-        ImGui::SetNextWindowSize(owSize, ImGuiCond_Always);
-        ImGui::SetNextWindowPos(ImVec2((float)(wWidth >> 1) - owSize.x * 0.5f, (float)(wHeight >> 1) - owSize.y * 0.5f));
-        if (!ImGui::Begin("Options", &m_bOptionsOpen, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse) || ImGui::GetCurrentWindow()->BeginCount > 1)
+    ImGui::SetNextWindowSize(owSize, ImGuiCond_Always);
+    ImGui::SetNextWindowPos(ImVec2((float)(wWidth >> 1) - owSize.x * 0.5f, (float)(wHeight >> 1) - owSize.y * 0.5f));
+    if (!ImGui::Begin("Options", &m_bOptionsOpen, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse) || ImGui::GetCurrentWindow()->BeginCount > 1)
+    {
+        ImGui::End();
+    }
+    else {
+        if (ImGui::BeginTabBar("Options", ImGuiTabBarFlags_None))
         {
-            ImGui::End();
-        }
-        else {
-            if (ImGui::BeginTabBar("Options", ImGuiTabBarFlags_None))
+            if (ImGui::BeginTabItem(m_optionTabs[0]))
             {
-                if (ImGui::BeginTabItem(m_optionTabs[0]))
-                {
-                    ImGui::TextWrapped("Arrow keys to move, ctrl to lay bomb!");
-                    ImGui::EndTabItem();
-                }
-                if (ImGui::BeginTabItem(m_optionTabs[1]))
-                {
-                    ImGui::SliderInt("players", &m_nrPlayers, 2, 4);
-                    ImGui::SliderInt("matches", &m_nrMatches, 1, 9);
-
-                    if (ImGui::RadioButton("let AI play alone", m_letAiPlay))
-                        m_letAiPlay = !m_letAiPlay;
-
-                    ImGui::EndTabItem();
-                }
-                if (ImGui::BeginTabItem(m_optionTabs[2]))
-                {
-                    ImGui::TextWrapped("Not implemented yet!");
-                    ImGui::EndTabItem();
-                }
-                if (ImGui::BeginTabItem(m_optionTabs[3], &m_bOptionsOpen))
-                {
-                    //m_bOptionsOpen = false;
-                    ImGui::EndTabItem();
-                }
-                ImGui::EndTabBar();
+                ImGui::TextWrapped("Arrow keys to move, ctrl to lay bomb!");
+                ImGui::EndTabItem();
             }
+            if (ImGui::BeginTabItem(m_optionTabs[1]))
+            {
+                ImGui::SliderInt("players", &m_nrPlayers, 2, 4);
+                ImGui::SliderInt("matches", &m_nrMatches, 1, 9);
 
-            ImGui::End();
+                if (ImGui::RadioButton("let AI play alone", m_letAiPlay))
+                    m_letAiPlay = !m_letAiPlay;
+
+                ImGui::EndTabItem();
+            }
+            if (ImGui::BeginTabItem(m_optionTabs[2]))
+            {
+                ImGui::TextWrapped("Not implemented yet!");
+                ImGui::EndTabItem();
+            }
+            if (ImGui::BeginTabItem(m_optionTabs[3], &m_bOptionsOpen))
+            {
+                //m_bOptionsOpen = false;
+                ImGui::EndTabItem();
+            }
+            ImGui::EndTabBar();
         }
+
+        ImGui::End();
     }
 }
 
-void GameApp::DrawUI() {
+void GameApp::DrawMainMenu() {
     ImVec2 buttonSize(200.f, 50.f);
     int wHeight = GetWindowHeight();
     int wWidth = GetWindowWidth();
 
+    ImGui::SetNextWindowPos(ImVec2((float)(wWidth >> 1) - buttonSize.x * 0.5f, (float)(wHeight >> 1) - buttonSize.y * 3.f / 2.f), 1);
+    if (!ImGui::Begin("Main", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove) || ImGui::GetCurrentWindow()->BeginCount > 1)
+    {
+        ImGui::End();
+    }
+    else {
+        if (ImGui::Button("Start", buttonSize)) {
+            m_isPaused = false;
+        }
+
+        if (ImGui::Button("Options", buttonSize)) {
+            m_bOptionsOpen = true;
+        }
+
+        if (ImGui::Button("Exit", buttonSize)) {
+            m_shouldExit = true;
+        }
+
+        ImGui::End();
+    }
+}
+
+void GameApp::DrawUI() {
     //ImGui::ShowDemoWindow();
 
     // FPS counter
@@ -123,32 +150,16 @@ void GameApp::DrawUI() {
         ImGui::End();
     }
 
-    // Main menu
     if (m_isPaused) {
-        ImGui::SetNextWindowPos(ImVec2((float)(wWidth >> 1) - buttonSize.x * 0.5f, (float)(wHeight >> 1) - buttonSize.y * 3.f/2.f), 1);
-        if (!ImGui::Begin("Main", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove) || ImGui::GetCurrentWindow()->BeginCount > 1)
-        {
-            ImGui::End();
-        }
-        else {
-            if (ImGui::Button("Start", buttonSize)) {
-                m_isPaused = false;
-            }
-
-            if (ImGui::Button("Options", buttonSize)) {
-                m_bOptionsOpen = true;
-            }
-
-            if (ImGui::Button("Exit", buttonSize)) {
-                m_shouldExit = true;
-            }
-
-            ImGui::End();
-        }
+        if (m_bResultsOpen)
+            DrawResultsMenu();
+        else
+            DrawMainMenu();
     }
 
-    // Options menu
-    DrawOptionUI();
+    if (m_bOptionsOpen) {
+        DrawOptionMenu();
+    }
 
     ImGui::Render();
 }
