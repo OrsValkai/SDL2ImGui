@@ -115,7 +115,8 @@ void GameApp::DrawMainMenu() {
     {
         ImGui::End();
     }
-    else {
+    else
+    {
         if (ImGui::Button("Start", buttonSize)) {
             m_isPaused = false;
         }
@@ -205,11 +206,13 @@ void GameApp::MainLoop() {
         while (SDL_PollEvent(&event)) {
             if (SDL_QUIT == event.type) {
                 m_shouldExit = true;
-            } else {
+            } else if (!m_isPaused) {
                 ImGui_ImplSDL2_ProcessEvent(&event);
 
                 for (auto& player : players)
                     player.GetCtrl()->OnEvent(&event);
+            } else {
+                ImGui_ImplSDL2_ProcessEvent(&event);
             }
         }
 
